@@ -8,7 +8,7 @@ import RootActions from '@/store/RootActions';
 
 Vue.use(Vuex);
 
-const rootModule = new Module({
+export const rootModule = new Module({
   state: RootState,
   getters: RootGetters,
   mutations: RootMutations,
