@@ -8,6 +8,12 @@
           :confrimed-data="this.rootModule.state.confirmed"
         />
       </div>
+      <div class="col-lg-6">
+        <DeathsLinear :deaths="this.rootModule.state.deaths" />
+      </div>
+      <div class="col-lg-6">
+        <ConfirmedCasesLog :confrimed-data="this.rootModule.state.confirmed" />
+      </div>
     </div>
   </div>
 </template>
@@ -17,10 +23,14 @@ import { Component, Prop } from 'vue-property-decorator';
 import ConfirmedCasesLinear from '@/components/charts/ConfirmedCasesLinear.vue';
 import { mixins } from 'vue-class-component';
 import StateMixin from '@/components/stateMixin';
+import DeathsLinear from '@/components/charts/DeathsLinear.vue';
+import ConfirmedCasesLog from '@/components/charts/ConfirmedCasesLog.vue';
 
 @Component({
   components: {
     ConfirmedCasesLinear,
+    ConfirmedCasesLog,
+    DeathsLinear,
   },
 })
 export default class ExampleCharts extends mixins(StateMixin) {
@@ -33,8 +43,8 @@ export default class ExampleCharts extends mixins(StateMixin) {
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -14px;
-  margin-left: -14px;
+  margin-right: 1em;
+  margin-left: 1em;
 }
 .col-lg-6 {
   flex: 0 0 50%;
