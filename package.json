@@ -1,0 +1,28 @@
+{
+  "name": "COVID-19-DE-Dashboard-vuejs",
+  "version": "0.1.0",
+  "description": "A dashboard to track COVID-19 in Germany ",
+  "main": "index.js",
+  "repository": "https://github.com/COVID-19-Germany-1511/COVID-19-DE-Dashboard-vuejs",
+  "author": "''",
+  "license": "MIT",
+  "scripts": {
+    "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx,vue}'",
+    "test": "jest --passWithNoTests"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.1.4",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-vue": "^7.0.0-alpha.0",
+    "husky": "^4.2.3",
+    "jest": "^25.1.0",
+    "lint-staged": "^10.0.8",
+    "prettier": "^1.19.1",
+    "ts-jest": "^25.2.1",
+    "typescript": "^3.8.3"
+  }
+}
