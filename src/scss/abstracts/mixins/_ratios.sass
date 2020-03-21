@@ -1,27 +1,21 @@
-$ratios: ('1-1': 100%, '4-3': 75%, '16-9': 56.25%, '2-1': 50%, '8-3': 37.5%) !default
-
 =ratio($ratio, $minusPadding: none)
-    @if map-has-key($ratios, $ratio)
-        $percentage: map-get($ratios, $ratio)
-        $padding: $percentage
+    $padding: $ratio
 
-        @if $minusPadding != none
-            $padding: calc(#{$percentage} - #{$minusPadding})
+    @if $minusPadding != none
+        $padding: calc(#{$ratio} - #{$minusPadding})
 
-        &::before
-            content: ''
-            width: 1px
-            margin-left: -1px
-            float: left
-            height: 0
-            padding-top: $padding
+    &::before
+        content: ''
+        width: 1px
+        margin-left: -1px
+        float: left
+        height: 0
+        padding-top: $padding
 
-        &::after
-            display: table
-            content: ''
-            clear: both
-    @else
-        @warn 'Unfortunately, no ratio could be retrieved for `#{$ratio}`.'
+    &::after
+        display: table
+        content: ''
+        clear: both
 
 =clear-ratio
     &::before
@@ -33,14 +27,3 @@ $ratios: ('1-1': 100%, '4-3': 75%, '16-9': 56.25%, '2-1': 50%, '8-3': 37.5%) !de
 
 %clear-ratio
     +clear-ratio
-
-
-=build-ratios($size: none)
-    @if $size != none
-        @each $name, $ratio in $ratios
-            .has-ratio-#{$name}-#{$size}
-                +ratio($name)
-    @else
-        @each $name, $ratio in $ratios
-            .has-ratio-#{$name}
-                +ratio($name)

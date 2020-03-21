@@ -33,7 +33,7 @@ import ConfirmedCasesLog from '@/components/charts/ConfirmedCasesLog.vue';
     DeathsLinear,
   },
 })
-export default class ExampleCharts extends mixins(StateMixin) {
+export default class CdgCharts extends mixins(StateMixin) {
   @Prop() private msg!: string;
 }
 </script>
