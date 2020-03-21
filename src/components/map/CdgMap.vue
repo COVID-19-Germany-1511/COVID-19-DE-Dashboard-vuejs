@@ -25,7 +25,6 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import { Browser } from 'leaflet';
 import { LMap, LGeoJson } from 'vue2-leaflet';
 import { extent } from 'geojson-bounds';
-import { throttle } from 'throttle-debounce';
 import chroma from 'chroma-js';
 import 'leaflet/dist/leaflet.css';
 
@@ -78,13 +77,6 @@ export default class CdgMap extends Vue {
       });
     },
   };
-
-  mounted() {
-    const throttled = throttle(300, () => {
-      (this.$refs.map as any).mapObject.fitBounds(this.bounds);
-    });
-    window.addEventListener('resize', throttled);
-  }
 
   get bounds() {
     const bounds = extent(map);

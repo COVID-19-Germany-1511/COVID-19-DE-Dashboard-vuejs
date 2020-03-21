@@ -55,6 +55,7 @@ export default class CdgMapGradient extends Vue {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 0.25em 1rem;
 
   span {
     margin: 0;

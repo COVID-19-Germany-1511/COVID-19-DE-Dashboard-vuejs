@@ -29,10 +29,7 @@ export default class CdgBigNumber extends Vue {
 
 <style lang="scss" scoped>
 .cdg-big-button {
-  @include ratio(1);
-  min-width: 200px;
-  max-width: 300px;
-  width: 25%;
+  @include ratio(0.67);
   margin: 10px;
   background: $color-bg-lighter;
 }
@@ -41,11 +38,18 @@ export default class CdgBigNumber extends Vue {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  height: 100%;
   padding: 1em;
 }
 
 .icon {
-  width: 2.5em;
-  height: 2.5em;
+  width: 2 * map-get($font-size-h1, base);
+  height: 2 * map-get($font-size-h1, base);
+}
+
+.count {
+  @extend %cdg-h1;
+  margin: 0;
 }
 </style>

@@ -34,7 +34,6 @@ export default class CdgStage extends Vue {
   data = [
     { type: 'confirmed', count: 123, title: 'Infiziert' },
     { type: 'dead', count: 12, title: 'Gestorben' },
-    { type: 'recovered', count: 15, title: 'Erholt' },
   ];
 
   type = 'confirmed';
@@ -48,23 +47,43 @@ export default class CdgStage extends Vue {
 <style lang="scss" scoped>
 .stage {
   display: flex;
-  flex-flow: row nowrap;
+  flex-direction: column;
   height: 100vh;
 }
 
 .map-wrapper {
-  width: 50vw;
-  height: 100%;
+  height: 136.875vw;
+  max-height: 67%;
 }
 
 .content {
-  width: 50vw;
-  padding: 1vmin calc(1vmin + 10px);
+  padding: 1rem;
 }
 
 .count-wrapper {
   display: flex;
   flex-flow: row wrap;
   margin: -10px;
+}
+
+.cdg-big-button {
+  min-width: 200px;
+  max-width: 300px;
+  width: calc(50% - 20px);
+}
+
+@include breakpoint-up(lg) {
+  .stage {
+    flex-direction: row;
+  }
+
+  .map-wrapper,
+  .content {
+    width: 50vw;
+  }
+
+  .content {
+    padding: 1rem calc(1rem + 10px);
+  }
 }
 </style>

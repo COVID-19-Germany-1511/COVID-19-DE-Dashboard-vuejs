@@ -1,8 +1,9 @@
 =ratio($ratio, $minusPadding: none)
-    $padding: $ratio
+    $percentage: percentage($ratio)
+    $padding: $percentage
 
     @if $minusPadding != none
-        $padding: calc(#{$ratio} - #{$minusPadding})
+        $padding: calc(#{$percentage} - #{$minusPadding})
 
     &::before
         content: ''
