@@ -11,7 +11,8 @@ module.exports = {
     sourceMap: !isBuild,
     loaderOptions: {
       sass: {
-        prependData: '@import \'@/scss/abstracts/abstracts\'',
+        // eslint-disable-next-line
+        prependData: `@import '@/scss/abstracts/_abstracts.scss';`,
       },
     },
   },
