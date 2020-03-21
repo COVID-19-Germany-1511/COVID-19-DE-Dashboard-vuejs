@@ -4,4 +4,4 @@ module.exports = {
     'postcss-flexbugs-fixes': {},
     'postcss-clean': {},
   },
-}
+};

@@ -7,6 +7,7 @@ module.exports = {
     'plugin:vue/essential',
     '@vue/standard',
     '@vue/typescript/recommended',
+    'plugin:prettier/recommended',
   ],
   parserOptions: {
     ecmaVersion: 2020,
@@ -43,22 +44,6 @@ module.exports = {
       'stroustrup',
       {
         allowSingleLine: true,
-      },
-    ],
-    'space-before-blocks': [
-      'error',
-      {
-        functions: 'never',
-        keywords: 'always',
-        classes: 'always',
-      },
-    ],
-    'space-before-function-paren': [
-      'error',
-      {
-        anonymous: 'never',
-        named: 'never',
-        asyncArrow: 'always',
       },
     ],
     'no-multiple-empty-lines': [
@@ -98,13 +83,6 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
-    '@typescript-eslint/member-delimiter-style': [
-      'error',
-      {
-        multiline: { delimiter: 'none' },
-        singleline: { delimiter: 'comma' },
-      },
-    ],
     '@typescript-eslint/no-inferrable-types': [
       'error',
       {
