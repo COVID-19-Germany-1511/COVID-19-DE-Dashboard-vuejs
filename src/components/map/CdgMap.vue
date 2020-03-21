@@ -1,6 +1,12 @@
 <template>
-  <div class="map">
-    <l-map :bounds="bounds" :maxBounds="bounds" :options="mapOptions" ref="map">
+  <div class="wrapper">
+    <l-map
+      class="map"
+      :bounds="bounds"
+      :maxBounds="bounds"
+      :options="mapOptions"
+      ref="map"
+    >
       <l-geo-json
         v-if="redrawHack"
         :geojson="map"
@@ -8,6 +14,9 @@
         ref="geolayer"
       />
     </l-map>
+    <div class="legend">
+      <cdg-map-gradient :data="gradientData" />
+    </div>
   </div>
 </template>
 
@@ -22,6 +31,8 @@ import 'leaflet/dist/leaflet.css';
 
 import map from '@/data/germany_states_low.geojson';
 
+import CdgMapGradient from './CdgMapGradient.vue';
+
 import { MOCK_DATA, illnessState } from '@/data/mock';
 
 import { COLORS } from '@/constants';
@@ -30,6 +41,7 @@ import { COLORS } from '@/constants';
   components: {
     LMap,
     LGeoJson,
+    CdgMapGradient,
   },
 })
 export default class CdgMap extends Vue {
@@ -99,6 +111,16 @@ export default class CdgMap extends Vue {
     return Math.max(...this.values);
   }
 
+  get gradientData() {
+    const { min, max } = this;
+    return {
+      min,
+      max,
+      startColor: this.getColor(min),
+      endColor: this.getColor(max),
+    };
+  }
+
   getColor(value: number): string {
     return this.colorScale
       .mode('lch')(value / this.max)
@@ -128,7 +150,9 @@ export default class CdgMap extends Vue {
 </script>
 
 <style scoped lang="scss">
-.map {
+.wrapper {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
 }
