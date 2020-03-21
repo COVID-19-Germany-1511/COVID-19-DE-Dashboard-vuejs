@@ -1,4 +1,4 @@
-const isBuild = process.env.NODE_ENV === 'production'
+const isBuild = process.env.NODE_ENV === 'production';
 
 module.exports = {
   publicPath: '/',
@@ -38,20 +38,20 @@ module.exports = {
     config.module
       .rule('svg-sprite')
       .use('svgo-loader')
-      .loader('svgo-loader')
+      .loader('svgo-loader');
 
     config.module
       .rule('sideEffects')
       .resourceQuery(/keep/)
-      .sideEffects(true)
+      .sideEffects(true);
 
     config.module
       .rule('sass')
       .oneOf('normal')
       .use('sass-loader')
-      .tap((options) => {
-        delete options.data
-        return options
-      })
+      .tap(options => {
+        delete options.data;
+        return options;
+      });
   },
-}
+};
