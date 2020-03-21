@@ -5,14 +5,16 @@
     <div class="row">
       <div class="col-lg-6">
         <ConfirmedCasesLinear
-          :confrimed-data="this.rootModule.state.confirmed"
+          :confrimed-data="this.rootModule.getters.confirmed"
         />
       </div>
       <div class="col-lg-6">
-        <DeathsLinear :deaths="this.rootModule.state.deaths" />
+        <DeathsLinear :deaths="this.rootModule.getters.deaths" />
       </div>
       <div class="col-lg-6">
-        <ConfirmedCasesLog :confrimed-data="this.rootModule.state.confirmed" />
+        <ConfirmedCasesLog
+          :confrimed-data="this.rootModule.getters.confirmed"
+        />
       </div>
     </div>
   </div>
