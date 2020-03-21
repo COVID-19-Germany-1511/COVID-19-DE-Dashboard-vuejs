@@ -1,7 +1,7 @@
 import {
   extractCasesFromTimeline,
   extractStatePopulationFromMetaData,
-} from './transformations/transformations';
+} from '../lib/transformations/transformations';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
