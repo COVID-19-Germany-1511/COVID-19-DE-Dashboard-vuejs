@@ -1,0 +1,36 @@
+.content-wrapper
+    display: flex
+    flex: 1 0 auto
+    flex-direction: column
+    margin: map-get($main-header-height, base) 0 0
+
+    .has-small-header &
+        margin: map-get($main-header-height-small, base) 0 0
+
+.view
+    min-height: 100%
+    padding-top: map-get($main-header-margin, base)
+    padding-bottom: 70px
+
+    .own-footer &
+        padding-bottom: 0
+
+.main-mb-logo
+    height: 40px
+    margin-left: -5px
+
+    +breakpoint-up(sm)
+        height: 64px
+        margin-left: -7px
+
+body.error-view
+    background: url('../img/bg_error.jpg')
+    background-position: 50% 50%
+    background-size: cover
+
++breakpoint-up(md)
+    .content-wrapper
+        margin-top: map-get($main-header-height, md)
+
+    .view
+        padding-top: map-get($main-header-margin, md)

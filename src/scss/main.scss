@@ -1,0 +1,30 @@
+// losely following 7-1-Pattern
+// https://sass-guidelin.es/#the-7-1-pattern
+
+// abstracts are combined in one file first, since
+// they can be also used in Vue SFC
+@import 'abstracts/abstracts';
+
+// normalize
+// @import '~normalize-scss/sass/normalize/import-now'
+
+// typography, utilities
+@import 'base/animations';
+@import 'base/grid';
+@import 'base/ratios';
+@import 'base/elements';
+@import 'base/typography';
+@import 'base/transitions';
+@import 'base/lines';
+@import 'base/utility-classes';
+@import 'base/btn-links';
+
+@import 'base/form/form';
+@import 'base/form/label';
+@import 'base/form/input-base';
+@import 'base/form/select';
+@import 'base/form/checkbox_radio';
+
+// a place for quick hacks & browser specifics
+// https://csswizardry.com/2013/04/shame-css/
+@import 'shame/shame';

@@ -1,0 +1,40 @@
+fieldset
+    min-width: 0
+    margin: 0
+    padding: 0
+    border: 0
+
+    > *:first-child
+        margin-top: 0
+
+    > *:last-child
+        margin-bottom: 0
+
+fieldset + fieldset
+    margin-top: $margin-groups
+
+fieldset + .button-row
+    margin-top: $margin-groups - ( $grid-gutter / 2 )
+
+legend
+    display: block
+    width: 100%
+    max-width: 100%
+    margin: -.2em 0 15px
+    padding: 0
+    white-space: normal
+    @extend %subline
+
+progress
+    vertical-align: baseline
+
+::-webkit-file-upload-button
+    font: inherit
+    appearance: button
+
+.form-errors
+    margin: 0 0 $input-margin
+    color: $color-form-error
+
+.form-error
+    display: block

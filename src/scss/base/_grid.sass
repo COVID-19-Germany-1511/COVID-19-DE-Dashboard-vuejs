@@ -1,0 +1,65 @@
+.container
+    width: 100%
+    max-width: $container-max-width-actual
+    margin: 0 auto
+    padding: 0 $container-padding
+
+    +breakpoint-up(lg)
+        padding: 0 $container-padding-lg
+
+    +notch-phone
+        padding-left: unquote("max(#{$container-padding}, constant(safe-area-inset-left))")
+        padding-left: unquote("max(#{$container-padding}, env(safe-area-inset-left))")
+        padding-right: unquote("max(#{$container-padding}, constant(safe-area-inset-right))")
+        padding-right: unquote("max(#{$container-padding}, env(safe-area-inset-right))")
+
+.grid
+    display: flex
+    flex-flow: row wrap
+    justify-content: flex-start
+    margin-right: - $grid-half-gutter !important
+    margin-left: - $grid-half-gutter !important
+
+    .column
+        @extend %column
+
+        +column-classes(none)
+        +half-column-classes(none)
+        +offset-classes(none, left)
+        +offset-classes(none, right)
+        +half-offset-classes(none, left)
+        +half-offset-classes(none, right)
+
+        @each $breakpoint in map-keys($breakpoints)
+            +breakpoint-up($breakpoint)
+                +column-classes($breakpoint)
+                +half-column-classes($breakpoint)
+                +offset-classes($breakpoint, left)
+                +offset-classes($breakpoint, right)
+                +half-offset-classes($breakpoint, left)
+                +half-offset-classes($breakpoint, right)
+
+        /* stylelint-disable-line indentation */
+        &.single-row-item
+            &::after
+                display: block
+                content: ''
+
+    /* stylelint-disable-line indentation */
+    &.is-gapless
+        margin: 0
+
+        > .column
+            margin: 0
+
+.main-content-column
+    // column is-8-md is-offset-left-2-md is-6-lg is-offset-left-3-lg
+    @extend %column
+
+    +breakpoint-up(md)
+        width: calcGridWidth(8)
+        margin-left: calcOffsetMargin(2)
+
+    +breakpoint-up(lg)
+        width: calcGridWidth(6)
+        margin-left: calcOffsetMargin(3)

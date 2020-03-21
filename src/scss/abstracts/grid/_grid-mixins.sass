@@ -1,0 +1,43 @@
+=column-classes($size: none)
+    @for $i from 1 through $grid-column-count
+        $width: calcGridWidth($i)
+
+        @if $size != none
+            &.is-#{$i}-#{$size}
+                width: $width
+        @else
+            &.is-#{$i}
+                width: $width
+
+=half-column-classes($size)
+    @for $i from 0 through $grid-column-count - 1
+        $width: calcGridWidth($i)
+
+        @if $size != none
+            &.is-#{$i}-half-#{$size}
+                width: $width
+        @else
+            &.is-#{$i}-half
+                width: $width
+
+=offset-classes($size, $side)
+    @for $i from 1 through $grid-column-count - 6
+        $margin: calcOffsetMargin($i)
+
+        @if $size != none
+            &.is-offset-#{$side}-#{$i}-#{$size}
+                margin-#{$side}: $margin
+        @else
+            &.is-offset-#{$side}-#{$i}
+                margin-#{$side}: $margin
+
+=half-offset-classes($size, $side)
+    @for $i from 0 through $grid-column-count - 6
+        $margin: calcOffsetMargin(($i + .5))
+
+        @if $size != none
+            &.is-offset-#{$side}-#{$i}-half-#{$size}
+                margin-#{$side}: $margin
+        @else
+            &.is-offset-#{$side}-#{$i}-half
+                margin-#{$side}: $margin
