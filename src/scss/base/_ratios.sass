@@ -1,8 +1,0 @@
-+build-ratios()
-
-@each $breakpoint in map-keys($breakpoints)
-    +breakpoint-up($breakpoint)
-        +build-ratios($breakpoint)
-
-        .has-no-ratio-#{$breakpoint}
-            +clear-ratio

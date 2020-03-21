@@ -1,63 +1,32 @@
-.input-field.type-select
-    // as presented here: https://www.filamentgroup.com/lab/select-css.html
-    select
-        display: block
-        width: 100%
-        max-width: 100%
-        height: $select-height
-        margin: 0
-        padding: 0 44px 0 16px
-        color: $white
-        background-color: map-get($color-select-bg, color)
-        background-image: url('../img/select-arrow.svg')
-        background-repeat: no-repeat
-        background-position: right 16px top 50%
-        background-size: auto 9px
-        border: 0
-        border-radius: 0
-        //avoid iOS Zoom
-        font-size: 16px
-        line-height: $select-height
-        appearance: none
+// .input-field.type-select
+//     // as presented here: https://www.filamentgroup.com/lab/select-css.html
+//     select
+//         display: block
+//         width: 100%
+//         max-width: 100%
+//         height: $select-height
+//         margin: 0
+//         padding: 0 44px 0 16px
+//         color: $white
+//         background-color: map-get($color-select-bg, color)
+//         background-image: url('assets/img/select-arrow.svg')
+//         background-repeat: no-repeat
+//         background-position: right 16px top 50%
+//         background-size: auto 9px
+//         border: 0
+//         border-radius: 0
+//         //avoid iOS Zoom
+//         font-size: 16px
+//         line-height: $select-height
+//         appearance: none
 
-        &::-ms-expand
-            display: none
+//         &::-ms-expand
+//             display: none
 
-        option
-            color: $black
-            background: $white
+//         option
+//             color: $black
+//             background: $white
 
-    &.invalid
-        select
-            border: 1px solid $color-input-invalid
-
-.sort-select
-    margin-bottom: 20px
-
-    svg
-        width: 20px
-        height: 20px
-
-    select.sort
-        display: inline-block
-        height: $select-height
-        margin: 0
-        padding: 0 30px 0 6px
-        color: $white
-        background-color: map-get($color-select-sort-bg, color)
-        background-image: url('../img/select-arrow.svg')
-        background-repeat: no-repeat
-        background-position: right 16px top 50%
-        background-size: auto 6px
-        border: 0
-        border-radius: 0
-        //avoid iOS Zoom
-        font-size: 16px
-        appearance: none
-
-        &::-ms-expand
-            display: none
-
-        option
-            color: $black
-            background: $white
+//     &.invalid
+//         select
+//             border: 1px solid $color-input-invalid

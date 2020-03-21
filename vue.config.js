@@ -21,9 +21,20 @@ module.exports = {
     open: true,
   },
 
-  // pluginOptions: {
-  //   lintStyleOnBuild: true,
-  // },
+  pluginOptions: {
+    svgSprite: {
+      dir: 'src/assets/img/svg-sprite',
+      test: /\.(svg)(\?.*)?$/,
+      loaderOptions: {
+        extract: true,
+        spriteFilename: 'static/img/svg-sprite.[hash:8].svg',
+      },
+      pluginOptions: {
+        plainSprite: true,
+      },
+    },
+    // lintStyleOnBuild: true,
+  },
 
   // configureWebpack: (config) => {
   //   config.plugins = config.plugins.concat([
@@ -53,5 +64,11 @@ module.exports = {
         delete options.data;
         return options;
       });
+
+    config.module
+      .rule('json')
+      .test(/\.(geo)?json$/)
+      .use('json-loader')
+      .loader('json-loader');
   },
 };

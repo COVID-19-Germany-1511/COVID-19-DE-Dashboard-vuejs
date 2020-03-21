@@ -76,62 +76,11 @@ a.button
         outline: 1px dotted
         outline: 5px auto -webkit-focus-ring-color
 
-    &.filter-button
-        background: $grey
-
-        &.active
-            background: $blue-active
-
-    &.gt-button
+    &.cdg-button
         height: $button-height
         padding: 10px 20px
         text-align: center
-        @extend %gt-button-basic
-
-    &.has-icon
-        @extend %bigger-button-basic
-
-        // wtf stylelint
-        &.icon-right
-            justify-content: space-between
-
-        .button-icon
-            flex: 0 0 auto
-
-    &.is-medium
-        height: $interaction-medium-height !important
-        font-size: 16px
-
-        @extend %bigger-button-basic
-
-        .button-icon
-            width: $interaction-medium-height - 30px
-            height: $interaction-medium-height - 30px
-
-    &.is-big
-        height: $interaction-big-height !important
-        font-size: 24px
-
-        @extend %bigger-button-basic
-
-        .button-icon
-            width: $interaction-big-height - 30px
-            height: $interaction-big-height - 30px
-
-
-    &.text-icon
-        display: flex
-        align-items: center
-        height: 40px
-
-        .button-icon
-            flex: 0 0 auto
-            width: 40px
-            height: 40px
-            margin: 0 15px 0 0
-            padding: 10px
-            color: $white
-            background: map-get($grey-40, color)
+        @extend %cdg-button-basic
 
 .button-row
     margin: - $grid-gutter / 2

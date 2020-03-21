@@ -32,7 +32,7 @@
 
     &.invalid
         .input-label::before
-            border: 1px solid $color-input-invalid
+            border: 1px solid $color-form-error
 
 
 .input-field.type-checkbox
@@ -54,7 +54,7 @@
         left: 0
         width: $checkbox-size
         height: $checkbox-size
-        fill: $color-input-check
+        fill: $color-text
         opacity: 0
 
 .input-field.type-radio
@@ -67,7 +67,7 @@
         &:checked + .input-label
             &::before
                 content: '\2022'
-                color: $blue
+                color: $color-text
                 font-size: $checkbox-size
                 line-height: 28px
                 text-align: center

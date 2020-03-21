@@ -1,57 +1,11 @@
-%gt-button-basic
+%cdg-button-basic
     color: $white
-    background: $blue
+    background: $color-button
 
     &.active
-        background: $blue-active
+        background: $color-button-active
 
     &.inactive,
     &[disabled]
         color: rgba($white, .4)
-        background: $blue-inactive
-
-    &.grey,
-    &.secondary
-        background: $grey
-
-        &.active
-            background: $grey-active
-
-        &.inactive,
-        &[disabled]
-            background: $grey-inactive
-
-    &.grey-dark
-        background: $grey-dark
-
-        &.active
-            background: $grey-dark-active
-
-        &.inactive,
-        &[disabled]
-            background: $grey-dark-inactive
-
-    &.grey-light
-        background: $grey-light
-
-        &.active
-            background: $grey-light-active
-
-        &.inactive,
-        &[disabled]
-            background: $grey-light-inactive
-
-%bigger-button-basic
-    display: flex
-    flex-direction: row
-    align-items: center
-    padding: 15px
-    @extend %gt-button-basic
-
-    .button-text
-        display: block
-        margin: 0 17px
-        text-align: left
-
-        small
-            display: block
+        background: $color-button-inactive

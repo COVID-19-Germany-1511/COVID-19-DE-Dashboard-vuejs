@@ -4,8 +4,6 @@
     box-sizing: border-box
 
 html
-    // prevent clickjacking
-    display: none
     height: 100%
     -webkit-font-smoothing: antialiased
     -moz-osx-font-smoothing: grayscale
@@ -21,7 +19,7 @@ body
     margin: 0
     overflow-x: hidden
     color: $color-text
-    background: $black url(../img/bg-gradient.png) repeat-x
+    background: $color-bg
     font-family: $font-family-base
     font-size: $font-size-base
     font-weight: $font-weight-base
@@ -119,7 +117,7 @@ table
 caption
     padding-top: $table-cell-padding
     padding-bottom: $table-cell-padding
-    color: $color-table-caption
+    color: $color-text
     caption-side: bottom
     text-align: left
 

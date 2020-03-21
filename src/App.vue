@@ -1,29 +1,72 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <div class="map-wrapper">
+      <cdg-map :showField="type" />
+    </div>
+    <div class="content">
+      <h1>Corona Dashboard Germany</h1>
+      <h2>Stats</h2>
+      <div class="count-wrapper">
+        <cdg-big-number
+          v-for="entry in data"
+          :key="entry.type"
+          :data="entry"
+          @click="selectType(entry.type)"
+          @mouseover="selectType(entry.type)"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+import CdgMap from './components/CdgMap.vue';
+import CdgBigNumber from './components/misc/CdgBigNumber.vue';
 
 @Component({
   components: {
-    HelloWorld,
+    CdgMap,
+    CdgBigNumber,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  data = [
+    { type: 'confirmed', count: 123, title: 'Infiziert' },
+    { type: 'dead', count: 12, title: 'Gestorben' },
+    { type: 'recovered', count: 15, title: 'Erholt' },
+  ];
+
+  type = 'confirmed';
+
+  selectType(type: any) {
+    this.type = type;
+  }
+}
 </script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  position: relative;
+
+  .map-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50vw;
+    height: 100vh;
+  }
+
+  .content {
+    width: 50vw;
+    margin-left: 50vw;
+    padding: 1vmin calc(1vmin + 10px);
+  }
+}
+
+.count-wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  margin: -10px;
 }
 </style>
