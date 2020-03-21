@@ -36,14 +36,23 @@ module.exports = {
     // lintStyleOnBuild: true,
   },
 
-  // configureWebpack: (config) => {
-  //   config.plugins = config.plugins.concat([
-  //     new StyleLintPlugin({
-  //       fix: false,
-  //       files: ['src/**/*.{vue,htm,html,css,sss,less,scss,sass}'],
-  //     }),
-  //   ])
-  // },
+  configureWebpack: config => {
+    config.module.rules.push({
+      test: /\.csv$/,
+      loader: 'csv-loader',
+      options: {
+        dynamicTyping: true,
+        header: true,
+        skipEmptyLines: true,
+      },
+    });
+    // config.plugins = config.plugins.concat([
+    //   new StyleLintPlugin({
+    //     fix: false,
+    //     files: ['src/**/*.{vue,htm,html,css,sss,less,scss,sass}'],
+    //   }),
+    // ])
+  },
 
   chainWebpack: config => {
     config.module
