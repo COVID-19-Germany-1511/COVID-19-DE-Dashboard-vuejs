@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import CdgMap from '@/components/CdgMap.vue';
+import CdgMap from '@/components/map/CdgMap.vue';
 import CdgBigNumber from '@/components/misc/CdgBigNumber.vue';
 
 @Component({
