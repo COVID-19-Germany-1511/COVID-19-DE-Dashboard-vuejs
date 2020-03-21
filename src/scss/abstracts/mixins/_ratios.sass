@@ -1,0 +1,46 @@
+$ratios: ('1-1': 100%, '4-3': 75%, '16-9': 56.25%, '2-1': 50%, '8-3': 37.5%) !default
+
+=ratio($ratio, $minusPadding: none)
+    @if map-has-key($ratios, $ratio)
+        $percentage: map-get($ratios, $ratio)
+        $padding: $percentage
+
+        @if $minusPadding != none
+            $padding: calc(#{$percentage} - #{$minusPadding})
+
+        &::before
+            content: ''
+            width: 1px
+            margin-left: -1px
+            float: left
+            height: 0
+            padding-top: $padding
+
+        &::after
+            display: table
+            content: ''
+            clear: both
+    @else
+        @warn 'Unfortunately, no ratio could be retrieved for `#{$ratio}`.'
+
+=clear-ratio
+    &::before
+        display: none
+        padding-top: 0
+
+    &::after
+        display: none
+
+%clear-ratio
+    +clear-ratio
+
+
+=build-ratios($size: none)
+    @if $size != none
+        @each $name, $ratio in $ratios
+            .has-ratio-#{$name}-#{$size}
+                +ratio($name)
+    @else
+        @each $name, $ratio in $ratios
+            .has-ratio-#{$name}
+                +ratio($name)

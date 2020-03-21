@@ -1,0 +1,73 @@
+.input-field.type-checkbox,
+.input-field.type-radio
+    input[type='checkbox'],
+    input[type='radio']
+        position: absolute
+        width: 0
+        height: 0
+        opacity: 0
+
+    label
+        position: relative
+        display: flex
+        align-items: center
+        min-height: $checkbox-size
+        margin: 0
+
+    .input-label
+        min-height: 100%
+        margin: 0
+        padding: 0 0 0 $checkbox-size + 10px
+        cursor: pointer
+
+        &::before
+            position: absolute
+            top: 0
+            left: 0
+            display: block
+            content: ''
+            width: $checkbox-size
+            height: $checkbox-size
+            @extend %base-input
+
+    &.invalid
+        .input-label::before
+            border: 1px solid $color-input-invalid
+
+
+.input-field.type-checkbox
+    input[type='checkbox']
+        &:checked + .input-label
+            // stylelint-disable-next-line selector-max-compound-selectors
+            .input-checkmark
+                opacity: 1
+
+    .input-label
+        +hover
+            .input-checkmark
+                opacity: .4
+
+        /* stylelint-disable-next-line */
+    .input-checkmark
+        position: absolute
+        top: 0
+        left: 0
+        width: $checkbox-size
+        height: $checkbox-size
+        fill: $color-input-check
+        opacity: 0
+
+.input-field.type-radio
+    margin-bottom: 10px
+
+    .input-label::before
+        border-radius: 50%
+
+    input[type='radio']
+        &:checked + .input-label
+            &::before
+                content: '\2022'
+                color: $blue
+                font-size: $checkbox-size
+                line-height: 28px
+                text-align: center

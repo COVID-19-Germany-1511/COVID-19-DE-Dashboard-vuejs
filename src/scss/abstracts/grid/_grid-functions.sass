@@ -1,0 +1,21 @@
+@function calcGridWidth($column-count)
+    $percentage: percentage($column-count / $grid-column-count)
+    @return calc(#{$percentage} - (#{$grid-gutter} + .5px))
+
+@function calcOffsetMargin($column-count)
+    $percentage: percentage($column-count / $grid-column-count)
+    @return calc(#{$percentage} + (#{$grid-gutter} / 2))
+
+@function inner-column($inner-count, $outer-count, $additional-padding: 0px)
+    $factor: $inner-count / $outer-count
+    // sub pixel error seems to be way better when working mit ceiled values
+    $total-gap-size: ceil(($outer-count - 1) * $grid-gutter * $factor)
+    $used-gap-size: ($inner-count - 1) * $grid-gutter
+    $padding-correction: - ceil($additional-padding * $factor) + ($additional-padding / 2)
+    $pixels: $total-gap-size - $used-gap-size + $padding-correction
+    @if $pixels == 0px
+        @return percentage($factor)
+    @else if $pixels < 0px
+        @return calc(#{percentage($factor)} + #{-1 * $pixels})
+    @else
+        @return calc(#{percentage($factor)} - #{$pixels})

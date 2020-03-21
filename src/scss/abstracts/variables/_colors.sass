@@ -1,0 +1,97 @@
+// Colors
+// ########################
+//
+// grey-map => return map with given color and it's opacity value if mixed via solid white on solid black
+//
+// ------------------------ Base-Colors
+$white: #fff
+$black: #000
+
+// 40%
+$grey: #666
+$grey-as-map: grey-map($grey)
+// #525252 | 76%
+$grey-active: shade($grey, 20%)
+$grey-active-as-map: grey-map($grey-active)
+// #f2f2f2 | 95%
+$grey-inactive: tint($grey, 60%)
+$grey-inactive-as-map: grey-map($grey-inactive)
+
+// 20%
+$grey-dark: #333
+$grey-dark-as-map: grey-map($grey-dark)
+
+$grey-dark-active: shade($grey-dark, 20%)
+$grey-dark-active-as-map: grey-map($grey-dark-active)
+
+$grey-dark-inactive: tint($grey-dark, 60%)
+$grey-dark-inactive-as-map: grey-map($grey-dark-inactive)
+
+// 60%
+$grey-light: #999
+$grey-light-as-map: grey-map($grey-light)
+
+$grey-light-active: shade($grey-light, 20%)
+$grey-light-active-as-map: grey-map($grey-light-active)
+
+$grey-light-inactive: tint($grey-light, 60%)
+$grey-light-inactive-as-map: grey-map($grey-light-inactive)
+
+$grey-0: grey-map($black)
+$grey-10: grey-map(#111)
+$grey-15: grey-map(#222)
+$grey-20: grey-map(#333)
+$grey-26: grey-map(#424242)
+$grey-27: grey-map(#444)
+$grey-31: grey-map(#1f1f1f)
+$grey-40: grey-map(#666)
+$grey-60: grey-map(#999)
+$grey-70: grey-map(#b2b2b2)
+$grey-85: grey-map(#d8d8d8)
+$grey-93: grey-map(#ececec)
+$grey-100: grey-map($white)
+
+$blue: #00adef
+// #008abf
+$blue-active: shade($blue, 20%)
+// #99def9
+$blue-inactive: tint($blue, 60%)
+
+$red: #b60002
+$sensual-red: #7f0648
+
+// ------------------------ Color by usage
+$color-body: $black
+$color-text: $white
+$color-text-inverted: $grey
+
+$color-link: $blue
+
+$color-btn-primary: $blue
+$color-btn-primary-active: $blue-active
+$color-btn-primary-inactive: $blue-inactive
+
+$color-btn-secondary: $grey
+$color-btn-secondary-active: $grey-active
+$color-btn-secondary-inactive: $grey-inactive
+
+$color-navigation-default: $grey-70
+$color-navigation-active: $white
+
+$color-tile-notification-count-bg: $red
+$color-tile-indicator-bg: $blue
+
+$color-modal-background: rgba($black, .64)
+
+$color-table-caption: $color-text
+
+$color-legend: $grey-20
+$color-input-bg: $grey-100
+$color-input-border: $grey-60
+$color-input-check: $blue
+$color-input-invalid: $red
+$color-form-error: $red
+// stylelint-disable-next-line color-named
+$input-shadow: inset 0 0 2px $black
+$color-select-bg: $grey-26
+$color-select-sort-bg: $grey-0
