@@ -4,7 +4,7 @@ import {
   extractStatePopulationFromMetaData,
   MetaDataRecord,
   TimelineDataRecord,
-} from '@/store/transformations/transformations';
+} from '@/lib/transformations/transformations';
 
 describe('extractCasesFromTimeline', () => {
   it('parses timeline input', () => {
