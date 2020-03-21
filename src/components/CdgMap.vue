@@ -22,7 +22,6 @@
       >
       </l-choropleth-layer>
     </l-map>
-    {{ showField }}
   </div>
 </template>
 
