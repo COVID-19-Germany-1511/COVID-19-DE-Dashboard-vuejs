@@ -11,8 +11,7 @@ import { Dataset } from '@/lib/transformations/Dataset';
 import { transformCaseRecordsToMortailityDataset } from '@/lib/transformations/transformToDatasets';
 import StateMixin from '@/components/stateMixin';
 import PercentageLinear from '@/components/charts/PercentageLinear';
-import { COLORS } from '@/constants';
-import { getDatasetColorPalette } from '@/lib/colors';
+import { hydrateDatasetsWithColor } from '@/lib/colors';
 
 @Component({
   components: { PercentageLinear },
@@ -28,21 +27,7 @@ export default class Mortality extends mixins(StateMixin) {
       this.rootModule.getters.deaths,
     );
 
-    let colors: string[];
-    if (dataSets.length === 1) {
-      colors = [COLORS.deaths];
-    } else {
-      colors = getDatasetColorPalette(dataSets.length);
-    }
-
-    return dataSets.map(dataSet => {
-      const datasetColor = colors.pop();
-      return {
-        ...dataSet,
-        borderColor: datasetColor,
-        backgroundColor: datasetColor,
-      };
-    });
+    return hydrateDatasetsWithColor(dataSets);
   }
 }
 </script>

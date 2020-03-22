@@ -15,8 +15,7 @@ import { Component, Prop } from 'vue-property-decorator';
 import CasesLinear from '@/components/charts/CasesLinear';
 import { Dataset } from '@/lib/transformations/Dataset';
 import { transformCaseRecordsToDataset } from '@/lib/transformations/transformToDatasets';
-import { COLORS } from '@/constants';
-import { getDatasetColorPalette } from '@/lib/colors';
+import { hydrateDatasetsWithColor } from '@/lib/colors';
 import CasesLog from '@/components/charts/CasesLog';
 import { mixins } from 'vue-class-component';
 import StateMixin from '@/components/stateMixin';
@@ -36,21 +35,7 @@ export default class Deaths extends mixins(StateMixin) {
     const dataSets = transformCaseRecordsToDataset(
       this.rootModule.getters.deaths,
     );
-    let colors: string[];
-    if (dataSets.length === 1) {
-      colors = [COLORS.deaths];
-    } else {
-      colors = getDatasetColorPalette(dataSets.length);
-    }
-
-    return dataSets.map(dataSet => {
-      const datasetColor = colors.pop();
-      return {
-        ...dataSet,
-        borderColor: datasetColor,
-        backgroundColor: datasetColor,
-      };
-    });
+    return hydrateDatasetsWithColor(dataSets, 'deaths');
   }
 }
 </script>

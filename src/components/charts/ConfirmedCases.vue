@@ -16,8 +16,7 @@ import CasesLinear from '@/components/charts/CasesLinear';
 import CasesLog from '@/components/charts/CasesLog';
 import { Dataset } from '@/lib/transformations/Dataset';
 import { transformCaseRecordsToDataset } from '@/lib/transformations/transformToDatasets';
-import { getDatasetColorPalette } from '@/lib/colors';
-import { COLORS } from '@/constants';
+import { hydrateDatasetsWithColor } from '@/lib/colors';
 import { mixins } from 'vue-class-component';
 import StateMixin from '@/components/stateMixin';
 
@@ -36,21 +35,7 @@ export default class ConfirmedCases extends mixins(StateMixin) {
     const dataSets = transformCaseRecordsToDataset(
       this.rootModule.getters.confirmed,
     );
-    let colors: string[];
-    if (dataSets.length === 1) {
-      colors = [COLORS.confirmed];
-    } else {
-      colors = getDatasetColorPalette(dataSets.length);
-    }
-
-    return dataSets.map(dataSet => {
-      const datasetColor = colors.pop();
-      return {
-        ...dataSet,
-        borderColor: datasetColor,
-        backgroundColor: datasetColor,
-      };
-    });
+    return hydrateDatasetsWithColor(dataSets, 'confirmed');
   }
 }
 </script>
