@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2 v-t="`incidentsHeadline.${this.type}`" />
+    <p><span v-if="this.logarithmic" v-t="'logScale'" /></p>
     <CasesLog v-if="this.logarithmic" :chart-data="this.chartData" />
     <CasesLinear v-else :chart-data="this.chartData" />
   </div>

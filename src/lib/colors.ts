@@ -33,7 +33,7 @@ export const hydrateDatasetsWithColor = (
   }
 
   return datasets.map(dataSet => {
-    const datasetColor = colors.pop();
+    const datasetColor = colors.shift();
     return {
       ...dataSet,
       borderColor: datasetColor,
