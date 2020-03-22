@@ -20,6 +20,7 @@ import { hydrateDatasetsWithColor } from '@/lib/colors';
 import { mixins } from 'vue-class-component';
 import StateMixin from '@/components/stateMixin';
 import { ChartData } from 'chart.js';
+import { StatType } from '@/store/RootState';
 
 @Component({
   components: { CasesLinear, CasesLog },
@@ -29,14 +30,14 @@ export default class NewIncidents extends mixins(StateMixin) {
   public logarithmic!: boolean;
 
   @Prop({ required: true })
-  public type!: 'confirmed' | 'deaths';
+  public type!: StatType;
 
   @Prop({ required: false, default: false })
   public averaged!: boolean;
 
   public get chartData(): ChartData {
     const newIncidentsRecords = transformCaseRecordsToNewIncidentsRecords(
-      this.rootModule.getters[this.type],
+      this.rootModule.getters.selectedDataForType(this.type),
     );
 
     const chartData = transformCaseRecordsToChartData(

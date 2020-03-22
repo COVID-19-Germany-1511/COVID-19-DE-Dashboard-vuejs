@@ -20,14 +20,10 @@ import { ChartData } from 'chart.js';
   components: { PercentageLinear },
 })
 export default class Mortality extends mixins(StateMixin) {
-  public get dates(): string[] {
-    return Object.keys(Object.values(this.rootModule.getters.confirmed)[0]);
-  }
-
   public get chartData(): ChartData {
     const mortailityRecords = transformCaseRecordsToMortaility(
-      this.rootModule.getters.confirmed,
-      this.rootModule.getters.deaths,
+      this.rootModule.getters.selectedDataForType('confirmed'),
+      this.rootModule.getters.selectedDataForType('deaths'),
     );
     const chartData = transformCaseRecordsToChartData(mortailityRecords);
 

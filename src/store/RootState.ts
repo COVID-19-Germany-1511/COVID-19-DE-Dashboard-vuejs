@@ -26,17 +26,10 @@ export interface StatePopulationData {
   [stateName: string]: number;
 }
 
-export interface AvailableStatesUIData {
-  [stateName: string]: {
-    color: string;
-  };
-}
-
 export type StatType = 'confirmed' | 'deaths';
 export type StatSubType = 'total' | 'perPop' | 'change';
 
 export interface ApplicationState {
-  // availableStates: AvailableStatesUIData;
   selection: {
     states: string[];
     type: StatType;
