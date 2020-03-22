@@ -14,4 +14,12 @@ export const setChartJsDefaults = (Chart: typeof ChartGlobal) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   Chart.defaults.global.defaultFontColor = '#999999';
+
+  Chart.defaults.global.tooltips = {
+    ...Chart.defaults.global.tooltips,
+    mode: 'index',
+    intersect: false,
+    titleFontSize: 18,
+    bodyFontSize: 18,
+  };
 };
