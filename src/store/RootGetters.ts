@@ -6,6 +6,20 @@ import {
   StatType,
 } from '@/store/RootState';
 
+function summarizeCases(cases: CaseRecordsByState): CaseRecordsMap {
+  const totalCases: CaseRecordsMap = {};
+
+  Object.values(cases).forEach((stateData: CaseRecordsMap) => {
+    Object.entries(stateData).forEach(([date, cases]) => {
+      if (!totalCases[date]) {
+        totalCases[date] = 0;
+      }
+      totalCases[date] += cases;
+    });
+  });
+
+  return totalCases;
+}
 export default class RootGetters extends Getters<RootState> {
   public get selectedStatesMeta() {
     const {
@@ -67,7 +81,7 @@ export default class RootGetters extends Getters<RootState> {
     } = this.state;
     if (!states.length) {
       return {
-        Deutschland: this.getters.summarizeCases(this.state[type]),
+        Deutschland: summarizeCases(this.state[type]),
       };
     }
 
@@ -86,7 +100,7 @@ export default class RootGetters extends Getters<RootState> {
     } = this.state;
     if (!states.length) {
       return {
-        Deutschland: this.getters.summarizeCases(this.state.confirmed),
+        Deutschland: summarizeCases(this.state.confirmed),
       };
     }
 
@@ -105,7 +119,7 @@ export default class RootGetters extends Getters<RootState> {
     } = this.state;
     if (!states.length) {
       return {
-        Deutschland: this.getters.summarizeCases(this.state.deaths),
+        Deutschland: summarizeCases(this.state.deaths),
       };
     }
 
@@ -116,20 +130,5 @@ export default class RootGetters extends Getters<RootState> {
     });
 
     return deaths;
-  }
-
-  private summarizeCases(cases: CaseRecordsByState): CaseRecordsMap {
-    const totalCases: CaseRecordsMap = {};
-
-    Object.values(cases).forEach((stateData: CaseRecordsMap) => {
-      Object.entries(stateData).forEach(([date, cases]) => {
-        if (!totalCases[date]) {
-          totalCases[date] = 0;
-        }
-        totalCases[date] += cases;
-      });
-    });
-
-    return totalCases;
   }
 }
