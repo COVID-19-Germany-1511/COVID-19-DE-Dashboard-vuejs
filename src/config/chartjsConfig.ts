@@ -3,7 +3,10 @@ import { Chart as ChartGlobal } from 'chart.js';
 export const setChartJsDefaults = (Chart: typeof ChartGlobal) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
-  Chart.defaults.global.datasets.line = { fill: false };
+  Chart.defaults.global.datasets.line = {
+    fill: false,
+    cubicInterpolationMode: 'monotone',
+  };
 
   // deactivate non-reactive toggling of lines via clicking the legend
   if (!Chart.defaults.global.legend) {
