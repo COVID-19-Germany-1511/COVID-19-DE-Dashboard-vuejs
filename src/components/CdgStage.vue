@@ -8,7 +8,7 @@
       <h1>Corona Dashboard Germany</h1>
       <h2>Statistiken für {{ selectedStates }}</h2>
       <span class="day">Tag: {{ selectedDay }}</span>
-      <cdg-big-number-wrapper />
+      <cdg-table />
     </div>
   </div>
 </template>
@@ -17,14 +17,14 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import CdgMap from '@/components/map/CdgMap.vue';
 import CdgDaySelect from '@/components/misc/CdgDaySelect.vue';
-import CdgBigNumberWrapper from '@/components/misc/CdgBigNumberWrapper.vue';
+import CdgTable from '@/components/misc/CdgTable.vue';
 import StateMixin from '@/components/stateMixin';
 
 @Component({
   components: {
     CdgMap,
     CdgDaySelect,
-    CdgBigNumberWrapper,
+    CdgTable,
   },
 })
 export default class CdgStage extends Mixins(StateMixin) {

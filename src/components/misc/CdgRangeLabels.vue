@@ -1,6 +1,6 @@
 <template>
   <div class="label-wrapper">
-    <span class="label" v-for="label in labels" :key="label">
+    <span class="label" v-for="(label, index) in labels" :key="index">
       {{ label }}
     </span>
   </div>

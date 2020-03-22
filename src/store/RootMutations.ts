@@ -1,5 +1,5 @@
 import { Mutations } from 'vuex-smart-module';
-import { RootState } from '@/store/RootState';
+import { RootState, StatType, StatSubType } from '@/store/RootState';
 
 export default class RootMutations extends Mutations<RootState> {
   public setSelectedStates(stateNames: string[]): void {
@@ -16,8 +16,15 @@ export default class RootMutations extends Mutations<RootState> {
     }
   }
 
-  public selectType(type: 'confirmed' | 'deaths'): void {
+  public selectType({
+    type,
+    subType,
+  }: {
+    type: StatType;
+    subType: StatSubType;
+  }): void {
     this.state.selection.type = type;
+    this.state.selection.subType = subType;
   }
 
   public selectDay(day: string): void {

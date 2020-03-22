@@ -20,8 +20,13 @@ export default class CdgMapGradient extends Vue {
   private readonly data!: any;
 
   get labels() {
-    const { min, max } = this.data;
-    return [min, Math.round((min + max) / 2), max];
+    let { min, max } = this.data;
+    const mean = ((min + max) / 2).toLocaleString(undefined, {
+      maximumFractionDigits: 2,
+    });
+    min = min.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    max = max.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    return [min, mean, max];
   }
 
   get gradientStyle() {
