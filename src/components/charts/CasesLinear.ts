@@ -2,7 +2,7 @@ import { Line, mixins as vueChartJsMixins } from 'vue-chartjs';
 import { mixins } from 'vue-class-component';
 import { Component, Prop } from 'vue-property-decorator';
 import { formatAbsoluteTickNumbers } from '@/lib/tickNumberFormat';
-import { ChartData } from 'chart.js';
+import { ChartData, ChartOptions } from 'chart.js';
 
 @Component({
   mixins: [vueChartJsMixins.reactiveProp],
@@ -11,12 +11,10 @@ export default class CasesLinear extends mixins(Line) {
   @Prop({ required: true })
   public chartData!: ChartData;
 
-  mounted() {
-    this.drawChart();
-  }
+  public options: ChartOptions | null = null;
 
-  private drawChart() {
-    const options = {
+  mounted() {
+    this.options = {
       scales: {
         yAxes: [
           {
@@ -27,6 +25,7 @@ export default class CasesLinear extends mixins(Line) {
         ],
       },
     };
-    this.renderChart(this.chartData, options);
+
+    this.renderChart(this.chartData, this.options);
   }
 }
