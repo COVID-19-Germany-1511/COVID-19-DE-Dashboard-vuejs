@@ -1,7 +1,8 @@
 <template>
   <div class="stage">
     <div class="map-wrapper">
-      <cdg-map />
+      <cdg-map class="map" />
+      <cdg-day-select />
     </div>
     <div class="content">
       <h1>Corona Dashboard Germany</h1>
@@ -14,12 +15,14 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import CdgMap from '@/components/map/CdgMap.vue';
+import CdgDaySelect from '@/components/misc/CdgDaySelect.vue';
 import CdgBigNumberWrapper from '@/components/misc/CdgBigNumberWrapper.vue';
 import StateMixin from '@/components/stateMixin';
 
 @Component({
   components: {
     CdgMap,
+    CdgDaySelect,
     CdgBigNumberWrapper,
   },
 })
@@ -35,11 +38,16 @@ export default class CdgStage extends Mixins(StateMixin) {
 .stage {
   display: flex;
   flex-direction: column;
+  margin-bottom: 4rem;
 }
 
-.map-wrapper {
+.map {
   height: 136.875vw;
   max-height: 67vh;
+}
+
+.day-select {
+  margin-top: 1rem;
 }
 
 .content {
