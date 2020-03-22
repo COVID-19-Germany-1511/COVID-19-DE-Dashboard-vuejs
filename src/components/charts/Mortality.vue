@@ -1,17 +1,20 @@
 <template>
   <div>
     <h2>Mortalität (CFR)</h2>
-    <PercentageLinear :dates="this.dates" :data-sets="this.dataSets" />
+    <PercentageLinear :chart-data="this.chartData" />
   </div>
 </template>
 
 <script lang="ts">
 import Component, { mixins } from 'vue-class-component';
-import { Dataset } from '@/lib/transformations/Dataset';
-import { transformCaseRecordsToMortailityDataset } from '@/lib/transformations/transformToDatasets';
+import {
+  transformCaseRecordsToChartData,
+  transformCaseRecordsToMortaility,
+} from '@/lib/transformations/transformToDatasets';
 import StateMixin from '@/components/stateMixin';
 import PercentageLinear from '@/components/charts/PercentageLinear';
 import { hydrateDatasetsWithColor } from '@/lib/colors';
+import { ChartData } from 'chart.js';
 
 @Component({
   components: { PercentageLinear },
@@ -21,13 +24,15 @@ export default class Mortality extends mixins(StateMixin) {
     return Object.keys(Object.values(this.rootModule.getters.confirmed)[0]);
   }
 
-  public get dataSets(): Dataset[] {
-    const dataSets = transformCaseRecordsToMortailityDataset(
+  public get chartData(): ChartData {
+    const mortailityRecords = transformCaseRecordsToMortaility(
       this.rootModule.getters.confirmed,
       this.rootModule.getters.deaths,
     );
+    const chartData = transformCaseRecordsToChartData(mortailityRecords);
 
-    return hydrateDatasetsWithColor(dataSets);
+    chartData.datasets = hydrateDatasetsWithColor(chartData.datasets);
+    return chartData;
   }
 }
 </script>
