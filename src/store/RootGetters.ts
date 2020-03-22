@@ -113,7 +113,7 @@ export default class RootGetters extends Getters<RootState> {
       .reduce((sum, cur) => sum + cur);
   }
 
-  public selectedDataForType(type: 'confirmed' | 'deaths'): CaseRecordsByState {
+  public selectedDataForType(type: StatType): CaseRecordsByState {
     const {
       selection: { states },
     } = this.state;
