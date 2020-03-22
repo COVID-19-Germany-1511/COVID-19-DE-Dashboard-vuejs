@@ -4,6 +4,59 @@ import { CaseRecordsByState } from '@/store/RootState';
 import { getNewRootState } from '../../mocks';
 
 describe('RootGetters', () => {
+  describe('allTimeStateMax', () => {
+    it('should calculate the max stats of the entire data set', () => {
+      const getters = inject(RootGetters, {
+        state: getNewRootState({
+          confirmed: {
+            Sachsen: {
+              '2020-03-14': 321,
+              '2020-03-15': 654,
+            },
+            Berlin: {
+              '2020-03-14': 123,
+              '2020-03-15': 456,
+            },
+          },
+          deaths: {
+            Sachsen: {
+              '2020-03-14': 3,
+              '2020-03-15': 4,
+            },
+            Berlin: {
+              '2020-03-14': 4,
+              '2020-03-15': 8,
+            },
+          },
+          statePopulation: {
+            Sachsen: 4087500,
+            Berlin: 3200000,
+          },
+          selection: {
+            states: [],
+            type: 'confirmed',
+            subType: 'total',
+            day: '',
+          },
+        }),
+      });
+
+      const expectedAllTimeStateMax = {
+        confirmed: {
+          total: 654,
+          perPop: 16,
+          change: 0,
+        },
+        deaths: {
+          total: 8,
+          perPop: 0.25,
+          change: 0,
+        },
+      };
+      expect(getters.allTimeStateMax).toStrictEqual(expectedAllTimeStateMax);
+    });
+  });
+
   describe('selectedDataForType', () => {
     describe('with the argument "confirmed"', () => {
       it('should return totals if selectedStates is empty', () => {
