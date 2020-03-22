@@ -44,3 +44,9 @@ export const extractStatePopulationFromMetaData = (
 
   return statePopulationData;
 };
+
+export const extractDaysFromTimeline = (
+  timelineData: TimelineDataRecord[],
+): string[] => {
+  return Object.keys(timelineData[0]).filter(key => key !== 'State');
+};

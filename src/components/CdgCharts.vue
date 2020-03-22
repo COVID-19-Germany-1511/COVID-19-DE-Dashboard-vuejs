@@ -20,9 +20,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Mixins } from 'vue-property-decorator';
 import ConfirmedCases from '@/components/charts/ConfirmedCases.vue';
-import { mixins } from 'vue-class-component';
 import StateMixin from '@/components/stateMixin';
 import Deaths from '@/components/charts/Deaths.vue';
 
@@ -32,9 +31,7 @@ import Deaths from '@/components/charts/Deaths.vue';
     Deaths,
   },
 })
-export default class CdgCharts extends mixins(StateMixin) {
-  @Prop() private msg!: string;
-}
+export default class CdgCharts extends Mixins(StateMixin) {}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

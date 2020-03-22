@@ -1,6 +1,7 @@
 import {
   extractCasesFromTimeline,
   extractStatePopulationFromMetaData,
+  extractDaysFromTimeline,
 } from '@/lib/transformations/transformations';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -31,17 +32,29 @@ export interface AvailableStatesUIData {
   };
 }
 
+export type StatType = 'confirmed' | 'deaths';
+
 export interface ApplicationState {
   // availableStates: AvailableStatesUIData;
-  selectedStates: string[];
+  selection: {
+    states: string[];
+    type: StatType;
+    day: string;
+  };
   statePopulation: StatePopulationData;
   confirmed: CaseRecordsByState;
   deaths: CaseRecordsByState;
 }
 
 export class RootState implements ApplicationState {
-  selectedStates: string[] = [];
   confirmed = extractCasesFromTimeline(confirmedData);
   deaths = extractCasesFromTimeline(deathsData);
   statePopulation = extractStatePopulationFromMetaData(stateMetaData);
+  availableDays = extractDaysFromTimeline(confirmedData);
+
+  selection: ApplicationState['selection'] = {
+    states: [] as string[],
+    type: 'confirmed',
+    day: this.availableDays[this.availableDays.length - 1],
+  };
 }

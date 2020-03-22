@@ -7,7 +7,11 @@ describe('RootGetters', () => {
     it('should return totals if selectedStates is empty', () => {
       const getters = inject(RootGetters, {
         state: {
-          selectedStates: [],
+          selection: {
+            states: [],
+            type: 'confirmed',
+            day: '',
+          },
           confirmed: {
             Sachsen: {
               '2020-03-14': 321,
@@ -20,6 +24,7 @@ describe('RootGetters', () => {
           },
           deaths: {},
           statePopulation: {},
+          availableDays: [],
         },
       });
 
@@ -36,7 +41,11 @@ describe('RootGetters', () => {
     it('should return only the data for the selectedStates', () => {
       const getters = inject(RootGetters, {
         state: {
-          selectedStates: ['Berlin'],
+          selection: {
+            states: ['Berlin'],
+            type: 'confirmed',
+            day: '',
+          },
           confirmed: {
             Sachsen: {
               '2020-03-14': 321,
@@ -49,6 +58,7 @@ describe('RootGetters', () => {
           },
           deaths: {},
           statePopulation: {},
+          availableDays: [],
         },
       });
 
@@ -67,7 +77,11 @@ describe('RootGetters', () => {
     it('should return totals if selectedStates is empty', () => {
       const getters = inject(RootGetters, {
         state: {
-          selectedStates: [],
+          selection: {
+            states: [],
+            type: 'confirmed',
+            day: '',
+          },
           deaths: {
             Sachsen: {
               '2020-03-14': 3,
@@ -80,6 +94,7 @@ describe('RootGetters', () => {
           },
           confirmed: {},
           statePopulation: {},
+          availableDays: [],
         },
       });
 
@@ -96,7 +111,11 @@ describe('RootGetters', () => {
     it('should return only the data for the selectedStates', () => {
       const getters = inject(RootGetters, {
         state: {
-          selectedStates: ['Berlin'],
+          selection: {
+            states: ['Berlin'],
+            type: 'confirmed',
+            day: '',
+          },
           deaths: {
             Sachsen: {
               '2020-03-14': 3,
@@ -109,6 +128,7 @@ describe('RootGetters', () => {
           },
           confirmed: {},
           statePopulation: {},
+          availableDays: [],
         },
       });
 
