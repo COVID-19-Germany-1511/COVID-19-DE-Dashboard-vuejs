@@ -1,7 +1,7 @@
 import {
   extractCasesFromTimeline,
   extractStatePopulationFromMetaData,
-} from '../lib/transformations/transformations';
+} from '@/lib/transformations/transformations';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
@@ -13,10 +13,12 @@ import deathsData from 'COVID-19-DE/time_series/time-series_19-covid-Deaths.csv'
 // @ts-ignore
 import stateMetaData from 'COVID-19-DE/meta/stateMetaData.csv';
 
+export interface CaseRecordsMap {
+  [isoDate: string]: number;
+}
+
 export interface CaseRecordsByState {
-  [stateName: string]: {
-    [isoDate: string]: number;
-  };
+  [stateName: string]: CaseRecordsMap;
 }
 
 export interface StatePopulationData {
@@ -31,13 +33,14 @@ export interface AvailableStatesUIData {
 
 export interface ApplicationState {
   // availableStates: AvailableStatesUIData;
-  // selectedStates: string[];
+  selectedStates: string[];
   statePopulation: StatePopulationData;
   confirmed: CaseRecordsByState;
   deaths: CaseRecordsByState;
 }
 
 export class RootState implements ApplicationState {
+  selectedStates: string[] = [];
   confirmed = extractCasesFromTimeline(confirmedData);
   deaths = extractCasesFromTimeline(deathsData);
   statePopulation = extractStatePopulationFromMetaData(stateMetaData);

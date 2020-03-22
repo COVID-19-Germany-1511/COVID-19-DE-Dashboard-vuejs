@@ -4,15 +4,16 @@
 
     <div class="row">
       <div class="col-lg-6">
-        <ConfirmedCasesLinear
-          :confrimed-data="this.rootModule.state.confirmed"
-        />
+        <ConfirmedCases />
       </div>
       <div class="col-lg-6">
-        <DeathsLinear :deaths="this.rootModule.state.deaths" />
+        <Deaths />
       </div>
       <div class="col-lg-6">
-        <ConfirmedCasesLog :confrimed-data="this.rootModule.state.confirmed" />
+        <ConfirmedCases :logarithmic="true" />
+      </div>
+      <div class="col-lg-6">
+        <Deaths :logarithmic="true" />
       </div>
     </div>
   </div>
@@ -20,17 +21,15 @@
 
 <script lang="ts">
 import { Component, Prop } from 'vue-property-decorator';
-import ConfirmedCasesLinear from '@/components/charts/ConfirmedCasesLinear.vue';
+import ConfirmedCases from '@/components/charts/ConfirmedCases.vue';
 import { mixins } from 'vue-class-component';
 import StateMixin from '@/components/stateMixin';
-import DeathsLinear from '@/components/charts/DeathsLinear.vue';
-import ConfirmedCasesLog from '@/components/charts/ConfirmedCasesLog.vue';
+import Deaths from '@/components/charts/Deaths.vue';
 
 @Component({
   components: {
-    ConfirmedCasesLinear,
-    ConfirmedCasesLog,
-    DeathsLinear,
+    ConfirmedCases,
+    Deaths,
   },
 })
 export default class CdgCharts extends mixins(StateMixin) {
