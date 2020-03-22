@@ -19,4 +19,8 @@ export default class RootMutations extends Mutations<RootState> {
   public selectType(type: 'confirmed' | 'deaths'): void {
     this.state.selection.type = type;
   }
+
+  public selectDay(day: string): void {
+    this.state.selection.day = day;
+  }
 }

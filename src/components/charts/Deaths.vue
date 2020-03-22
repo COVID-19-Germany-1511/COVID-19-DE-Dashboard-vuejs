@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Verlauf der Totesfälle</h2>
+    <h2>Verlauf der Todesfälle</h2>
     <CasesLog
       v-if="this.logarithmic"
       :dates="this.dates"

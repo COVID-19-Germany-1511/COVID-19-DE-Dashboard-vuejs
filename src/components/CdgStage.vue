@@ -1,11 +1,13 @@
 <template>
   <div class="stage">
     <div class="map-wrapper">
-      <cdg-map />
+      <cdg-map class="map" />
+      <cdg-day-select />
     </div>
     <div class="content">
       <h1>Corona Dashboard Germany</h1>
       <h2>Statistiken für {{ selectedStates }}</h2>
+      <span class="day">Tag: {{ selectedDay }}</span>
       <cdg-big-number-wrapper />
     </div>
   </div>
@@ -14,12 +16,14 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import CdgMap from '@/components/map/CdgMap.vue';
+import CdgDaySelect from '@/components/misc/CdgDaySelect.vue';
 import CdgBigNumberWrapper from '@/components/misc/CdgBigNumberWrapper.vue';
 import StateMixin from '@/components/stateMixin';
 
 @Component({
   components: {
     CdgMap,
+    CdgDaySelect,
     CdgBigNumberWrapper,
   },
 })
@@ -28,6 +32,10 @@ export default class CdgStage extends Mixins(StateMixin) {
     const { states } = this.rootModule.state.selection;
     return states.length ? states.join(', ') : 'Deutschland';
   }
+
+  get selectedDay() {
+    return this.rootModule.state.selection.day;
+  }
 }
 </script>
 
@@ -35,27 +43,28 @@ export default class CdgStage extends Mixins(StateMixin) {
 .stage {
   display: flex;
   flex-direction: column;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  background: darken($color-bg, 2%);
+  border-bottom: 1px solid darken($color-bg, 5%);
 }
 
-.map-wrapper {
+.map {
   height: 136.875vw;
   max-height: 67vh;
+}
+
+.day-select {
+  margin-top: 1rem;
 }
 
 .content {
   padding: 1rem;
 }
 
-.count-wrapper {
-  display: flex;
-  flex-flow: row wrap;
-  margin: -10px;
-}
-
-.cdg-big-button {
-  min-width: 200px;
-  max-width: 300px;
-  width: calc(50% - 20px);
+.day {
+  display: block;
+  margin-bottom: 1rem;
 }
 
 @include breakpoint-up(lg) {

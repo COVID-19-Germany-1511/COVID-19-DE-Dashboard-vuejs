@@ -1,25 +1,27 @@
 <template>
   <div class="gradient">
     <div class="color" :style="gradientStyle"></div>
-    <div class="label-wrapper">
-      <span class="label label-0">{{ data.min }}</span>
-      <span class="label label-1">{{ mean }}</span>
-      <span class="label label-2">{{ data.max }}</span>
-    </div>
+    <cdg-range-labels :labels="labels" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
-@Component
+import CdgRangeLabels from '@/components/misc/CdgRangeLabels.vue';
+
+@Component({
+  components: {
+    CdgRangeLabels,
+  },
+})
 export default class CdgMapGradient extends Vue {
   @Prop({ type: Object, required: true })
   private readonly data!: any;
 
-  get mean() {
+  get labels() {
     const { min, max } = this.data;
-    return Math.round((min + max) / 2);
+    return [min, Math.round((min + max) / 2), max];
   }
 
   get gradientStyle() {
@@ -43,15 +45,6 @@ export default class CdgMapGradient extends Vue {
 }
 
 .label-wrapper {
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
   padding: 0.25em 1rem;
-
-  span {
-    margin: 0;
-  }
 }
 </style>

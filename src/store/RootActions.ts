@@ -20,4 +20,8 @@ export default class RootActions extends Actions<
   public selectType(type: 'confirmed' | 'deaths'): void {
     this.commit('selectType', type);
   }
+
+  public selectDay(day: string): void {
+    this.commit('selectDay', day);
+  }
 }
