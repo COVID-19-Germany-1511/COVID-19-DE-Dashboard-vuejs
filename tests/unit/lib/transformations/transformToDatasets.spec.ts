@@ -2,6 +2,7 @@ import { CaseRecordsByState } from '@/store/RootState';
 import {
   transformCaseRecordsToDataset,
   transformCaseRecordsToMortailityDataset,
+  transformCaseRecordsToNewIncidentsDataset,
 } from '@/lib/transformations/transformToDatasets';
 import { Dataset } from '@/lib/transformations/Dataset';
 
@@ -77,5 +78,31 @@ describe('transformCaseRecordsToMortailityDataset', () => {
     ];
 
     expect(actualMortalityDatasets).toStrictEqual(expectedMortalityDatasets);
+  });
+});
+
+describe('transformCaseRecordsToNewIncidentsDataset', () => {
+  it('should calculate the difference between two days', () => {
+    const exampleConfirmed: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-11': 90,
+        '2020-03-12': 100,
+        '2020-03-13': 108,
+        '2020-03-14': 123,
+        '2020-03-15': 163,
+      },
+    };
+
+    const actualDataset = transformCaseRecordsToNewIncidentsDataset(
+      exampleConfirmed,
+    );
+
+    const expectedDataset: Dataset[] = [
+      {
+        label: 'Berlin',
+        data: [10, 8, 15, 40],
+      },
+    ];
+    expect(actualDataset).toStrictEqual(expectedDataset);
   });
 });
