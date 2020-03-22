@@ -3,16 +3,20 @@ import { RootState } from '@/store/RootState';
 
 export default class RootMutations extends Mutations<RootState> {
   public setSelectedStates(stateNames: string[]): void {
-    this.state.selectedStates = stateNames;
+    this.state.selection.states = stateNames;
   }
 
   public toggleStateSelection(stateName: string): void {
-    const { selectedStates } = this.state as { selectedStates: string[] };
-    const idx = selectedStates.findIndex(name => name === stateName);
+    const { states } = this.state.selection as { states: string[] };
+    const idx = states.findIndex(name => name === stateName);
     if (idx >= 0) {
-      selectedStates.splice(idx, 1);
+      states.splice(idx, 1);
     } else {
-      selectedStates.push(stateName);
+      states.push(stateName);
     }
+  }
+
+  public selectType(type: 'confirmed' | 'deaths'): void {
+    this.state.selection.type = type;
   }
 }

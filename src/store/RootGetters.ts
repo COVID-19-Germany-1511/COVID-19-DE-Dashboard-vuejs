@@ -3,12 +3,54 @@ import {
   CaseRecordsByState,
   CaseRecordsMap,
   RootState,
+  StatType,
 } from '@/store/RootState';
 
 export default class RootGetters extends Getters<RootState> {
-  public getDataOfLastDayForType(
-    type: 'confirmed' | 'deaths',
-  ): { [key: string]: number } {
+  public get selectedStatesMeta() {
+    const {
+      statePopulation,
+      selection: { states },
+    } = this.state;
+    const population = states
+      .map(stateName => {
+        return statePopulation[stateName];
+      })
+      .reduce((sum, cur) => sum + cur);
+    return { population };
+  }
+
+  public get dataOfDayAndStates() {
+    const { day, states } = this.state.selection;
+    return {
+      confirmed: this.getters.getData('confirmed', day, states),
+      deaths: this.getters.getData('deaths', day, states),
+    };
+  }
+
+  public get dataOfDayAndType(): { [key: string]: number } {
+    const { day, type } = this.state.selection;
+    const result: { [key: string]: number } = {};
+    Object.entries(this.state[type]).forEach(
+      ([stateName, days]: [string, { [key: string]: number }]) => {
+        result[stateName] = days[day];
+      },
+    );
+    return result;
+  }
+
+  public getData(type: StatType, day: string, states: string[]) {
+    if (!states.length) {
+      states = Object.keys(this.state[type]);
+    }
+    return states
+      .map(stateName => {
+        return this.state[type][stateName][day];
+      })
+      .reduce((sum, cur) => sum + cur);
+  }
+
+  public getDataOfLastDayForType(type: StatType): { [key: string]: number } {
     const rawData = this.state[type];
     const data: { [key: string]: number } = {};
     Object.entries(rawData).forEach(([stateName, days]) => {
@@ -20,7 +62,10 @@ export default class RootGetters extends Getters<RootState> {
   }
 
   public selectedDataForType(type: 'confirmed' | 'deaths'): CaseRecordsByState {
-    if (this.state.selectedStates.length === 0) {
+    const {
+      selection: { states },
+    } = this.state;
+    if (!states.length) {
       return {
         Deutschland: this.getters.summarizeCases(this.state[type]),
       };
@@ -28,7 +73,7 @@ export default class RootGetters extends Getters<RootState> {
 
     const confirmed: CaseRecordsByState = {};
 
-    this.state.selectedStates.forEach(stateName => {
+    states.forEach(stateName => {
       confirmed[stateName] = this.state[type][stateName];
     });
 
@@ -36,7 +81,10 @@ export default class RootGetters extends Getters<RootState> {
   }
 
   public get confirmed(): CaseRecordsByState {
-    if (this.state.selectedStates.length === 0) {
+    const {
+      selection: { states },
+    } = this.state;
+    if (!states.length) {
       return {
         Deutschland: this.getters.summarizeCases(this.state.confirmed),
       };
@@ -44,7 +92,7 @@ export default class RootGetters extends Getters<RootState> {
 
     const confirmed: CaseRecordsByState = {};
 
-    this.state.selectedStates.forEach(stateName => {
+    states.forEach(stateName => {
       confirmed[stateName] = this.state.confirmed[stateName];
     });
 
@@ -52,7 +100,10 @@ export default class RootGetters extends Getters<RootState> {
   }
 
   public get deaths(): CaseRecordsByState {
-    if (this.state.selectedStates.length === 0) {
+    const {
+      selection: { states },
+    } = this.state;
+    if (!states.length) {
       return {
         Deutschland: this.getters.summarizeCases(this.state.deaths),
       };
@@ -60,7 +111,7 @@ export default class RootGetters extends Getters<RootState> {
 
     const deaths: CaseRecordsByState = {};
 
-    this.state.selectedStates.forEach(stateName => {
+    states.forEach(stateName => {
       deaths[stateName] = this.state.deaths[stateName];
     });
 

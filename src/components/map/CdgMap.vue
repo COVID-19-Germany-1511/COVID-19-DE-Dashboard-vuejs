@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Mixins } from 'vue-property-decorator';
+import { Component, Watch, Mixins } from 'vue-property-decorator';
 import { Browser } from 'leaflet';
 import { LMap, LGeoJson } from 'vue2-leaflet';
 import { extent } from 'geojson-bounds';
@@ -33,7 +33,6 @@ import map from '@/data/germany_states_low.geojson';
 
 import CdgMapGradient from './CdgMapGradient.vue';
 import StateMixin from '@/components/stateMixin';
-import { MOCK_DATA, illnessState } from '@/data/mock';
 
 import { COLORS } from '@/constants';
 
@@ -45,9 +44,6 @@ import { COLORS } from '@/constants';
   },
 })
 export default class CdgMap extends Mixins(StateMixin) {
-  @Prop({ type: String, default: 'confirmed' })
-  private readonly type!: illnessState;
-
   map = map;
   redrawHack = false;
 
@@ -83,7 +79,11 @@ export default class CdgMap extends Mixins(StateMixin) {
   }
 
   get values() {
-    return this.rootModule.getters.getDataOfLastDayForType(this.type);
+    return this.rootModule.getters.dataOfDayAndType;
+  }
+
+  get type() {
+    return this.rootModule.state.selection.type;
   }
 
   get bounds() {
@@ -140,7 +140,7 @@ export default class CdgMap extends Mixins(StateMixin) {
     }
   }
 
-  @Watch('showField')
+  @Watch('values')
   triggerRedraw() {
     this.redrawHack = false;
     this.$nextTick(() => {

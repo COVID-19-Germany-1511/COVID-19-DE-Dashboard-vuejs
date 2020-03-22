@@ -1,20 +1,12 @@
 <template>
   <div class="stage">
     <div class="map-wrapper">
-      <cdg-map :type="type" />
+      <cdg-map />
     </div>
     <div class="content">
       <h1>Corona Dashboard Germany</h1>
       <h2>Statistiken für {{ selectedStates }}</h2>
-      <div class="count-wrapper">
-        <cdg-big-number
-          v-for="entry in data"
-          :key="entry.type"
-          :data="entry"
-          @click="selectType(entry.type)"
-          @mouseover="selectType(entry.type)"
-        />
-      </div>
+      <cdg-big-number-wrapper />
     </div>
   </div>
 </template>
@@ -22,30 +14,19 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import CdgMap from '@/components/map/CdgMap.vue';
-import CdgBigNumber from '@/components/misc/CdgBigNumber.vue';
+import CdgBigNumberWrapper from '@/components/misc/CdgBigNumberWrapper.vue';
 import StateMixin from '@/components/stateMixin';
 
 @Component({
   components: {
     CdgMap,
-    CdgBigNumber,
+    CdgBigNumberWrapper,
   },
 })
 export default class CdgStage extends Mixins(StateMixin) {
-  data = [
-    { type: 'confirmed', title: 'Infiziert' },
-    { type: 'deaths', title: 'Gestorben' },
-  ];
-
-  type = 'confirmed';
-
   get selectedStates() {
-    const { selectedStates } = this.rootModule.state;
-    return selectedStates.length ? selectedStates.join(', ') : 'Deutschland';
-  }
-
-  selectType(type: any) {
-    this.type = type;
+    const { states } = this.rootModule.state.selection;
+    return states.length ? states.join(', ') : 'Deutschland';
   }
 }
 </script>

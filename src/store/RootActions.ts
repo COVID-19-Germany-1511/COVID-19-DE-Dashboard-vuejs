@@ -16,4 +16,8 @@ export default class RootActions extends Actions<
   public toggleStateSelection(stateName: string): void {
     this.commit('toggleStateSelection', stateName);
   }
+
+  public selectType(type: 'confirmed' | 'deaths'): void {
+    this.commit('selectType', type);
+  }
 }

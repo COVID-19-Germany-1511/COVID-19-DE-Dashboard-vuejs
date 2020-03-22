@@ -2,8 +2,8 @@
   <button :class="className" v-on="$listeners">
     <div class="cdg-big-button-inner">
       <svg-sprite class="icon" :name="data.type" />
-      <span class="count">{{ count }}</span>
-      <span class="title">{{ data.title }}</span>
+      <span class="count">{{ data.count }}</span>
+      <span class="title">{{ title }}</span>
     </div>
   </button>
 </template>
@@ -26,15 +26,13 @@ export default class CdgBigNumber extends Mixins(StateMixin) {
     return `cdg-big-button ${this.data.type}`;
   }
 
-  get count() {
-    const data = this.rootModule.getters.selectedDataForType(this.data.type);
-    return Object.values(data)
-      .map(days => {
-        const daysArr = Object.entries(days);
-        daysArr.sort((a, b) => (a[0] as any) - (b[0] as any));
-        return daysArr[daysArr.length - 1][1];
-      })
-      .reduce((sum, cur) => sum + cur);
+  get title() {
+    switch (this.data.type) {
+      case 'confirmed':
+        return 'Infiziert';
+      case 'deaths':
+        return 'Gestorben';
+    }
   }
 }
 </script>
