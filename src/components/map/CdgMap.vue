@@ -6,6 +6,7 @@
       :maxBounds="bounds"
       :options="mapOptions"
       ref="map"
+      @click="onOutsideClick"
     >
       <l-geo-json
         v-if="redrawHack"
@@ -51,6 +52,7 @@ export default class CdgMap extends Vue {
   data = MOCK_DATA;
   redrawHack = true;
   currentState: number | null = null;
+  selectedState: number | null = null;
 
   mapOptions = {
     attributionControl: false,
@@ -74,6 +76,7 @@ export default class CdgMap extends Vue {
       layer.on({
         mouseover: this.onMouseOver.bind(this),
         mouseout: this.onMouseOut.bind(this),
+        click: this.onClick.bind(this),
       });
     },
   };
@@ -129,6 +132,18 @@ export default class CdgMap extends Vue {
 
   onMouseOut() {
     this.currentState = null;
+  }
+
+  onClick(event: L.LeafletMouseEvent) {
+    event.originalEvent.stopPropagation();
+    const geoJsonId = event.target.feature.properties?.ID_1;
+    this.selectedState = MOCK_DATA.find(({ id }) => id === geoJsonId);
+  }
+
+  onOutsideClick(event: L.LeafletMouseEvent) {
+    if (event.originalEvent.target === (this.$refs.map as Vue).$el) {
+      this.selectedState = null;
+    }
   }
 
   @Watch('showField')
