@@ -47,8 +47,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 
 import StateMixin from '@/components/stateMixin';
 import SvgSprite from '@/components/misc/SvgSprite.vue';
-import CdgBigNumber from '@/components/misc/CdgBigNumber.vue';
-import { StatType } from '@/store/RootState';
+import { StatType, StatSubType } from '@/store/RootState';
 
 function mapObject(
   data: { [key: string]: number },
@@ -64,10 +63,9 @@ function mapObject(
 @Component({
   components: {
     SvgSprite,
-    CdgBigNumber,
   },
 })
-export default class CdgBigNumberWrapper extends Mixins(StateMixin) {
+export default class CdgTable extends Mixins(StateMixin) {
   get entries() {
     const { population } = this.rootModule.getters.selectedStatesMeta;
     const data = this.rootModule.getters.dataOfDayAndStates;
@@ -83,8 +81,8 @@ export default class CdgBigNumberWrapper extends Mixins(StateMixin) {
     return result;
   }
 
-  selectType(type: StatType, subType: string) {
-    this.rootModule.actions.selectType(type);
+  selectType(type: StatType, subType: StatSubType) {
+    this.rootModule.actions.selectType({ type, subType });
   }
 }
 </script>

@@ -10,6 +10,7 @@ describe('RootGetters', () => {
           selection: {
             states: [],
             type: 'confirmed',
+            subType: 'total',
             day: '',
           },
           confirmed: {
@@ -44,6 +45,7 @@ describe('RootGetters', () => {
           selection: {
             states: ['Berlin'],
             type: 'confirmed',
+            subType: 'total',
             day: '',
           },
           confirmed: {
@@ -80,6 +82,7 @@ describe('RootGetters', () => {
           selection: {
             states: [],
             type: 'confirmed',
+            subType: 'total',
             day: '',
           },
           deaths: {
@@ -114,6 +117,7 @@ describe('RootGetters', () => {
           selection: {
             states: ['Berlin'],
             type: 'confirmed',
+            subType: 'total',
             day: '',
           },
           deaths: {

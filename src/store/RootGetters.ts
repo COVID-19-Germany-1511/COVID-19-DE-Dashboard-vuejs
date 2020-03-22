@@ -4,6 +4,7 @@ import {
   CaseRecordsMap,
   RootState,
   StatType,
+  StatSubType,
 } from '@/store/RootState';
 
 function summarizeCases(cases: CaseRecordsByState): CaseRecordsMap {
@@ -22,11 +23,26 @@ function summarizeCases(cases: CaseRecordsByState): CaseRecordsMap {
 }
 export default class RootGetters extends Getters<RootState> {
   public get allTimeStateMax() {
-    function getMax(records: CaseRecordsByState) {
-      const statesMax = Object.values(records).map(days => {
+    const { statePopulation } = this.state;
+    function getMax(
+      records: CaseRecordsByState,
+    ): { [key in StatSubType]: number } {
+      const statesMaxTotal = Object.values(records).map(days => {
         return Math.max(...Object.values(days));
       });
-      return Math.max(...statesMax);
+      const statesMaxProPop = Object.entries(records).map(
+        ([stateName, days]) => {
+          const population = statePopulation[stateName];
+          return Math.max(
+            ...Object.values(days).map(value => (value * 100000) / population),
+          );
+        },
+      );
+      return {
+        total: Math.max(...statesMaxTotal),
+        perPop: Math.max(...statesMaxProPop),
+        change: 0,
+      };
     }
     return {
       confirmed: getMax(this.state.confirmed),
@@ -62,12 +78,21 @@ export default class RootGetters extends Getters<RootState> {
     };
   }
 
-  public get dataOfDayAndType(): { [key: string]: number } {
-    const { day, type } = this.state.selection;
-    const result: { [key: string]: number } = {};
+  public get dataOfDayAndType() {
+    const {
+      statePopulation,
+      selection: { day, type },
+    } = this.state;
+    const result: { [key: string]: { [key in StatSubType]: number } } = {};
     Object.entries(this.state[type]).forEach(
       ([stateName, days]: [string, { [key: string]: number }]) => {
-        result[stateName] = days[day];
+        const value = days[day];
+        const population = statePopulation[stateName];
+        result[stateName] = {
+          total: value,
+          perPop: (value * 100000) / population,
+          change: 0,
+        };
       },
     );
     return result;
@@ -77,8 +102,8 @@ export default class RootGetters extends Getters<RootState> {
     return this.state.selection.states.includes(state);
   }
 
-  public getData(type: StatType, day: string, states: string[]) {
-    if (!states.length) {
+  public getData(type: StatType, day: string, states?: string[]) {
+    if (!states || !states.length) {
       states = Object.keys(this.state[type]);
     }
     return states
@@ -86,17 +111,6 @@ export default class RootGetters extends Getters<RootState> {
         return this.state[type][stateName][day];
       })
       .reduce((sum, cur) => sum + cur);
-  }
-
-  public getDataOfLastDayForType(type: StatType): { [key: string]: number } {
-    const rawData = this.state[type];
-    const data: { [key: string]: number } = {};
-    Object.entries(rawData).forEach(([stateName, days]) => {
-      const daysArr = Object.entries(days);
-      daysArr.sort((a, b) => (a[0] as any) - (b[0] as any));
-      data[stateName] = daysArr[daysArr.length - 1][1];
-    });
-    return data;
   }
 
   public selectedDataForType(type: 'confirmed' | 'deaths'): CaseRecordsByState {

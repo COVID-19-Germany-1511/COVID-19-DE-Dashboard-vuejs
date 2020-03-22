@@ -33,12 +33,14 @@ export interface AvailableStatesUIData {
 }
 
 export type StatType = 'confirmed' | 'deaths';
+export type StatSubType = 'total' | 'perPop' | 'change';
 
 export interface ApplicationState {
   // availableStates: AvailableStatesUIData;
   selection: {
     states: string[];
     type: StatType;
+    subType: StatSubType;
     day: string;
   };
   statePopulation: StatePopulationData;
@@ -55,6 +57,7 @@ export class RootState implements ApplicationState {
   selection: ApplicationState['selection'] = {
     states: [] as string[],
     type: 'confirmed',
+    subType: 'total',
     day: this.availableDays[this.availableDays.length - 1],
   };
 }

@@ -1,7 +1,7 @@
 import { Actions } from 'vuex-smart-module';
 import RootGetters from './RootGetters';
 import RootMutations from './RootMutations';
-import { RootState } from '@/store/RootState';
+import { RootState, StatType, StatSubType } from '@/store/RootState';
 
 export default class RootActions extends Actions<
   RootState,
@@ -17,8 +17,8 @@ export default class RootActions extends Actions<
     this.commit('toggleStateSelection', stateName);
   }
 
-  public selectType(type: 'confirmed' | 'deaths'): void {
-    this.commit('selectType', type);
+  public selectType(payload: { type: StatType; subType: StatSubType }): void {
+    this.commit('selectType', payload);
   }
 
   public selectDay(day: string): void {

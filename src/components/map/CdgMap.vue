@@ -98,12 +98,22 @@ export default class CdgMap extends Mixins(StateMixin) {
       : STYLE_NON_SELECTED;
   }
 
-  get values() {
-    return this.rootModule.getters.dataOfDayAndType;
+  get values(): { [key: string]: number } {
+    const result: any = {};
+    Object.entries(this.rootModule.getters.dataOfDayAndType).forEach(
+      ([key, value]) => {
+        result[key] = value[this.subType];
+      },
+    );
+    return result;
   }
 
   get type() {
     return this.rootModule.state.selection.type;
+  }
+
+  get subType() {
+    return this.rootModule.state.selection.subType;
   }
 
   get bounds() {
@@ -123,7 +133,7 @@ export default class CdgMap extends Mixins(StateMixin) {
   }
 
   get max() {
-    return this.rootModule.getters.selectedAllTimeStateMax;
+    return this.rootModule.getters.selectedAllTimeStateMax[this.subType];
   }
 
   get gradientData() {
