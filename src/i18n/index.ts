@@ -13,6 +13,10 @@ const messages = {
       total: 'Total',
       perPop: 'pro 100.000 Einwohner',
     },
+    newIncidentsHeadline: {
+      confirmed: 'Neue Infektionen',
+      deaths: 'Neues Todesfälle',
+    },
   },
 };
 
