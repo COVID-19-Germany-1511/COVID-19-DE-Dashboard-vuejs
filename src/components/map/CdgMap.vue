@@ -36,6 +36,16 @@ import StateMixin from '@/components/stateMixin';
 
 import { COLORS } from '@/constants';
 
+const STYLE_DEFAULT = {
+  fillOpacity: 0.5,
+};
+const STYLE_NON_SELECTED = {
+  fillOpacity: 0.8,
+};
+const STYLE_SELECTED = {
+  fillOpacity: 1,
+};
+
 @Component({
   components: {
     LMap,
@@ -60,9 +70,13 @@ export default class CdgMap extends Mixins(StateMixin) {
   get geojsonOptions() {
     return {
       style: (feature: GeoJSON.Feature) => {
-        const geoJsonName = feature.properties?.NAME_1 as string;
+        const name = feature.properties?.NAME_1 as string;
+        const style = this.rootModule.getters.isStateSelected(name)
+          ? STYLE_SELECTED
+          : this.defaultStyle;
         return {
-          fillColor: this.getColor(this.values[geoJsonName]),
+          ...style,
+          fillColor: this.getColor(this.values[name]),
         };
       },
       onEachFeature: (feature: any, layer: L.Layer) => {
@@ -76,6 +90,12 @@ export default class CdgMap extends Mixins(StateMixin) {
 
   created() {
     this.redrawHack = true;
+  }
+
+  get defaultStyle() {
+    return this.rootModule.state.selection.states.length
+      ? STYLE_DEFAULT
+      : STYLE_NON_SELECTED;
   }
 
   get values() {
@@ -95,7 +115,7 @@ export default class CdgMap extends Mixins(StateMixin) {
   }
 
   get colorScale() {
-    return chroma.scale(['eee', COLORS[this.type]]);
+    return chroma.scale(['fff', COLORS[this.type]]);
   }
 
   get min() {
@@ -128,10 +148,15 @@ export default class CdgMap extends Mixins(StateMixin) {
     }
   }
 
-  onClick(event: L.LeafletMouseEvent) {
-    event.originalEvent.stopPropagation();
-    const name = event.target.feature.properties?.NAME_1;
+  onClick({ target, originalEvent }: L.LeafletMouseEvent) {
+    originalEvent.stopPropagation();
+    const name = target.feature.properties?.NAME_1;
     this.rootModule.actions.toggleStateSelection(name);
+    if (this.rootModule.getters.isStateSelected(name)) {
+      target.setStyle(STYLE_SELECTED);
+    } else {
+      target.setStyle(STYLE_DEFAULT);
+    }
   }
 
   onOutsideClick(event: L.LeafletMouseEvent) {
@@ -141,6 +166,7 @@ export default class CdgMap extends Mixins(StateMixin) {
   }
 
   @Watch('values')
+  @Watch('rootModule.state.selection.states')
   triggerRedraw() {
     this.redrawHack = false;
     this.$nextTick(() => {
@@ -158,8 +184,11 @@ export default class CdgMap extends Mixins(StateMixin) {
   height: 100%;
 }
 
+.map {
+  background: none;
+}
+
 /deep/ path {
-  fill-opacity: 0.7 !important;
   stroke: $color-bg;
   stroke-width: 2px;
   stroke-dasharray: none !important;

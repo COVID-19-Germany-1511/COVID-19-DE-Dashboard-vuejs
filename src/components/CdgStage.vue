@@ -38,7 +38,10 @@ export default class CdgStage extends Mixins(StateMixin) {
 .stage {
   display: flex;
   flex-direction: column;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  background: darken($color-bg, 2%);
+  border-bottom: 1px solid darken($color-bg, 5%);
 }
 
 .map {

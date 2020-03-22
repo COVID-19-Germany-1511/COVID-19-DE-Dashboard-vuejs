@@ -84,6 +84,7 @@ export default class CdgDaySelect extends Mixins(StateMixin) {
 
 input {
   position: relative;
+  z-index: 1;
   width: 100%;
   margin: 0;
   padding: 0;

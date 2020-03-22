@@ -73,6 +73,10 @@ export default class RootGetters extends Getters<RootState> {
     return result;
   }
 
+  public isStateSelected(state: string) {
+    return this.state.selection.states.includes(state);
+  }
+
   public getData(type: StatType, day: string, states: string[]) {
     if (!states.length) {
       states = Object.keys(this.state[type]);
