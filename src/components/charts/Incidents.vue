@@ -1,12 +1,8 @@
 <template>
   <div>
     <h2 v-t="`incidentsHeadline.${this.type}`" />
-    <CasesLog
-      v-if="this.logarithmic"
-      :dates="this.dates"
-      :data-sets="this.dataSets"
-    />
-    <CasesLinear v-else :dates="this.dates" :data-sets="this.dataSets" />
+    <CasesLog v-if="this.logarithmic" :chart-data="this.chartData" />
+    <CasesLinear v-else :chart-data="this.chartData" />
   </div>
 </template>
 
@@ -14,11 +10,11 @@
 import { Component, Prop } from 'vue-property-decorator';
 import CasesLinear from '@/components/charts/CasesLinear';
 import CasesLog from '@/components/charts/CasesLog';
-import { Dataset } from '@/lib/transformations/Dataset';
-import { transformCaseRecordsToDataset } from '@/lib/transformations/transformToDatasets';
+import { transformCaseRecordsToChartData } from '@/lib/transformations/transformToDatasets';
 import { hydrateDatasetsWithColor } from '@/lib/colors';
 import { mixins } from 'vue-class-component';
 import StateMixin from '@/components/stateMixin';
+import { ChartData } from 'chart.js';
 
 @Component({
   components: { CasesLinear, CasesLog },
@@ -30,15 +26,16 @@ export default class Incidents extends mixins(StateMixin) {
   @Prop({ required: true })
   public type!: 'confirmed' | 'deaths';
 
-  public get dates(): string[] {
-    return Object.keys(Object.values(this.rootModule.getters[this.type])[0]);
-  }
-
-  public get dataSets(): Dataset[] {
-    const dataSets = transformCaseRecordsToDataset(
+  public get chartData(): ChartData {
+    const chartData = transformCaseRecordsToChartData(
       this.rootModule.getters[this.type],
     );
-    return hydrateDatasetsWithColor(dataSets, this.type);
+
+    chartData.datasets = hydrateDatasetsWithColor(
+      chartData.datasets,
+      this.type,
+    );
+    return chartData;
   }
 }
 </script>

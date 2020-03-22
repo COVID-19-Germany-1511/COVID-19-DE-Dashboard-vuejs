@@ -6,6 +6,7 @@
     <Incidents class="chart" type="deaths" :logarithmic="true" />
     <NewIncidents class="chart" type="confirmed" />
     <NewIncidents class="chart" type="deaths" />
+    <NewIncidents class="chart" type="confirmed" :averaged="true" />
     <Mortality class="chart" />
   </div>
 </template>

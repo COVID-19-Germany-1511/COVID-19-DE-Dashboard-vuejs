@@ -1,13 +1,14 @@
 import { CaseRecordsByState } from '@/store/RootState';
 import {
-  transformCaseRecordsToDataset,
-  transformCaseRecordsToMortailityDataset,
-  transformCaseRecordsToNewIncidentsDataset,
+  averageRecords,
+  transformCaseRecordsToChartData,
+  transformCaseRecordsToMortaility,
+  transformCaseRecordsToNewIncidentsRecords,
 } from '@/lib/transformations/transformToDatasets';
-import { Dataset } from '@/lib/transformations/Dataset';
+import { ChartData } from 'chart.js';
 
-describe('transformToDatasets', () => {
-  it('should transfrom a map of case records into a list of datasets', () => {
+describe('transformCaseRecordsToChartData', () => {
+  it('should transfrom a map of case records into ChartData', () => {
     const exampleData: CaseRecordsByState = {
       Berlin: {
         '2020-03-14': 123,
@@ -19,23 +20,26 @@ describe('transformToDatasets', () => {
       },
     };
 
-    const actualDatasets = transformCaseRecordsToDataset(exampleData);
+    const actualDatasets = transformCaseRecordsToChartData(exampleData);
 
-    const expectedDatasets: Dataset[] = [
-      {
-        label: 'Berlin',
-        data: [123, 163],
-      },
-      {
-        label: 'Bayern',
-        data: [345, 485],
-      },
-    ];
-    expect(actualDatasets).toStrictEqual(expectedDatasets);
+    const expectedChartData: ChartData = {
+      labels: ['2020-03-14', '2020-03-15'],
+      datasets: [
+        {
+          label: 'Berlin',
+          data: [123, 163],
+        },
+        {
+          label: 'Bayern',
+          data: [345, 485],
+        },
+      ],
+    };
+    expect(actualDatasets).toStrictEqual(expectedChartData);
   });
 });
 
-describe('transformCaseRecordsToMortailityDataset', () => {
+describe('transformCaseRecordsToMortaility', () => {
   it('should calculate the mortality and return datasets', () => {
     const exampleConfirmed: CaseRecordsByState = {
       Berlin: {
@@ -61,23 +65,24 @@ describe('transformCaseRecordsToMortailityDataset', () => {
       },
     };
 
-    const actualMortalityDatasets = transformCaseRecordsToMortailityDataset(
+    const actualMortalityRecords = transformCaseRecordsToMortaility(
       exampleConfirmed,
       exampleDeaths,
     );
 
-    const expectedMortalityDatasets: Dataset[] = [
-      {
-        label: 'Berlin',
-        data: [0, 2.44, 3.07],
+    const expectedRecords: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-12': 0,
+        '2020-03-14': 2.44,
+        '2020-03-15': 3.07,
       },
-      {
-        label: 'Bayern',
-        data: [1.16, 1.65],
+      Bayern: {
+        '2020-03-14': 1.16,
+        '2020-03-15': 1.65,
       },
-    ];
+    };
 
-    expect(actualMortalityDatasets).toStrictEqual(expectedMortalityDatasets);
+    expect(actualMortalityRecords).toStrictEqual(expectedRecords);
   });
 });
 
@@ -93,16 +98,58 @@ describe('transformCaseRecordsToNewIncidentsDataset', () => {
       },
     };
 
-    const actualDataset = transformCaseRecordsToNewIncidentsDataset(
+    const actualRecords = transformCaseRecordsToNewIncidentsRecords(
       exampleConfirmed,
     );
 
-    const expectedDataset: Dataset[] = [
-      {
-        label: 'Berlin',
-        data: [10, 8, 15, 40],
+    const expectedRecords: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-12': 10,
+        '2020-03-13': 8,
+        '2020-03-14': 15,
+        '2020-03-15': 40,
       },
-    ];
-    expect(actualDataset).toStrictEqual(expectedDataset);
+    };
+
+    expect(actualRecords).toStrictEqual(expectedRecords);
   });
+});
+
+describe('averageRecords', () => {
+  it('should create a mean for additive values', () => {
+    const exampleDatasets: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-07': 50,
+        '2020-03-08': 60,
+        '2020-03-09': 70,
+        '2020-03-10': 80,
+        '2020-03-11': 90,
+        '2020-03-12': 100,
+        '2020-03-13': 108,
+        '2020-03-14': 123,
+        '2020-03-15': 163,
+      },
+    };
+
+    const actualAveragedRecords = averageRecords(
+      exampleDatasets,
+      4,
+      'additive',
+    );
+
+    const expectedAverageRecords: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-10': 65,
+        '2020-03-11': 75,
+        '2020-03-12': 85,
+        '2020-03-13': 94.5,
+        '2020-03-14': 105.25,
+        '2020-03-15': 123.5,
+      },
+    };
+
+    expect(actualAveragedRecords).toStrictEqual(expectedAverageRecords);
+  });
+
+  it.todo('should create the root of the product of multiplicative values');
 });

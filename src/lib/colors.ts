@@ -1,5 +1,5 @@
-import { Dataset } from '@/lib/transformations/Dataset';
 import { COLORS } from '@/constants';
+import { ChartDataSets } from 'chart.js';
 
 export const getDatasetColorPalette = (numberOfDatasets: number) => {
   const staticColors: string[] = [
@@ -22,9 +22,9 @@ export const getDatasetColorPalette = (numberOfDatasets: number) => {
 };
 
 export const hydrateDatasetsWithColor = (
-  datasets: Dataset[],
+  datasets: ChartDataSets[],
   type?: keyof typeof COLORS,
-): Dataset[] => {
+): ChartDataSets[] => {
   let colors: string[];
   if (datasets.length === 1 && type) {
     colors = [COLORS[type]];

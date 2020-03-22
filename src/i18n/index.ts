@@ -21,6 +21,7 @@ const messages = {
       confirmed: 'Verlauf der Infektionen',
       deaths: 'Verlauf der Todesfälle',
     },
+    averagedOver7DaysDesc: 'Gemittelt über 7 Tage',
   },
 };
 
