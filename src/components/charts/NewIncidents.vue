@@ -1,7 +1,10 @@
 <template>
   <div>
     <h2 v-t="`newIncidentsHeadline.${this.type}`" />
-    <p v-if="this.averaged" v-t="'averagedOver7DaysDesc'"></p>
+    <p>
+      <span v-if="this.averaged" v-t="'averagedOver7DaysDesc'" />
+      <span v-if="this.logarithmic" v-t="'logScale'" />
+    </p>
     <CasesLog v-if="this.logarithmic" :chart-data="this.chartData" />
     <CasesLinear v-else :chart-data="this.chartData" />
   </div>
