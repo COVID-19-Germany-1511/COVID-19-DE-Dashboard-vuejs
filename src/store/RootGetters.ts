@@ -6,10 +6,39 @@ import {
 } from '@/store/RootState';
 
 export default class RootGetters extends Getters<RootState> {
+  public getDataOfLastDayForType(
+    type: 'confirmed' | 'deaths',
+  ): { [key: string]: number } {
+    const rawData = this.state[type];
+    const data: { [key: string]: number } = {};
+    Object.entries(rawData).forEach(([stateName, days]) => {
+      const daysArr = Object.entries(days);
+      daysArr.sort((a, b) => (a[0] as any) - (b[0] as any));
+      data[stateName] = daysArr[daysArr.length - 1][1];
+    });
+    return data;
+  }
+
+  public selectedDataForType(type: 'confirmed' | 'deaths'): CaseRecordsByState {
+    if (this.state.selectedStates.length === 0) {
+      return {
+        Deutschland: this.getters.summarizeCases(this.state[type]),
+      };
+    }
+
+    const confirmed: CaseRecordsByState = {};
+
+    this.state.selectedStates.forEach(stateName => {
+      confirmed[stateName] = this.state[type][stateName];
+    });
+
+    return confirmed;
+  }
+
   public get confirmed(): CaseRecordsByState {
     if (this.state.selectedStates.length === 0) {
       return {
-        Deutschland: this.summarizeCases(this.state.confirmed),
+        Deutschland: this.getters.summarizeCases(this.state.confirmed),
       };
     }
 
@@ -25,7 +54,7 @@ export default class RootGetters extends Getters<RootState> {
   public get deaths(): CaseRecordsByState {
     if (this.state.selectedStates.length === 0) {
       return {
-        Deutschland: this.summarizeCases(this.state.deaths),
+        Deutschland: this.getters.summarizeCases(this.state.deaths),
       };
     }
 

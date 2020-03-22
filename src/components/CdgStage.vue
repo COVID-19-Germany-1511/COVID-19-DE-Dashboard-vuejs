@@ -1,11 +1,11 @@
 <template>
   <div class="stage">
     <div class="map-wrapper">
-      <cdg-map :showField="type" />
+      <cdg-map :type="type" />
     </div>
     <div class="content">
       <h1>Corona Dashboard Germany</h1>
-      <h2>Stats</h2>
+      <h2>Statistiken für {{ selectedStates }}</h2>
       <div class="count-wrapper">
         <cdg-big-number
           v-for="entry in data"
@@ -20,9 +20,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Mixins } from 'vue-property-decorator';
 import CdgMap from '@/components/map/CdgMap.vue';
 import CdgBigNumber from '@/components/misc/CdgBigNumber.vue';
+import StateMixin from '@/components/stateMixin';
 
 @Component({
   components: {
@@ -30,13 +31,18 @@ import CdgBigNumber from '@/components/misc/CdgBigNumber.vue';
     CdgBigNumber,
   },
 })
-export default class CdgStage extends Vue {
+export default class CdgStage extends Mixins(StateMixin) {
   data = [
-    { type: 'confirmed', count: 123, title: 'Infiziert' },
-    { type: 'dead', count: 12, title: 'Gestorben' },
+    { type: 'confirmed', title: 'Infiziert' },
+    { type: 'deaths', title: 'Gestorben' },
   ];
 
   type = 'confirmed';
+
+  get selectedStates() {
+    const { selectedStates } = this.rootModule.state;
+    return selectedStates.length ? selectedStates.join(', ') : 'Deutschland';
+  }
 
   selectType(type: any) {
     this.type = type;
@@ -48,12 +54,11 @@ export default class CdgStage extends Vue {
 .stage {
   display: flex;
   flex-direction: column;
-  height: 100vh;
 }
 
 .map-wrapper {
   height: 136.875vw;
-  max-height: 67%;
+  max-height: 67vh;
 }
 
 .content {

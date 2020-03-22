@@ -32,9 +32,7 @@ import Deaths from '@/components/charts/Deaths.vue';
     Deaths,
   },
 })
-export default class CdgCharts extends mixins(StateMixin) {
-  @Prop() private msg!: string;
-}
+export default class CdgCharts extends mixins(StateMixin) {}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

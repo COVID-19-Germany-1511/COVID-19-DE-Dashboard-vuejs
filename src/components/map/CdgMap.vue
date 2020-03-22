@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop, Watch, Mixins } from 'vue-property-decorator';
 import { Browser } from 'leaflet';
 import { LMap, LGeoJson } from 'vue2-leaflet';
 import { extent } from 'geojson-bounds';
@@ -32,7 +32,7 @@ import 'leaflet/dist/leaflet.css';
 import map from '@/data/germany_states_low.geojson';
 
 import CdgMapGradient from './CdgMapGradient.vue';
-
+import StateMixin from '@/components/stateMixin';
 import { MOCK_DATA, illnessState } from '@/data/mock';
 
 import { COLORS } from '@/constants';
@@ -44,15 +44,12 @@ import { COLORS } from '@/constants';
     CdgMapGradient,
   },
 })
-export default class CdgMap extends Vue {
+export default class CdgMap extends Mixins(StateMixin) {
   @Prop({ type: String, default: 'confirmed' })
-  private readonly showField!: illnessState;
+  private readonly type!: illnessState;
 
   map = map;
-  data = MOCK_DATA;
-  redrawHack = true;
-  currentState: number | null = null;
-  selectedState: number | null = null;
+  redrawHack = false;
 
   mapOptions = {
     attributionControl: false,
@@ -64,22 +61,30 @@ export default class CdgMap extends Vue {
     keyboard: false,
   };
 
-  geojsonOptions = {
-    style: (feature: GeoJSON.Feature) => {
-      const geoJsonId = feature.properties?.ID_1;
-      const dataItem = MOCK_DATA.find(({ id }) => id === geoJsonId);
-      return {
-        fillColor: this.getColor(dataItem[this.showField]),
-      };
-    },
-    onEachFeature: (feature: any, layer: L.Layer) => {
-      layer.on({
-        mouseover: this.onMouseOver.bind(this),
-        mouseout: this.onMouseOut.bind(this),
-        click: this.onClick.bind(this),
-      });
-    },
-  };
+  get geojsonOptions() {
+    return {
+      style: (feature: GeoJSON.Feature) => {
+        const geoJsonName = feature.properties?.NAME_1 as string;
+        return {
+          fillColor: this.getColor(this.values[geoJsonName]),
+        };
+      },
+      onEachFeature: (feature: any, layer: L.Layer) => {
+        layer.on({
+          mouseover: this.onMouseOver.bind(this),
+          click: this.onClick.bind(this),
+        });
+      },
+    };
+  }
+
+  created() {
+    this.redrawHack = true;
+  }
+
+  get values() {
+    return this.rootModule.getters.getDataOfLastDayForType(this.type);
+  }
 
   get bounds() {
     const bounds = extent(map);
@@ -90,20 +95,15 @@ export default class CdgMap extends Vue {
   }
 
   get colorScale() {
-    return chroma.scale(['eee', COLORS[this.showField]]);
-  }
-
-  get values() {
-    const { showField } = this;
-    return MOCK_DATA.map(entry => entry[showField]);
+    return chroma.scale(['eee', COLORS[this.type]]);
   }
 
   get min() {
-    return Math.min(...this.values);
+    return Math.min(...Object.values(this.values));
   }
 
   get max() {
-    return Math.max(...this.values);
+    return Math.max(...Object.values(this.values));
   }
 
   get gradientData() {
@@ -126,23 +126,17 @@ export default class CdgMap extends Vue {
     if (!Browser.ie && !Browser.opera) {
       target.bringToFront();
     }
-    const geoJsonId = target.feature.properties?.ID_1;
-    this.currentState = MOCK_DATA.find(({ id }) => id === geoJsonId);
-  }
-
-  onMouseOut() {
-    this.currentState = null;
   }
 
   onClick(event: L.LeafletMouseEvent) {
     event.originalEvent.stopPropagation();
-    const geoJsonId = event.target.feature.properties?.ID_1;
-    this.selectedState = MOCK_DATA.find(({ id }) => id === geoJsonId);
+    const name = event.target.feature.properties?.NAME_1;
+    this.rootModule.actions.toggleStateSelection(name);
   }
 
   onOutsideClick(event: L.LeafletMouseEvent) {
     if (event.originalEvent.target === (this.$refs.map as Vue).$el) {
-      this.selectedState = null;
+      this.rootModule.actions.selectStates([]);
     }
   }
 
@@ -165,7 +159,7 @@ export default class CdgMap extends Vue {
 }
 
 /deep/ path {
-  fill-opacity: 1 !important;
+  fill-opacity: 0.7 !important;
   stroke: $color-bg;
   stroke-width: 2px;
   stroke-dasharray: none !important;

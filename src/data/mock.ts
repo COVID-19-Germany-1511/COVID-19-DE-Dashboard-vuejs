@@ -1,4 +1,4 @@
-export type illnessState = 'confirmed' | 'dead' | 'recovered';
+export type illnessState = 'confirmed' | 'deaths';
 export const MOCK_DATA: any[] = [
   { id: 1, name: 'Baden-Württemberg', confirmed: 3668, dead: 16, recovered: 0 },
   { id: 2, name: 'Bayern', confirmed: 2960, dead: 19, recovered: 0 },

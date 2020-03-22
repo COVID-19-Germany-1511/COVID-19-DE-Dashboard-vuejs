@@ -38,7 +38,7 @@ export default class Deaths extends mixins(StateMixin) {
     );
     let colors: string[];
     if (dataSets.length === 1) {
-      colors = [COLORS.dead];
+      colors = [COLORS.deaths];
     } else {
       colors = getDatasetColorPalette(dataSets.length);
     }
