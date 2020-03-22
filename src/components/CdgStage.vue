@@ -7,6 +7,7 @@
     <div class="content">
       <h1>Corona Dashboard Germany</h1>
       <h2>Statistiken für {{ selectedStates }}</h2>
+      <span class="day">Tag: {{ selectedDay }}</span>
       <cdg-big-number-wrapper />
     </div>
   </div>
@@ -30,6 +31,10 @@ export default class CdgStage extends Mixins(StateMixin) {
   get selectedStates() {
     const { states } = this.rootModule.state.selection;
     return states.length ? states.join(', ') : 'Deutschland';
+  }
+
+  get selectedDay() {
+    return this.rootModule.state.selection.day;
   }
 }
 </script>
@@ -57,16 +62,9 @@ export default class CdgStage extends Mixins(StateMixin) {
   padding: 1rem;
 }
 
-.count-wrapper {
-  display: flex;
-  flex-flow: row wrap;
-  margin: -10px;
-}
-
-.cdg-big-button {
-  min-width: 200px;
-  max-width: 300px;
-  width: calc(50% - 20px);
+.day {
+  display: block;
+  margin-bottom: 1rem;
 }
 
 @include breakpoint-up(lg) {

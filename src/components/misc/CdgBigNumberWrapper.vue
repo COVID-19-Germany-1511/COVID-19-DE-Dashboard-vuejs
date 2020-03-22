@@ -1,12 +1,23 @@
 <template>
-  <div class="count-wrapper">
-    <cdg-big-number
-      v-for="entry in entries"
-      :key="entry.type"
-      :data="entry"
-      @click="selectType(entry.type)"
-      @mouseover="selectType(entry.type)"
-    />
+  <div>
+    <div class="count-wrapper">
+      <cdg-big-number
+        v-for="entry in total"
+        :key="entry.type"
+        :data="entry"
+        @click="selectType(entry.type)"
+        @mouseover="selectType(entry.type)"
+      />
+    </div>
+    <div class="count-wrapper">
+      <cdg-big-number
+        v-for="entry in perPop"
+        :key="entry.type"
+        :data="entry"
+        @click="selectType(entry.type)"
+        @mouseover="selectType(entry.type)"
+      />
+    </div>
   </div>
 </template>
 
@@ -25,8 +36,21 @@ import { StatType } from '@/store/RootState';
 export default class CdgBigNumberWrapper extends Mixins(StateMixin) {
   get entries() {
     const { dataOfDayAndStates } = this.rootModule.getters;
-    return Object.entries(dataOfDayAndStates).map(([key, value]) => {
-      return { type: key, count: value };
+    return Object.entries(dataOfDayAndStates);
+  }
+
+  get total() {
+    return this.entries.map(([key, value]) => {
+      return { type: key, subType: 'total', count: value };
+    });
+  }
+
+  get perPop() {
+    const { population } = this.rootModule.getters.selectedStatesMeta;
+    return this.entries.map(([key, value]) => {
+      let count: number | string = (value / population) * 100000;
+      count = count.toLocaleString(undefined, { maximumFractionDigits: 2 });
+      return { type: key, subType: 'perPop', count };
     });
   }
 
@@ -37,28 +61,18 @@ export default class CdgBigNumberWrapper extends Mixins(StateMixin) {
 </script>
 
 <style lang="scss" scoped>
-.cdg-big-button {
-  @include ratio(0.67);
-  margin: 10px;
-  background: $color-bg-lighter;
-}
-
-.cdg-big-button-inner {
+.count-wrapper {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
-  padding: 1em;
+  flex-flow: row wrap;
+  margin: -10px;
 }
 
-.icon {
-  width: 2 * map-get($font-size-h1, base);
-  height: 2 * map-get($font-size-h1, base);
-}
-
-.count {
-  @extend %cdg-h1;
-  margin: 0;
+.cdg-big-number {
+  // @include ratio(0.67);
+  min-width: 200px;
+  max-width: 300px;
+  width: calc(50% - 20px);
+  margin: 15px 10px;
+  background: $color-bg-lighter;
 }
 </style>

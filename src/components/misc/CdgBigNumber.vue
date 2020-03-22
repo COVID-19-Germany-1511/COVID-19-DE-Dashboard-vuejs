@@ -1,9 +1,10 @@
 <template>
   <button :class="className" v-on="$listeners">
-    <div class="cdg-big-button-inner">
+    <div class="cdg-big-number-inner">
       <svg-sprite class="icon" :name="data.type" />
       <span class="count">{{ data.count }}</span>
-      <span class="title">{{ title }}</span>
+      <span class="type" v-t="`type.${data.type}`"></span>
+      <span class="sub-type" v-t="`subType.${data.subType}`"></span>
     </div>
   </button>
 </template>
@@ -23,28 +24,13 @@ export default class CdgBigNumber extends Mixins(StateMixin) {
   @Prop({ type: Object, required: true }) private readonly data!: any;
 
   get className() {
-    return `cdg-big-button ${this.data.type}`;
-  }
-
-  get title() {
-    switch (this.data.type) {
-      case 'confirmed':
-        return 'Infiziert';
-      case 'deaths':
-        return 'Gestorben';
-    }
+    return `cdg-big-number ${this.data.type}`;
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.cdg-big-button {
-  @include ratio(0.67);
-  margin: 10px;
-  background: $color-bg-lighter;
-}
-
-.cdg-big-button-inner {
+.cdg-big-number-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,6 +46,14 @@ export default class CdgBigNumber extends Mixins(StateMixin) {
 
 .count {
   @extend %cdg-h1;
-  margin: 0;
+  margin: 0.5rem 0;
+}
+
+.type {
+  @extend %subline;
+}
+
+.sub-type {
+  @extend %font-small-1;
 }
 </style>
