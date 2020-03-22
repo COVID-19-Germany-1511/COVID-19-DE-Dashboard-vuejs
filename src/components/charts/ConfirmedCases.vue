@@ -43,10 +43,14 @@ export default class ConfirmedCases extends mixins(StateMixin) {
       colors = getDatasetColorPalette(dataSets.length);
     }
 
-    return dataSets.map(dataSet => ({
-      ...dataSet,
-      borderColor: colors.pop(),
-    }));
+    return dataSets.map(dataSet => {
+      const datasetColor = colors.pop();
+      return {
+        ...dataSet,
+        borderColor: datasetColor,
+        backgroundColor: datasetColor,
+      };
+    });
   }
 }
 </script>
