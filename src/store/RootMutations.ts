@@ -4,6 +4,7 @@ import { RootState, StatType, StatSubType } from '@/store/RootState';
 export default class RootMutations extends Mutations<RootState> {
   public setSelectedStates(stateNames: string[]): void {
     this.state.selection.states = stateNames;
+    this.state.selection.states.sort();
   }
 
   public toggleStateSelection(stateName: string): void {
@@ -13,6 +14,7 @@ export default class RootMutations extends Mutations<RootState> {
       states.splice(idx, 1);
     } else {
       states.push(stateName);
+      states.sort();
     }
   }
 
