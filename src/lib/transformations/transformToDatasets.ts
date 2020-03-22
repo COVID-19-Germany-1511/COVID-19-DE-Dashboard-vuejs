@@ -14,6 +14,29 @@ export const transformCaseRecordsToDataset = (
   );
 };
 
+export const transformCaseRecordsToNewIncidentsDataset = (
+  records: CaseRecordsByState,
+): Dataset[] => {
+  const newIncidentsByState: CaseRecordsByState = {};
+
+  let yesterdaysNumber: number | null;
+  for (const stateName in records) {
+    newIncidentsByState[stateName] = {};
+    yesterdaysNumber = null;
+    for (const date in records[stateName]) {
+      const todaysNumber = records[stateName][date];
+      if (yesterdaysNumber === null) {
+        yesterdaysNumber = records[stateName][date];
+        continue;
+      }
+
+      newIncidentsByState[stateName][date] = todaysNumber - yesterdaysNumber;
+      yesterdaysNumber = todaysNumber;
+    }
+  }
+  return transformCaseRecordsToDataset(newIncidentsByState);
+};
+
 export const transformCaseRecordsToMortailityDataset = (
   confirmed: CaseRecordsByState,
   deaths: CaseRecordsByState,
