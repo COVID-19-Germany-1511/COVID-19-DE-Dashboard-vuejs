@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Verlauf der Todesfälle</h2>
+    <h2 v-t="`incidentsHeadline.${this.type}`" />
     <CasesLog
       v-if="this.logarithmic"
       :dates="this.dates"
@@ -13,29 +13,32 @@
 <script lang="ts">
 import { Component, Prop } from 'vue-property-decorator';
 import CasesLinear from '@/components/charts/CasesLinear';
+import CasesLog from '@/components/charts/CasesLog';
 import { Dataset } from '@/lib/transformations/Dataset';
 import { transformCaseRecordsToDataset } from '@/lib/transformations/transformToDatasets';
 import { hydrateDatasetsWithColor } from '@/lib/colors';
-import CasesLog from '@/components/charts/CasesLog';
 import { mixins } from 'vue-class-component';
 import StateMixin from '@/components/stateMixin';
 
 @Component({
-  components: { CasesLog, CasesLinear },
+  components: { CasesLinear, CasesLog },
 })
-export default class Deaths extends mixins(StateMixin) {
+export default class Incidents extends mixins(StateMixin) {
   @Prop({ required: false, default: false })
   public logarithmic!: boolean;
 
+  @Prop({ required: true })
+  public type!: 'confirmed' | 'deaths';
+
   public get dates(): string[] {
-    return Object.keys(Object.values(this.rootModule.getters.deaths)[0]);
+    return Object.keys(Object.values(this.rootModule.getters[this.type])[0]);
   }
 
   public get dataSets(): Dataset[] {
     const dataSets = transformCaseRecordsToDataset(
-      this.rootModule.getters.deaths,
+      this.rootModule.getters[this.type],
     );
-    return hydrateDatasetsWithColor(dataSets, 'deaths');
+    return hydrateDatasetsWithColor(dataSets, this.type);
   }
 }
 </script>

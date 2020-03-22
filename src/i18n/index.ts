@@ -17,6 +17,10 @@ const messages = {
       confirmed: 'Neue Infektionen',
       deaths: 'Neues Todesfälle',
     },
+    incidentsHeadline: {
+      confirmed: 'Verlauf der Infektionen',
+      deaths: 'Verlauf der Todesfälle',
+    },
   },
 };
 
