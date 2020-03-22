@@ -103,7 +103,7 @@ export default class CdgMap extends Mixins(StateMixin) {
   }
 
   get max() {
-    return Math.max(...Object.values(this.values));
+    return this.rootModule.getters.selectedAllTimeStateMax;
   }
 
   get gradientData() {

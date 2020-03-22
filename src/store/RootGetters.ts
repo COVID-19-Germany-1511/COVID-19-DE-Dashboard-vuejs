@@ -21,11 +21,31 @@ function summarizeCases(cases: CaseRecordsByState): CaseRecordsMap {
   return totalCases;
 }
 export default class RootGetters extends Getters<RootState> {
+  public get allTimeStateMax() {
+    function getMax(records: CaseRecordsByState) {
+      const statesMax = Object.values(records).map(days => {
+        return Math.max(...Object.values(days));
+      });
+      return Math.max(...statesMax);
+    }
+    return {
+      confirmed: getMax(this.state.confirmed),
+      deaths: getMax(this.state.deaths),
+    };
+  }
+
+  public get selectedAllTimeStateMax() {
+    return this.getters.allTimeStateMax[this.state.selection.type];
+  }
+
   public get selectedStatesMeta() {
-    const {
-      statePopulation,
+    const { statePopulation } = this.state;
+    let {
       selection: { states },
     } = this.state;
+    if (!states.length) {
+      states = Object.keys(statePopulation);
+    }
     const population = states
       .map(stateName => {
         return statePopulation[stateName];
