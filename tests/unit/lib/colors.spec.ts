@@ -1,4 +1,6 @@
-import { getDatasetColorPalette } from '@/lib/colors';
+import { getDatasetColorPalette, hydrateDatasetsWithColor } from '@/lib/colors';
+import { Dataset } from '@/lib/transformations/Dataset';
+import { COLORS } from '@/constants';
 
 describe('colors', () => {
   it('should return the static colors for a length up to 5', () => {
@@ -21,4 +23,43 @@ describe('colors', () => {
     ];
     expect(actualColors).toStrictEqual(expectedColors);
   });
+});
+
+describe('hydrateDatasetsWithColor', () => {
+  it('should return the custom color for single confirmed cases data set', () => {
+    const datasets: Dataset[] = [
+      {
+        data: [],
+        label: '',
+      },
+    ];
+
+    const actualHydratedDatasets = hydrateDatasetsWithColor(
+      datasets,
+      'confirmed',
+    );
+
+    expect(actualHydratedDatasets[0].borderColor).toBe(COLORS.confirmed);
+    expect(actualHydratedDatasets[0].backgroundColor).toBe(COLORS.confirmed);
+  });
+
+  it('should return the custom color for single deaths cases data set', () => {
+    const datasets: Dataset[] = [
+      {
+        data: [],
+        label: '',
+      },
+    ];
+
+    const actualHydratedDatasets = hydrateDatasetsWithColor(datasets, 'deaths');
+
+    expect(actualHydratedDatasets[0].borderColor).toBe(COLORS.deaths);
+    expect(actualHydratedDatasets[0].backgroundColor).toBe(COLORS.deaths);
+  });
+
+  it.todo('should take the first color from the palette, if there is no type');
+
+  it.todo(
+    'should get the colors from the dataset color palette, if there is more than one set',
+  );
 });

@@ -4,6 +4,7 @@
     <Deaths class="chart" />
     <ConfirmedCases class="chart" :logarithmic="true" />
     <Deaths class="chart" :logarithmic="true" />
+    <Mortality class="chart" />
   </div>
 </template>
 
@@ -12,9 +13,11 @@ import { Component, Mixins } from 'vue-property-decorator';
 import ConfirmedCases from '@/components/charts/ConfirmedCases.vue';
 import StateMixin from '@/components/stateMixin';
 import Deaths from '@/components/charts/Deaths.vue';
+import Mortality from '@/components/charts/Mortality.vue';
 
 @Component({
   components: {
+    Mortality,
     ConfirmedCases,
     Deaths,
   },
