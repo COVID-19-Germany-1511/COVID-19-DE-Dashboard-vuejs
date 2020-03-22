@@ -2,6 +2,7 @@ import { Line } from 'vue-chartjs';
 import { mixins } from 'vue-class-component';
 import { Component, Prop } from 'vue-property-decorator';
 import { Dataset } from '@/lib/transformations/Dataset';
+import { formatAbsoluteTickNumbers } from '@/lib/tickNumberFormat';
 
 @Component
 export default class CasesLinear extends mixins(Line) {
@@ -21,6 +22,9 @@ export default class CasesLinear extends mixins(Line) {
         yAxes: [
           {
             type: 'logarithmic',
+            ticks: {
+              callback: formatAbsoluteTickNumbers,
+            },
           },
         ],
       },

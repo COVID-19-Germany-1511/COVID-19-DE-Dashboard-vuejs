@@ -8,4 +8,8 @@ export default class RootActions extends Actions<
   RootGetters,
   RootMutations,
   RootActions
-> {}
+> {
+  public selectStates(stateNames: string[]): void {
+    this.commit('setSelectedStates', stateNames);
+  }
+}

@@ -39,13 +39,6 @@ module.exports = {
         SwitchCase: 1,
       },
     ],
-    'brace-style': [
-      'error',
-      'stroustrup',
-      {
-        allowSingleLine: true,
-      },
-    ],
     'no-multiple-empty-lines': [
       'error',
       {
