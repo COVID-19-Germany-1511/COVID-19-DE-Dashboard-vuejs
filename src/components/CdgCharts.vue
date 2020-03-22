@@ -1,21 +1,9 @@
 <template>
-  <div class="hello">
-    <h1>Examples of available charts</h1>
-
-    <div class="row">
-      <div class="col-lg-6">
-        <ConfirmedCases />
-      </div>
-      <div class="col-lg-6">
-        <Deaths />
-      </div>
-      <div class="col-lg-6">
-        <ConfirmedCases :logarithmic="true" />
-      </div>
-      <div class="col-lg-6">
-        <Deaths :logarithmic="true" />
-      </div>
-    </div>
+  <div class="charts">
+    <ConfirmedCases class="chart" />
+    <Deaths class="chart" />
+    <ConfirmedCases class="chart" :logarithmic="true" />
+    <Deaths class="chart" :logarithmic="true" />
   </div>
 </template>
 
@@ -36,14 +24,20 @@ export default class CdgCharts extends Mixins(StateMixin) {}
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.row {
+.charts {
   display: flex;
-  flex-wrap: wrap;
-  margin-right: 1em;
-  margin-left: 1em;
+  flex-flow: row wrap;
+  margin: 0 -1rem;
 }
-.col-lg-6 {
-  flex: 0 0 50%;
-  max-width: 50%;
+
+.chart {
+  width: calc(100% - 4rem);
+  margin: 2rem;
+}
+
+@include breakpoint-up(lg) {
+  .chart {
+    width: calc(50% - 4rem);
+  }
 }
 </style>

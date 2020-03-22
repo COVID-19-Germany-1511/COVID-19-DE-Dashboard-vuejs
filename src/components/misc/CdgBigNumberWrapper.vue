@@ -64,6 +64,7 @@ export default class CdgBigNumberWrapper extends Mixins(StateMixin) {
 .count-wrapper {
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
   margin: -10px;
 }
 
