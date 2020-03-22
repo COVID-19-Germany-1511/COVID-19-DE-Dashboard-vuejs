@@ -1,29 +1,28 @@
 <template>
   <div class="charts">
-    <ConfirmedCases class="chart" />
-    <Deaths class="chart" />
-    <ConfirmedCases class="chart" :logarithmic="true" />
-    <Deaths class="chart" :logarithmic="true" />
-    <Mortality class="chart" />
+    <Incidents class="chart" type="confirmed" />
+    <Incidents class="chart" type="deaths" />
+    <Incidents class="chart" type="confirmed" :logarithmic="true" />
+    <Incidents class="chart" type="deaths" :logarithmic="true" />
     <NewIncidents class="chart" type="confirmed" />
     <NewIncidents class="chart" type="deaths" />
+    <NewIncidents class="chart" type="confirmed" :averaged="true" />
+    <Mortality class="chart" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import ConfirmedCases from '@/components/charts/ConfirmedCases.vue';
 import StateMixin from '@/components/stateMixin';
-import Deaths from '@/components/charts/Deaths.vue';
 import Mortality from '@/components/charts/Mortality.vue';
 import NewIncidents from '@/components/charts/NewIncidents.vue';
+import Incidents from '@/components/charts/Incidents.vue';
 
 @Component({
   components: {
+    Incidents,
     NewIncidents,
     Mortality,
-    ConfirmedCases,
-    Deaths,
   },
 })
 export default class CdgCharts extends Mixins(StateMixin) {}

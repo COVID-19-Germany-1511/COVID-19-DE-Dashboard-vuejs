@@ -1,22 +1,27 @@
 import { Dataset } from '@/lib/transformations/Dataset';
 import { CaseRecordsByState } from '@/store/RootState';
+import { ChartData } from 'chart.js';
 
-export const transformCaseRecordsToDataset = (
+export const transformCaseRecordsToChartData = (
   records: CaseRecordsByState,
-): Dataset[] => {
-  return Object.keys(records).map(
-    (stateName: string): Dataset => {
-      return {
-        label: stateName,
-        data: Object.values(records[stateName]),
-      };
-    },
-  );
+): Required<ChartData> => {
+  const dates = Object.keys(Object.values(records)[0]);
+  return {
+    labels: dates,
+    datasets: Object.keys(records).map(
+      (stateName: string): Dataset => {
+        return {
+          label: stateName,
+          data: Object.values(records[stateName]),
+        };
+      },
+    ),
+  };
 };
 
-export const transformCaseRecordsToNewIncidentsDataset = (
+export const transformCaseRecordsToNewIncidentsRecords = (
   records: CaseRecordsByState,
-): Dataset[] => {
+): CaseRecordsByState => {
   const newIncidentsByState: CaseRecordsByState = {};
 
   let yesterdaysNumber: number | null;
@@ -34,13 +39,41 @@ export const transformCaseRecordsToNewIncidentsDataset = (
       yesterdaysNumber = todaysNumber;
     }
   }
-  return transformCaseRecordsToDataset(newIncidentsByState);
+  return newIncidentsByState;
 };
 
-export const transformCaseRecordsToMortailityDataset = (
+export const averageRecords = (
+  records: CaseRecordsByState,
+  numberOfDays: number,
+  method: 'additive' | 'multiplicative',
+): CaseRecordsByState => {
+  if (method === 'multiplicative') {
+    throw new Error('not yet implemented');
+  }
+
+  const avgRecordByState: CaseRecordsByState = {};
+
+  let lastNvalues = [];
+  for (const stateName in records) {
+    avgRecordByState[stateName] = {};
+    lastNvalues = Object.values(records[stateName]).slice(0, numberOfDays - 1);
+
+    const data = Object.entries(records[stateName]).slice(numberOfDays - 1);
+    for (const [date, value] of data) {
+      lastNvalues.push(value);
+      avgRecordByState[stateName][date] =
+        lastNvalues.reduce((sum, cur) => sum + cur, 0) / numberOfDays;
+      lastNvalues.shift();
+    }
+  }
+
+  return avgRecordByState;
+};
+
+export const transformCaseRecordsToMortaility = (
   confirmed: CaseRecordsByState,
   deaths: CaseRecordsByState,
-): Dataset[] => {
+): CaseRecordsByState => {
   const mortalityByState: CaseRecordsByState = {};
 
   for (const stateName in confirmed) {
@@ -60,5 +93,5 @@ export const transformCaseRecordsToMortailityDataset = (
     }
   }
 
-  return transformCaseRecordsToDataset(mortalityByState);
+  return mortalityByState;
 };
