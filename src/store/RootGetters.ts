@@ -131,42 +131,4 @@ export default class RootGetters extends Getters<RootState> {
 
     return confirmed;
   }
-
-  public get confirmed(): CaseRecordsByState {
-    const {
-      selection: { states },
-    } = this.state;
-    if (!states.length) {
-      return {
-        Deutschland: summarizeCases(this.state.confirmed),
-      };
-    }
-
-    const confirmed: CaseRecordsByState = {};
-
-    states.forEach(stateName => {
-      confirmed[stateName] = this.state.confirmed[stateName];
-    });
-
-    return confirmed;
-  }
-
-  public get deaths(): CaseRecordsByState {
-    const {
-      selection: { states },
-    } = this.state;
-    if (!states.length) {
-      return {
-        Deutschland: summarizeCases(this.state.deaths),
-      };
-    }
-
-    const deaths: CaseRecordsByState = {};
-
-    states.forEach(stateName => {
-      deaths[stateName] = this.state.deaths[stateName];
-    });
-
-    return deaths;
-  }
 }

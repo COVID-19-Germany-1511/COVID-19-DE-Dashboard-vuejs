@@ -28,7 +28,7 @@ export default class Incidents extends mixins(StateMixin) {
 
   public get chartData(): ChartData {
     const chartData = transformCaseRecordsToChartData(
-      this.rootModule.getters[this.type],
+      this.rootModule.getters.selectedDataForType(this.type),
     );
 
     chartData.datasets = hydrateDatasetsWithColor(

@@ -36,7 +36,7 @@ export default class NewIncidents extends mixins(StateMixin) {
 
   public get chartData(): ChartData {
     const newIncidentsRecords = transformCaseRecordsToNewIncidentsRecords(
-      this.rootModule.getters[this.type],
+      this.rootModule.getters.selectedDataForType(this.type),
     );
 
     const chartData = transformCaseRecordsToChartData(

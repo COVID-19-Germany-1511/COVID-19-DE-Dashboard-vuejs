@@ -36,7 +36,9 @@ describe('RootGetters', () => {
         },
       };
 
-      expect(getters.confirmed).toStrictEqual(expectedTotalCases);
+      expect(getters.selectedDataForType('confirmed')).toStrictEqual(
+        expectedTotalCases,
+      );
     });
 
     it('should return only the data for the selectedStates', () => {
@@ -71,7 +73,9 @@ describe('RootGetters', () => {
         },
       };
 
-      expect(getters.confirmed).toStrictEqual(expectedCases);
+      expect(getters.selectedDataForType('confirmed')).toStrictEqual(
+        expectedCases,
+      );
     });
   });
 
@@ -108,7 +112,9 @@ describe('RootGetters', () => {
         },
       };
 
-      expect(getters.deaths).toStrictEqual(expectedTotalDeaths);
+      expect(getters.selectedDataForType('deaths')).toStrictEqual(
+        expectedTotalDeaths,
+      );
     });
 
     it('should return only the data for the selectedStates', () => {
@@ -143,7 +149,9 @@ describe('RootGetters', () => {
         },
       };
 
-      expect(getters.deaths).toStrictEqual(expectedDeaths);
+      expect(getters.selectedDataForType('deaths')).toStrictEqual(
+        expectedDeaths,
+      );
     });
   });
 });
