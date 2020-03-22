@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@types/chart.js": "^2.9.16",
-    "COVID-19-DE": "micgro42/COVID-19-DE#26eaa948342eb3d7556ad5b814c1c6c1e13326f8",
+    "COVID-19-DE": "micgro42/COVID-19-DE#93f0b19b8464b861bf6f5499c281837ad0fb5594",
     "chart.js": "^2.9.3",
     "chroma-js": "^2.1.0",
     "core-js": "^3.6.4",
