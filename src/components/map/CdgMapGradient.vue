@@ -12,17 +12,10 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
-// export type CdgMapGradientData = {
-//   min: number;
-//   max: number;
-//   startColor: string;
-//   endColor: string;
-// };
-
 @Component
 export default class CdgMapGradient extends Vue {
   @Prop({ type: Object, required: true })
-  private readonly data!: CdgMapGradientData;
+  private readonly data!: any;
 
   get mean() {
     const { min, max } = this.data;

@@ -14,6 +14,5 @@ declare module 'vue2-leaflet' {
 }
 
 declare module 'geojson-bounds' {
-  const extent: { extent: any };
-  export default extent;
+  export function extent(geoJson: GeoJSON.FeatureCollection): number[];
 }
