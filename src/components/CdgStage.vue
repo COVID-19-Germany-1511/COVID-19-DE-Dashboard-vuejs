@@ -2,15 +2,15 @@
   <div class="stage">
     <div class="map-wrapper">
       <cdg-map class="map" />
-      <cdg-day-select />
+      <cdg-date-select />
     </div>
     <div class="content">
       <h2
         v-t="{ path: 'titles.table', args: { selection: selectedStates } }"
       ></h2>
       <span
-        class="day"
-        v-t="{ path: 'general.date', args: { date: selectedDay } }"
+        class="date"
+        v-t="{ path: 'general.date', args: { date: selectedDate } }"
       ></span>
       <cdg-table />
     </div>
@@ -20,14 +20,14 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import CdgMap from '@/components/map/CdgMap.vue';
-import CdgDaySelect from '@/components/misc/CdgDaySelect.vue';
+import CdgDateSelect from '@/components/misc/CdgDateSelect.vue';
 import CdgTable from '@/components/misc/CdgTable.vue';
 import StateMixin from '@/components/stateMixin';
 
 @Component({
   components: {
     CdgMap,
-    CdgDaySelect,
+    CdgDateSelect,
     CdgTable,
   },
 })
@@ -37,8 +37,8 @@ export default class CdgStage extends Mixins(StateMixin) {
     return states.length ? states.join(', ') : 'Deutschland';
   }
 
-  get selectedDay() {
-    return this.rootModule.state.selection.day;
+  get selectedDate() {
+    return this.rootModule.state.selection.date;
   }
 }
 </script>
@@ -58,7 +58,7 @@ export default class CdgStage extends Mixins(StateMixin) {
   max-height: 67vh;
 }
 
-.day-select {
+.date-select {
   margin-top: 1rem;
 }
 
@@ -66,7 +66,7 @@ export default class CdgStage extends Mixins(StateMixin) {
   padding: 1rem;
 }
 
-.day {
+.date {
   display: block;
   margin-bottom: 1rem;
 }

@@ -68,7 +68,7 @@ function mapObject(
 export default class CdgTable extends Mixins(StateMixin) {
   get entries() {
     const { population } = this.rootModule.getters.selectedStatesMeta;
-    const data = this.rootModule.getters.dataOfDayAndStates;
+    const data = this.rootModule.getters.dataOfDateAndStates;
     const result = [];
     result.push({ subType: 'total', ...data });
     result.push({

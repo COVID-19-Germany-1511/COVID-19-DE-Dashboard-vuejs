@@ -1,7 +1,7 @@
 import {
   extractCasesFromTimeline,
   extractStatePopulationFromMetaData,
-  extractDaysFromTimeline,
+  extractDatesFromTimeline,
 } from '@/lib/transformations/transformations';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -34,7 +34,7 @@ export interface ApplicationState {
     states: string[];
     type: StatType;
     subType: StatSubType;
-    day: string;
+    date: string;
   };
   statePopulation: StatePopulationData;
   confirmed: CaseRecordsByState;
@@ -45,12 +45,12 @@ export class RootState implements ApplicationState {
   confirmed = extractCasesFromTimeline(confirmedData);
   deaths = extractCasesFromTimeline(deathsData);
   statePopulation = extractStatePopulationFromMetaData(stateMetaData);
-  availableDays = extractDaysFromTimeline(confirmedData);
+  availableDates = extractDatesFromTimeline(confirmedData);
 
   selection: ApplicationState['selection'] = {
     states: [] as string[],
     type: 'confirmed',
     subType: 'total',
-    day: this.availableDays[this.availableDays.length - 1],
+    date: this.availableDates[this.availableDates.length - 1],
   };
 }

@@ -21,7 +21,7 @@ export default class RootActions extends Actions<
     this.commit('selectType', payload);
   }
 
-  public selectDay(day: string): void {
-    this.commit('selectDay', day);
+  public selectDate(date: string): void {
+    this.commit('selectDate', date);
   }
 }

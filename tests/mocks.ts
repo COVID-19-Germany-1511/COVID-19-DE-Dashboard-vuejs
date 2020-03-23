@@ -1,16 +1,16 @@
-import { ApplicationState, RootState } from '@/store/RootState';
+import { RootState } from '@/store/RootState';
 
 export const getNewRootState = (fields: Partial<RootState>): RootState => {
   return {
     confirmed: {},
     deaths: {},
     statePopulation: {},
-    availableDays: [],
+    availableDates: [],
     selection: {
       states: [],
       type: 'confirmed',
       subType: 'total',
-      day: '',
+      date: '',
     },
     ...fields,
   };

@@ -36,7 +36,7 @@ describe('RootGetters', () => {
             states: [],
             type: 'confirmed',
             subType: 'total',
-            day: '',
+            date: '',
           },
         }),
       });
@@ -76,7 +76,7 @@ describe('RootGetters', () => {
               states: [],
               type: 'confirmed',
               subType: 'total',
-              day: '',
+              date: '',
             },
           }),
         });
@@ -110,7 +110,7 @@ describe('RootGetters', () => {
               states: ['Berlin'],
               type: 'confirmed',
               subType: 'total',
-              day: '',
+              date: '',
             },
           }),
         });
@@ -146,7 +146,7 @@ describe('RootGetters', () => {
               states: [],
               type: 'confirmed',
               subType: 'total',
-              day: '',
+              date: '',
             },
           }),
         });
@@ -170,7 +170,7 @@ describe('RootGetters', () => {
               states: ['Berlin'],
               type: 'confirmed',
               subType: 'total',
-              day: '',
+              date: '',
             },
             deaths: {
               Sachsen: {
