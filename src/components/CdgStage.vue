@@ -5,9 +5,15 @@
       <cdg-day-select />
     </div>
     <div class="content">
-      <h1>Corona Dashboard Germany</h1>
-      <h2>Statistiken für {{ selectedStates }}</h2>
-      <span class="day">Tag: {{ selectedDay }}</span>
+      <language-select />
+      <h1 v-t="'general.title'"></h1>
+      <h2
+        v-t="{ path: 'titles.table', args: { selection: selectedStates } }"
+      ></h2>
+      <span
+        class="day"
+        v-t="{ path: 'general.date', args: { date: selectedDay } }"
+      ></span>
       <cdg-table />
     </div>
   </div>
@@ -18,6 +24,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import CdgMap from '@/components/map/CdgMap.vue';
 import CdgDaySelect from '@/components/misc/CdgDaySelect.vue';
 import CdgTable from '@/components/misc/CdgTable.vue';
+import LanguageSelect from '@/components/misc/LanguageSelect.vue';
 import StateMixin from '@/components/stateMixin';
 
 @Component({
@@ -25,6 +32,7 @@ import StateMixin from '@/components/stateMixin';
     CdgMap,
     CdgDaySelect,
     CdgTable,
+    LanguageSelect,
   },
 })
 export default class CdgStage extends Mixins(StateMixin) {
