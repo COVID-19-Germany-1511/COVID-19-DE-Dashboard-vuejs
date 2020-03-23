@@ -14,6 +14,10 @@
         :options="geojsonOptions"
         ref="geolayer"
       />
+
+      <l-control position="bottomleft">
+        <cdg-map-info />
+      </l-control>
     </l-map>
     <div class="legend">
       <cdg-map-gradient :data="gradientData" />
@@ -24,13 +28,14 @@
 <script lang="ts">
 import { Component, Watch, Mixins } from 'vue-property-decorator';
 import { Browser } from 'leaflet';
-import { LMap, LGeoJson } from 'vue2-leaflet';
+import { LMap, LGeoJson, LControl } from 'vue2-leaflet';
 import { extent } from 'geojson-bounds';
 import chroma from 'chroma-js';
 import 'leaflet/dist/leaflet.css';
 
 import map from '@/data/germany_states_low.geojson';
 
+import CdgMapInfo from './CdgMapInfo.vue';
 import CdgMapGradient from './CdgMapGradient.vue';
 import StateMixin from '@/components/stateMixin';
 
@@ -50,6 +55,8 @@ const STYLE_SELECTED = {
   components: {
     LMap,
     LGeoJson,
+    LControl,
+    CdgMapInfo,
     CdgMapGradient,
   },
 })
@@ -100,7 +107,7 @@ export default class CdgMap extends Mixins(StateMixin) {
 
   get values(): { [key: string]: number } {
     const result: any = {};
-    Object.entries(this.rootModule.getters.dataOfDayAndType).forEach(
+    Object.entries(this.rootModule.getters.dataOfDateAndType).forEach(
       ([key, value]) => {
         result[key] = value[this.subType];
       },
@@ -196,6 +203,10 @@ export default class CdgMap extends Mixins(StateMixin) {
 
 .map {
   background: none;
+}
+
+/deep/ .leaflet-control {
+  margin: 0;
 }
 
 /deep/ path {

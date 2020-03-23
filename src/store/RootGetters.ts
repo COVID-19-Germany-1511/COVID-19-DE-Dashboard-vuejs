@@ -70,23 +70,23 @@ export default class RootGetters extends Getters<RootState> {
     return { population };
   }
 
-  public get dataOfDayAndStates() {
-    const { day, states } = this.state.selection;
+  public get dataOfDateAndStates() {
+    const { date, states } = this.state.selection;
     return {
-      confirmed: this.getters.getData('confirmed', day, states),
-      deaths: this.getters.getData('deaths', day, states),
+      confirmed: this.getters.getData('confirmed', date, states),
+      deaths: this.getters.getData('deaths', date, states),
     };
   }
 
-  public get dataOfDayAndType() {
+  public get dataOfDateAndType() {
     const {
       statePopulation,
-      selection: { day, type },
+      selection: { date, type },
     } = this.state;
     const result: { [key: string]: { [key in StatSubType]: number } } = {};
     Object.entries(this.state[type]).forEach(
-      ([stateName, days]: [string, { [key: string]: number }]) => {
-        const value = days[day];
+      ([stateName, dates]: [string, { [key: string]: number }]) => {
+        const value = dates[date];
         const population = statePopulation[stateName];
         result[stateName] = {
           total: value,
@@ -102,13 +102,13 @@ export default class RootGetters extends Getters<RootState> {
     return this.state.selection.states.includes(state);
   }
 
-  public getData(type: StatType, day: string, states?: string[]) {
+  public getData(type: StatType, date: string, states?: string[]) {
     if (!states || !states.length) {
       states = Object.keys(this.state[type]);
     }
     return states
       .map(stateName => {
-        return this.state[type][stateName][day];
+        return this.state[type][stateName][date];
       })
       .reduce((sum, cur) => sum + cur);
   }

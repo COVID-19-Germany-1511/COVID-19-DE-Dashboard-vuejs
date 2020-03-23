@@ -29,7 +29,7 @@ export default class RootMutations extends Mutations<RootState> {
     this.state.selection.subType = subType;
   }
 
-  public selectDay(day: string): void {
-    this.state.selection.day = day;
+  public selectDate(date: string): void {
+    this.state.selection.date = date;
   }
 }

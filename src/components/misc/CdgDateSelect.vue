@@ -1,13 +1,13 @@
 <template>
-  <div class="day-select">
+  <div class="date-select">
     <label>
       <span class="sr-only">Tag</span>
       <input
         type="range"
         min="0"
-        :max="availableDays.length - 1"
+        :max="availableDates.length - 1"
         step="1"
-        v-model="selectedDayIndex"
+        v-model="selectedDateIndex"
       />
     </label>
     <cdg-range-labels :labels="labels" />
@@ -25,39 +25,39 @@ import StateMixin from '@/components/stateMixin';
     CdgRangeLabels,
   },
 })
-export default class CdgDaySelect extends Mixins(StateMixin) {
-  get availableDays() {
-    return this.rootModule.state.availableDays;
+export default class CdgDateSelect extends Mixins(StateMixin) {
+  get availableDates() {
+    return this.rootModule.state.availableDates;
   }
 
-  get selectedDay() {
-    return this.rootModule.state.selection.day;
+  get selectedDate() {
+    return this.rootModule.state.selection.date;
   }
 
-  get selectedDayIndex() {
-    const { availableDays } = this;
-    return availableDays.indexOf(this.selectedDay);
+  get selectedDateIndex() {
+    const { availableDates } = this;
+    return availableDates.indexOf(this.selectedDate);
   }
 
-  set selectedDayIndex(index: number) {
-    const day = this.availableDays[index];
-    this.rootModule.actions.selectDay(day);
+  set selectedDateIndex(index: number) {
+    const date = this.availableDates[index];
+    this.rootModule.actions.selectDate(date);
   }
 
   get labels() {
-    const { availableDays } = this;
-    const middle = Math.floor(availableDays.length / 2);
+    const { availableDates } = this;
+    const middle = Math.floor(availableDates.length / 2);
     return [
-      availableDays[0],
-      availableDays[middle],
-      availableDays[availableDays.length - 1],
+      availableDates[0],
+      availableDates[middle],
+      availableDates[availableDates.length - 1],
     ];
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.day-select {
+.date-select {
   display: block;
   padding: 0.25em 1rem;
 }
