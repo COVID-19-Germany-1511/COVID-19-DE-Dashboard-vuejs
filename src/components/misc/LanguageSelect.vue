@@ -47,3 +47,9 @@ export default class LanguageSelect extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+/deep/ label {
+  @extend %sr-only;
+}
+</style>
