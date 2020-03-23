@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 v-t="`newIncidentsHeadline.${this.type}`" />
+    <h2 v-t="{ path: 'titles.new', args: { type: $t(`type.${type}`) } }" />
     <p>
       <span v-if="this.averaged" v-t="'averagedOver7DaysDesc'" />
       <span v-if="this.logarithmic" v-t="'logScale'" />

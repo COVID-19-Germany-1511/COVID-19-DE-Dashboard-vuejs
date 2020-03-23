@@ -5,9 +5,13 @@
       <cdg-day-select />
     </div>
     <div class="content">
-      <h1>Corona Dashboard Germany</h1>
-      <h2>Statistiken für {{ selectedStates }}</h2>
-      <span class="day">Tag: {{ selectedDay }}</span>
+      <h2
+        v-t="{ path: 'titles.table', args: { selection: selectedStates } }"
+      ></h2>
+      <span
+        class="day"
+        v-t="{ path: 'general.date', args: { date: selectedDay } }"
+      ></span>
       <cdg-table />
     </div>
   </div>
