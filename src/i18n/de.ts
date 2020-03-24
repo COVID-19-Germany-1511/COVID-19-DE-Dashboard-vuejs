@@ -16,6 +16,10 @@ export const de = {
     new: 'Neue %{type}',
     history: 'Verlauf %{type}',
     table: 'Statistiken für: %{selection}',
+    newRelative: {
+      confirmed: 'Neue Infektionen relativ zu den Gesamtinfektionen',
+      deaths: 'Neue Todesfälle relativ zu den Gesamttodesfällen',
+    },
   },
   averagedOver7DaysDesc: 'Gemittelt über 7 Tage.',
   logScale: 'Mit einer logarithmischen Y-Achse dargestellt.',

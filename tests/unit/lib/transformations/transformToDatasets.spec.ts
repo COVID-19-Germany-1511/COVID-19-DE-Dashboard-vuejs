@@ -1,6 +1,7 @@
 import { CaseRecordsByState } from '@/store/RootState';
 import {
   averageRecords,
+  calculateRelativeNewIncidentsRecords,
   transformCaseRecordsToChartData,
   transformCaseRecordsToMortaility,
   transformCaseRecordsToNewIncidentsRecords,
@@ -152,4 +153,43 @@ describe('averageRecords', () => {
   });
 
   it.todo('should create the root of the product of multiplicative values');
+});
+
+describe('calculateRelativeNewIncidentsRecords', () => {
+  it('should calculate records based on absolute and new data', () => {
+    const exampleConfirmed: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-11': 90,
+        '2020-03-12': 100,
+        '2020-03-13': 108,
+        '2020-03-14': 123,
+        '2020-03-15': 163,
+      },
+    };
+
+    const newCasesFromExampleConfirmed: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-12': 10,
+        '2020-03-13': 8,
+        '2020-03-14': 15,
+        '2020-03-15': 40,
+      },
+    };
+
+    const actualRelativeIncrease: CaseRecordsByState = calculateRelativeNewIncidentsRecords(
+      newCasesFromExampleConfirmed,
+      exampleConfirmed,
+    );
+
+    const expectedRelativeIncrease: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-12': 11.11,
+        '2020-03-13': 8,
+        '2020-03-14': 13.89,
+        '2020-03-15': 32.52,
+      },
+    };
+
+    expect(actualRelativeIncrease).toStrictEqual(expectedRelativeIncrease);
+  });
 });

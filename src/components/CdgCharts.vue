@@ -5,7 +5,9 @@
     <Incidents class="chart" type="confirmed" :logarithmic="true" />
     <Incidents class="chart" type="deaths" :logarithmic="true" />
     <NewIncidents class="chart" type="confirmed" />
+    <RelativeNewIncidents class="chart" type="confirmed" />
     <NewIncidents class="chart" type="deaths" />
+    <RelativeNewIncidents class="chart" type="deaths" />
     <NewIncidents class="chart" type="confirmed" :averaged="true" />
     <Mortality class="chart" />
   </div>
@@ -17,9 +19,11 @@ import StateMixin from '@/components/stateMixin';
 import Mortality from '@/components/charts/Mortality.vue';
 import NewIncidents from '@/components/charts/NewIncidents.vue';
 import Incidents from '@/components/charts/Incidents.vue';
+import RelativeNewIncidents from '@/components/charts/RelativeNewIncidents.vue';
 
 @Component({
   components: {
+    RelativeNewIncidents,
     Incidents,
     NewIncidents,
     Mortality,

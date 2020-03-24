@@ -18,6 +18,10 @@ export const en: TranslationKeys = {
     new: 'New %{type}',
     history: 'History %{type}',
     table: 'Statistics for: %{selection}',
+    newRelative: {
+      confirmed: 'New infections relative to total infections',
+      deaths: 'New deaths relative to total deaths',
+    },
   },
   averagedOver7DaysDesc: 'averaged over 7 days',
   logScale: 'shown with a logarithmic Y-axis',

@@ -95,3 +95,26 @@ export const transformCaseRecordsToMortaility = (
 
   return mortalityByState;
 };
+
+export const calculateRelativeNewIncidentsRecords = (
+  newIncidents: CaseRecordsByState,
+  totalIncidents: CaseRecordsByState,
+): CaseRecordsByState => {
+  const relativeNewIncidents: CaseRecordsByState = {};
+
+  for (const stateName in newIncidents) {
+    relativeNewIncidents[stateName] = {};
+    const stateNewIncidents = Object.values(newIncidents[stateName]);
+    const datesWithNecIncidentsData = Object.keys(newIncidents[stateName]);
+    const stateTotalIncidents = Object.values(totalIncidents[stateName]);
+
+    for (const index in datesWithNecIncidentsData) {
+      relativeNewIncidents[stateName][datesWithNecIncidentsData[index]] =
+        Math.round(
+          (stateNewIncidents[index] / stateTotalIncidents[index]) * 10000,
+        ) / 100;
+    }
+  }
+
+  return relativeNewIncidents;
+};
