@@ -38,6 +38,8 @@ describe('transformCaseRecordsToChartData', () => {
     };
     expect(actualDatasets).toStrictEqual(expectedChartData);
   });
+
+  it.todo('trims date with invalid data from the beginning or end');
 });
 
 describe('transformCaseRecordsToMortaility', () => {
@@ -118,7 +120,7 @@ describe('transformCaseRecordsToNewIncidentsDataset', () => {
 
 describe('averageRecords', () => {
   it('should create a mean for additive values', () => {
-    const exampleDatasets: CaseRecordsByState = {
+    const exampleRecords: CaseRecordsByState = {
       Berlin: {
         '2020-03-07': 50,
         '2020-03-08': 60,
@@ -132,11 +134,7 @@ describe('averageRecords', () => {
       },
     };
 
-    const actualAveragedRecords = averageRecords(
-      exampleDatasets,
-      4,
-      'additive',
-    );
+    const actualAveragedRecords = averageRecords(exampleRecords, 4, 'additive');
 
     const expectedAverageRecords: CaseRecordsByState = {
       Berlin: {
@@ -152,7 +150,44 @@ describe('averageRecords', () => {
     expect(actualAveragedRecords).toStrictEqual(expectedAverageRecords);
   });
 
-  it.todo('should create the root of the product of multiplicative values');
+  it('should create the root of the product of percentage values', () => {
+    const exampleRecords: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-05': 44.44,
+        '2020-03-06': 46.15,
+        '2020-03-07': 47.37,
+        '2020-03-08': 42.86,
+        '2020-03-09': 20,
+        '2020-03-10': 20.83,
+        '2020-03-11': 39.66,
+        '2020-03-12': 45.68,
+        '2020-03-13': 33.9,
+        '2020-03-14': 38.61,
+        '2020-03-15': 20.09,
+      },
+    };
+
+    const actualAveragedRecords = averageRecords(
+      exampleRecords,
+      4,
+      'percentage',
+    );
+
+    const expectedAverageRecords: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-08': 45.19,
+        '2020-03-09': 38.62,
+        '2020-03-10': 32.18,
+        '2020-03-11': 30.42,
+        '2020-03-12': 31.06,
+        '2020-03-13': 34.7,
+        '2020-03-14': 39.4,
+        '2020-03-15': 34.24,
+      },
+    };
+
+    expect(actualAveragedRecords).toStrictEqual(expectedAverageRecords);
+  });
 });
 
 describe('calculateRelativeNewIncidentsRecords', () => {

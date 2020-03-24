@@ -1,6 +1,9 @@
 <template>
   <div>
     <h2 v-t="{ path: `titles.newRelative.${type}` }" />
+    <p>
+      <span v-if="this.averaged" v-t="'averagedOver7DaysDesc'" />
+    </p>
     <PercentageLinear :chart-data="this.chartData" />
   </div>
 </template>
@@ -9,6 +12,7 @@
 import { Component, Prop } from 'vue-property-decorator';
 import PercentageLinear from '@/components/charts/PercentageLinear';
 import {
+  averageRecords,
   calculateRelativeNewIncidentsRecords,
   transformCaseRecordsToChartData,
   transformCaseRecordsToNewIncidentsRecords,
@@ -26,6 +30,9 @@ export default class RelativeNewIncidents extends mixins(StateMixin) {
   @Prop({ required: true })
   public type!: StatType;
 
+  @Prop({ required: false, default: false })
+  public averaged!: boolean;
+
   public get chartData(): ChartData {
     const caseRecordsByState = this.rootModule.getters.selectedDataForType(
       this.type,
@@ -39,9 +46,10 @@ export default class RelativeNewIncidents extends mixins(StateMixin) {
       caseRecordsByState,
     );
 
-    // Todo: find a way to correctly calculate some rolling average for this
     const chartData = transformCaseRecordsToChartData(
-      relativeNewIncidentsRecords,
+      this.averaged
+        ? averageRecords(relativeNewIncidentsRecords, 7, 'percentage')
+        : relativeNewIncidentsRecords,
     );
 
     chartData.datasets = hydrateDatasetsWithColor(

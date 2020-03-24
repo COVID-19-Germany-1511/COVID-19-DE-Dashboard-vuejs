@@ -5,9 +5,8 @@
     <Incidents class="chart" type="confirmed" :logarithmic="true" />
     <Incidents class="chart" type="deaths" :logarithmic="true" />
     <NewIncidents class="chart" type="confirmed" />
-    <RelativeNewIncidents class="chart" type="confirmed" />
+    <RelativeNewIncidents class="chart" type="confirmed" :averaged="true" />
     <NewIncidents class="chart" type="deaths" />
-    <RelativeNewIncidents class="chart" type="deaths" />
     <NewIncidents class="chart" type="confirmed" :averaged="true" />
     <Mortality class="chart" />
   </div>
