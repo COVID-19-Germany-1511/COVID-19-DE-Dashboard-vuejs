@@ -42,17 +42,46 @@ export const transformCaseRecordsToNewIncidentsRecords = (
   return newIncidentsByState;
 };
 
-export const averageRecords = (
+const averagePercentageRecords = (
   records: CaseRecordsByState,
   numberOfDays: number,
-  method: 'additive' | 'multiplicative',
 ): CaseRecordsByState => {
-  if (method === 'multiplicative') {
-    throw new Error('not yet implemented');
+  const avgRecordByState: CaseRecordsByState = {};
+  let lastNCumulativeFractions = [];
+  for (const stateName in records) {
+    avgRecordByState[stateName] = {};
+    lastNCumulativeFractions = Object.values(records[stateName])
+      .slice(0, numberOfDays - 1)
+      .map(percentage => percentage / 100 + 1);
+    const data: [string, number][] = Object.entries(records[stateName]).slice(
+      numberOfDays - 1,
+    );
+    for (const [date, value] of data) {
+      lastNCumulativeFractions.push(value / 100 + 1);
+      const productOfNCumulativeFractions = lastNCumulativeFractions.reduce(
+        (sum, cur) => sum * cur,
+        1,
+      );
+      const nthRootOfProduct = Math.pow(
+        productOfNCumulativeFractions,
+        1 / numberOfDays,
+      );
+      const averagedFraction = nthRootOfProduct - 1;
+
+      avgRecordByState[stateName][date] =
+        Math.round(averagedFraction * 10000) / 100;
+      lastNCumulativeFractions.shift();
+    }
   }
 
-  const avgRecordByState: CaseRecordsByState = {};
+  return avgRecordByState;
+};
 
+const averageAdditiveRecords = (
+  records: CaseRecordsByState,
+  numberOfDays: number,
+): CaseRecordsByState => {
+  const avgRecordByState: CaseRecordsByState = {};
   let lastNvalues = [];
   for (const stateName in records) {
     avgRecordByState[stateName] = {};
@@ -68,6 +97,18 @@ export const averageRecords = (
   }
 
   return avgRecordByState;
+};
+
+export const averageRecords = (
+  records: CaseRecordsByState,
+  numberOfDays: number,
+  method: 'additive' | 'percentage',
+): CaseRecordsByState => {
+  if (method === 'percentage') {
+    return averagePercentageRecords(records, numberOfDays);
+  }
+
+  return averageAdditiveRecords(records, numberOfDays);
 };
 
 export const transformCaseRecordsToMortaility = (
@@ -94,4 +135,27 @@ export const transformCaseRecordsToMortaility = (
   }
 
   return mortalityByState;
+};
+
+export const calculateRelativeNewIncidentsRecords = (
+  newIncidents: CaseRecordsByState,
+  totalIncidents: CaseRecordsByState,
+): CaseRecordsByState => {
+  const relativeNewIncidents: CaseRecordsByState = {};
+
+  for (const stateName in newIncidents) {
+    relativeNewIncidents[stateName] = {};
+    const stateNewIncidents = Object.values(newIncidents[stateName]);
+    const datesWithNecIncidentsData = Object.keys(newIncidents[stateName]);
+    const stateTotalIncidents = Object.values(totalIncidents[stateName]);
+
+    for (const index in datesWithNecIncidentsData) {
+      relativeNewIncidents[stateName][datesWithNecIncidentsData[index]] =
+        Math.round(
+          (stateNewIncidents[index] / stateTotalIncidents[index]) * 10000,
+        ) / 100;
+    }
+  }
+
+  return relativeNewIncidents;
 };
