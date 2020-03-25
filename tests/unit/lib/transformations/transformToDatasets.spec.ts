@@ -1,6 +1,7 @@
 import { CaseRecordsByState } from '@/store/RootState';
 import {
   averageRecords,
+  calculateGrowthFactorFromNewIncidentsRecords,
   calculateRelativeNewIncidentsRecords,
   transformCaseRecordsToChartData,
   transformCaseRecordsToMortaility,
@@ -226,5 +227,42 @@ describe('calculateRelativeNewIncidentsRecords', () => {
     };
 
     expect(actualRelativeIncrease).toStrictEqual(expectedRelativeIncrease);
+  });
+});
+
+describe('calculateGrowthFactorFromNewIncidentsRecords', () => {
+  it('should calculate the Growth Factor from new incidents data', () => {
+    const exampleNewIncidentsRecords: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-07': 50,
+        '2020-03-08': 60,
+        '2020-03-09': 70,
+        '2020-03-10': 80,
+        '2020-03-11': 90,
+        '2020-03-12': 100,
+        '2020-03-13': 108,
+        '2020-03-14': 123,
+        '2020-03-15': 163,
+      },
+    };
+
+    const actualGrowthFactors = calculateGrowthFactorFromNewIncidentsRecords(
+      exampleNewIncidentsRecords,
+    );
+
+    const expectedGrowthFactors: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-08': 1.2,
+        '2020-03-09': 1.17,
+        '2020-03-10': 1.14,
+        '2020-03-11': 1.13,
+        '2020-03-12': 1.11,
+        '2020-03-13': 1.08,
+        '2020-03-14': 1.14,
+        '2020-03-15': 1.33,
+      },
+    };
+
+    expect(actualGrowthFactors).toStrictEqual(expectedGrowthFactors);
   });
 });

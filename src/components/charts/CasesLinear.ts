@@ -24,6 +24,7 @@ export default class CasesLinear extends mixins(Line) {
           },
         ],
       },
+      spanGaps: true,
     };
 
     this.renderChart(this.chartData, this.options);

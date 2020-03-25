@@ -26,6 +26,11 @@ export const en: TranslationKeys = {
       deaths: 'New deaths relative to total deaths',
     },
     mortality: 'Mortality (deaths/total infected, CFR)',
+    growthFactor: {
+      confirmed:
+        'Growth Factor (New Infections / New Infections the previous day)',
+      deaths: 'Growth Factor (New Deaths / New Deaths the previous day)',
+    },
   },
   averagedOver7DaysDesc: 'averaged over 7 days',
   logScale: 'shown with a logarithmic Y-axis',

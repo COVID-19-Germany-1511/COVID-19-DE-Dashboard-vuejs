@@ -24,6 +24,11 @@ export const de = {
       deaths: 'Neue Todesfälle relativ zu den Gesamttodesfällen',
     },
     mortality: 'Letalität (Todesfälle/Gesamtinfektionen, CFR)',
+    growthFactor: {
+      confirmed:
+        'Wachstumsfaktor (Neue Infektionen/Neue Infektionen am Vortag)',
+      deaths: 'Wachstumsfaktor (Neue Todesfälle/Neue Todesfälle am Vortag)',
+    },
   },
   averagedOver7DaysDesc: 'Gemittelt über 7 Tage.',
   logScale: 'Mit einer logarithmischen Y-Achse dargestellt.',
