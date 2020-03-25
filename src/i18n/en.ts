@@ -16,7 +16,10 @@ export const en: TranslationKeys = {
   },
   titles: {
     new: 'New %{type}',
-    history: 'History %{type}',
+    history: {
+      confirmed: 'Infection history',
+      deaths: 'Deaths history',
+    },
     table: 'Statistics for: %{selection}',
     newRelative: {
       confirmed: 'New infections relative to total infections',

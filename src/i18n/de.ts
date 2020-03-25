@@ -14,7 +14,10 @@ export const de = {
   },
   titles: {
     new: 'Neue %{type}',
-    history: 'Verlauf %{type}',
+    history: {
+      confirmed: 'Verlauf Infektionen',
+      deaths: 'Verlauf Todesfälle',
+    },
     table: 'Statistiken für: %{selection}',
     newRelative: {
       confirmed: 'Neue Infektionen relativ zu den Gesamtinfektionen',

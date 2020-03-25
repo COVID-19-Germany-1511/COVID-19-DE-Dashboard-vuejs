@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 v-t="{ path: 'titles.history', args: { type: $t(`type.${type}`) } }" />
+    <h2 v-t="{ path: `titles.history.${this.type}` }" />
     <p><span v-if="this.logarithmic" v-t="'logScale'" /></p>
     <CasesLog v-if="this.logarithmic" :chart-data="this.chartData" />
     <CasesLinear v-else :chart-data="this.chartData" />
