@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Mortalität (CFR)</h2>
+    <h2 v-t="{ path: 'titles.mortality' }" />
     <PercentageLinear :chart-data="this.chartData" />
   </div>
 </template>

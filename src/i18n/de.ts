@@ -20,6 +20,7 @@ export const de = {
       confirmed: 'Neue Infektionen relativ zu den Gesamtinfektionen',
       deaths: 'Neue Todesfälle relativ zu den Gesamttodesfällen',
     },
+    mortality: 'Letalität (Todesfälle/Gesamtinfektionen, CFR)',
   },
   averagedOver7DaysDesc: 'Gemittelt über 7 Tage.',
   logScale: 'Mit einer logarithmischen Y-Achse dargestellt.',
