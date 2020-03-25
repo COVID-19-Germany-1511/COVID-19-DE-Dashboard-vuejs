@@ -14,12 +14,16 @@ export const de = {
   },
   titles: {
     new: 'Neue %{type}',
-    history: 'Verlauf %{type}',
+    history: {
+      confirmed: 'Verlauf Infektionen',
+      deaths: 'Verlauf Todesfälle',
+    },
     table: 'Statistiken für: %{selection}',
     newRelative: {
       confirmed: 'Neue Infektionen relativ zu den Gesamtinfektionen',
       deaths: 'Neue Todesfälle relativ zu den Gesamttodesfällen',
     },
+    mortality: 'Letalität (Todesfälle/Gesamtinfektionen, CFR)',
   },
   averagedOver7DaysDesc: 'Gemittelt über 7 Tage.',
   logScale: 'Mit einer logarithmischen Y-Achse dargestellt.',

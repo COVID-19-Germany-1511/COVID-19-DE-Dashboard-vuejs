@@ -16,12 +16,16 @@ export const en: TranslationKeys = {
   },
   titles: {
     new: 'New %{type}',
-    history: 'History %{type}',
+    history: {
+      confirmed: 'Infection history',
+      deaths: 'Deaths history',
+    },
     table: 'Statistics for: %{selection}',
     newRelative: {
       confirmed: 'New infections relative to total infections',
       deaths: 'New deaths relative to total deaths',
     },
+    mortality: 'Mortality (deaths/total infected, CFR)',
   },
   averagedOver7DaysDesc: 'averaged over 7 days',
   logScale: 'shown with a logarithmic Y-axis',
