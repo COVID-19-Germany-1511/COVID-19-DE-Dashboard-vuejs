@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.91c9148fb54b3cda266d6301f436d46c.js"
+  "precache-manifest.94e764f96f2150ad3ac5e2a0096a2684.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "covid-19-de-dashboard-vuejs"});
