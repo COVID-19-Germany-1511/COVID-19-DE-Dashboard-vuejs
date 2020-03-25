@@ -159,3 +159,29 @@ export const calculateRelativeNewIncidentsRecords = (
 
   return relativeNewIncidents;
 };
+
+export const calculateGrowthFactorFromNewIncidentsRecords = (
+  newIncidents: CaseRecordsByState,
+): CaseRecordsByState => {
+  const growthFactorRecords: CaseRecordsByState = {};
+
+  let yesterdaysNumber: number | null;
+  for (const stateName in newIncidents) {
+    growthFactorRecords[stateName] = {};
+    yesterdaysNumber = null;
+
+    for (const date in newIncidents[stateName]) {
+      const todaysNumber = newIncidents[stateName][date];
+      if (yesterdaysNumber === null) {
+        yesterdaysNumber = newIncidents[stateName][date];
+        continue;
+      }
+
+      growthFactorRecords[stateName][date] =
+        Math.round((todaysNumber / yesterdaysNumber) * 100) / 100;
+      yesterdaysNumber = todaysNumber;
+    }
+  }
+
+  return growthFactorRecords;
+};
