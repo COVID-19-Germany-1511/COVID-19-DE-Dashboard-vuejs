@@ -32,4 +32,12 @@ export default class RootMutations extends Mutations<RootState> {
   public selectDate(date: string): void {
     this.state.selection.date = date;
   }
+
+  public setYAxisScaling(scaling: 'linear' | 'logarithmic'): void {
+    this.state.selection.yAxisScaling = scaling;
+  }
+
+  public setChartAveraging(shouldChartsBeAveraged: boolean): void {
+    this.state.selection.averaged = shouldChartsBeAveraged;
+  }
 }

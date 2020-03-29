@@ -1,15 +1,29 @@
 <template>
-  <div class="charts">
-    <Incidents class="chart" type="confirmed" />
-    <Incidents class="chart" type="deaths" />
-    <Incidents class="chart" type="confirmed" :logarithmic="true" />
-    <Incidents class="chart" type="deaths" :logarithmic="true" />
-    <NewIncidents class="chart" type="confirmed" />
-    <RelativeNewIncidents class="chart" type="confirmed" :averaged="true" />
-    <NewIncidents class="chart" type="deaths" />
-    <NewIncidents class="chart" type="confirmed" :averaged="true" />
-    <GrowthFactor class="chart" type="confirmed" />
-    <Mortality class="chart" />
+  <div>
+    <ChartSettings />
+    <div class="charts">
+      <Incidents class="chart" type="confirmed" :logarithmic="isLogScale" />
+      <Incidents class="chart" type="deaths" :logarithmic="isLogScale" />
+      <NewIncidents
+        class="chart"
+        type="confirmed"
+        :logarithmic="isLogScale"
+        :averaged="isAveraged"
+      />
+      <RelativeNewIncidents
+        class="chart"
+        type="confirmed"
+        :averaged="isAveraged"
+      />
+      <NewIncidents
+        class="chart"
+        type="deaths"
+        :logarithmic="isLogScale"
+        :averaged="isAveraged"
+      />
+      <GrowthFactor class="chart" type="confirmed" />
+      <Mortality class="chart" />
+    </div>
   </div>
 </template>
 
@@ -21,9 +35,11 @@ import NewIncidents from '@/components/charts/NewIncidents.vue';
 import Incidents from '@/components/charts/Incidents.vue';
 import RelativeNewIncidents from '@/components/charts/RelativeNewIncidents.vue';
 import GrowthFactor from '@/components/charts/GrowthFactor.vue';
+import ChartSettings from '@/components/misc/ChartSettings.vue';
 
 @Component({
   components: {
+    ChartSettings,
     GrowthFactor,
     RelativeNewIncidents,
     Incidents,
@@ -31,7 +47,15 @@ import GrowthFactor from '@/components/charts/GrowthFactor.vue';
     Mortality,
   },
 })
-export default class CdgCharts extends Mixins(StateMixin) {}
+export default class CdgCharts extends Mixins(StateMixin) {
+  public get isLogScale() {
+    return this.rootModule.state.selection.yAxisScaling === 'logarithmic';
+  }
+
+  public get isAveraged() {
+    return this.rootModule.state.selection.averaged;
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

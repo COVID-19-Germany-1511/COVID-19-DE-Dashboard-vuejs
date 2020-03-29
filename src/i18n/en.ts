@@ -32,6 +32,12 @@ export const en: TranslationKeys = {
       deaths: 'Growth Factor (New Deaths / New Deaths the previous day)',
     },
   },
+  buttonLabel: {
+    logarithmic: 'Switch some charts to logarithmic Y-axis',
+    linear: 'Show all charts with linear Y-Axis',
+    daily: 'Show daily data in all charts',
+    averaged: 'Show some charts averaged over 7 days',
+  },
   averagedOver7DaysDesc: 'averaged over 7 days',
   logScale: 'shown with a logarithmic Y-axis',
 };

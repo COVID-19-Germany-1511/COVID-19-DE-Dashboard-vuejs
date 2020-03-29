@@ -37,6 +37,8 @@ describe('RootGetters', () => {
             type: 'confirmed',
             subType: 'total',
             date: '',
+            yAxisScaling: 'linear',
+            averaged: false,
           },
         }),
       });
@@ -77,6 +79,8 @@ describe('RootGetters', () => {
               type: 'confirmed',
               subType: 'total',
               date: '',
+              yAxisScaling: 'linear',
+              averaged: false,
             },
           }),
         });
@@ -111,6 +115,8 @@ describe('RootGetters', () => {
               type: 'confirmed',
               subType: 'total',
               date: '',
+              yAxisScaling: 'linear',
+              averaged: false,
             },
           }),
         });
@@ -147,6 +153,8 @@ describe('RootGetters', () => {
               type: 'confirmed',
               subType: 'total',
               date: '',
+              yAxisScaling: 'linear',
+              averaged: false,
             },
           }),
         });
@@ -171,6 +179,8 @@ describe('RootGetters', () => {
               type: 'confirmed',
               subType: 'total',
               date: '',
+              yAxisScaling: 'linear',
+              averaged: false,
             },
             deaths: {
               Sachsen: {
