@@ -30,6 +30,12 @@ export const de = {
       deaths: 'Wachstumsfaktor (Neue Todesfälle/Neue Todesfälle am Vortag)',
     },
   },
+  buttonLabel: {
+    logarithmic: 'Zeige einige Diagramme mit logarithmischer Y-Achse',
+    linear: 'Zeige alle Diagramme mit linearer Y-Achse',
+    daily: 'Zeige alle Diagramme mit täglichen Daten',
+    averaged: 'Zeige einige Diagramme mit gemittelten Daten',
+  },
   averagedOver7DaysDesc: 'Gemittelt über 7 Tage.',
   logScale: 'Mit einer logarithmischen Y-Achse dargestellt.',
 };

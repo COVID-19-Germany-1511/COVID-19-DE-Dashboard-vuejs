@@ -11,6 +11,8 @@ export const getNewRootState = (fields: Partial<RootState>): RootState => {
       type: 'confirmed',
       subType: 'total',
       date: '',
+      yAxisScaling: 'linear',
+      averaged: false,
     },
     ...fields,
   };

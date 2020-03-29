@@ -28,6 +28,7 @@ export interface StatePopulationData {
 
 export type StatType = 'confirmed' | 'deaths';
 export type StatSubType = 'total' | 'perPop' | 'change';
+export type ScaleType = 'linear' | 'logarithmic';
 
 export interface ApplicationState {
   selection: {
@@ -35,6 +36,8 @@ export interface ApplicationState {
     type: StatType;
     subType: StatSubType;
     date: string;
+    yAxisScaling: ScaleType;
+    averaged: boolean;
   };
   statePopulation: StatePopulationData;
   confirmed: CaseRecordsByState;
@@ -52,5 +55,7 @@ export class RootState implements ApplicationState {
     type: 'confirmed',
     subType: 'total',
     date: this.availableDates[this.availableDates.length - 1],
+    yAxisScaling: 'linear',
+    averaged: false,
   };
 }
