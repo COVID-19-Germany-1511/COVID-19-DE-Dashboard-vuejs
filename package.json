@@ -10,7 +10,7 @@
     "lint:script": "vue-cli-service lint --cache"
   },
   "dependencies": {
-    "COVID-19-DE": "micgro42/COVID-19-DE#dcffc84008a85db09cc6af910fcc76d424031c5b",
+    "COVID-19-DE": "micgro42/COVID-19-DE#5f72cfe0331caa669b7ce5f1090639d4ee82f053",
     "chart.js": "^2.9.3",
     "chroma-js": "^2.1.0",
     "core-js": "^3.6.4",
