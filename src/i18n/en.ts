@@ -15,7 +15,10 @@ export const en: TranslationKeys = {
     perPop: 'per 100.000 inhabitants',
   },
   titles: {
-    new: 'New %{type}',
+    new: {
+      confirmed: 'New infections',
+      deaths: 'New deaths',
+    },
     history: {
       confirmed: 'Infection history',
       deaths: 'Deaths history',

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h2 v-t="{ path: 'titles.new', args: { type: $t(`type.${type}`) } }" />
+  <div :id="chartId">
+    <ChartHeading :i18n-key="`titles.new.${this.type}`" :id="chartId" />
     <p>
       <span v-if="this.averaged" v-t="'averagedOver7DaysDesc'" />
       <span v-if="this.logarithmic" v-t="'logScale'" />
@@ -24,9 +24,10 @@ import { mixins } from 'vue-class-component';
 import StateMixin from '@/components/stateMixin';
 import { ChartData } from 'chart.js';
 import { StatType } from '@/store/RootState';
+import ChartHeading from '@/components/misc/ChartHeading.vue';
 
 @Component({
-  components: { CasesLinear, CasesLog },
+  components: { ChartHeading, CasesLinear, CasesLog },
 })
 export default class NewIncidents extends mixins(StateMixin) {
   @Prop({ required: false, default: false })
@@ -37,6 +38,10 @@ export default class NewIncidents extends mixins(StateMixin) {
 
   @Prop({ required: false, default: false })
   public averaged!: boolean;
+
+  public get chartId(): string {
+    return `new.${this.type}`;
+  }
 
   public get chartData(): ChartData {
     const newIncidentsRecords = transformCaseRecordsToNewIncidentsRecords(

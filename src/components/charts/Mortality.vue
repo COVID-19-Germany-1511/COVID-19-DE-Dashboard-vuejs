@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h2 v-t="{ path: 'titles.mortality' }" />
+  <div :id="chartId">
+    <ChartHeading i18n-key="titles.mortality" :id="chartId" />
     <PercentageLinear :chart-data="this.chartData" />
   </div>
 </template>
@@ -15,11 +15,17 @@ import StateMixin from '@/components/stateMixin';
 import PercentageLinear from '@/components/charts/PercentageLinear';
 import { hydrateDatasetsWithColor } from '@/lib/colors';
 import { ChartData } from 'chart.js';
+import ChartHeading from '@/components/misc/ChartHeading.vue';
+import CasesLinear from '@/components/charts/CasesLinear';
 
 @Component({
-  components: { PercentageLinear },
+  components: { ChartHeading, PercentageLinear },
 })
 export default class Mortality extends mixins(StateMixin) {
+  public get chartId(): string {
+    return 'mortality';
+  }
+
   public get chartData(): ChartData {
     const mortailityRecords = transformCaseRecordsToMortaility(
       this.rootModule.getters.selectedDataForType('confirmed'),
