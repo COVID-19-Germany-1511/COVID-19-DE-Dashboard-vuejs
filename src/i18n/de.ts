@@ -13,7 +13,10 @@ export const de = {
     perPop: 'pro 100.000 Einwohner',
   },
   titles: {
-    new: 'Neue %{type}',
+    new: {
+      confirmed: 'Neue Infektionen',
+      deaths: 'Neue Todesfälle',
+    },
     history: {
       confirmed: 'Verlauf Infektionen',
       deaths: 'Verlauf Todesfälle',
