@@ -31,10 +31,6 @@ export default class GrowthFactor extends mixins(StateMixin) {
   @Prop({ required: true })
   public type!: StatType;
 
-  public get chartId(): string {
-    return `growthFactor.${this.type}`;
-  }
-
   public get chartData(): ChartData {
     const newIncidentsRecords = transformCaseRecordsToNewIncidentsRecords(
       this.rootModule.getters.selectedDataForType(this.type),

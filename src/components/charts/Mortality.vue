@@ -22,10 +22,6 @@ import ChartCard from '@/components/charts/ChartCard.vue';
   components: { ChartCard, PercentageLinear },
 })
 export default class Mortality extends mixins(StateMixin) {
-  public get chartId(): string {
-    return 'mortality';
-  }
-
   public get chartData(): ChartData {
     const mortailityRecords = transformCaseRecordsToMortaility(
       this.rootModule.getters.selectedDataForType('confirmed'),
