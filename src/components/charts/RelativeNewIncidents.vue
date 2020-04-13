@@ -36,10 +36,6 @@ export default class RelativeNewIncidents extends mixins(StateMixin) {
   @Prop({ required: false, default: false })
   public averaged!: boolean;
 
-  public get chartId(): string {
-    return `newRelative.${this.type}`;
-  }
-
   public get chartData(): ChartData {
     const caseRecordsByState = this.rootModule.getters.selectedDataForType(
       this.type,
