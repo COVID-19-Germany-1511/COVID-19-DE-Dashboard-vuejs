@@ -1,8 +1,9 @@
 <template>
-  <div :id="chartId">
-    <ChartHeading i18n-key="titles.mortality" :id="chartId" />
-    <PercentageLinear :chart-data="this.chartData" />
-  </div>
+  <ChartCard chart-id="mortality" title-i18n-key="titles.mortality">
+    <template v-slot:chart>
+      <PercentageLinear :chart-data="chartData" />
+    </template>
+  </ChartCard>
 </template>
 
 <script lang="ts">
@@ -15,11 +16,10 @@ import StateMixin from '@/components/stateMixin';
 import PercentageLinear from '@/components/charts/PercentageLinear';
 import { hydrateDatasetsWithColor } from '@/lib/colors';
 import { ChartData } from 'chart.js';
-import ChartHeading from '@/components/misc/ChartHeading.vue';
-import CasesLinear from '@/components/charts/CasesLinear';
+import ChartCard from '@/components/charts/ChartCard.vue';
 
 @Component({
-  components: { ChartHeading, PercentageLinear },
+  components: { ChartCard, PercentageLinear },
 })
 export default class Mortality extends mixins(StateMixin) {
   public get chartId(): string {

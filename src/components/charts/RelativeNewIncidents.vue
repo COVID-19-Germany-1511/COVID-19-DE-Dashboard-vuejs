@@ -1,11 +1,13 @@
 <template>
-  <div :id="chartId">
-    <ChartHeading :i18n-key="`titles.newRelative.${this.type}`" :id="chartId" />
-    <p>
-      <span v-if="this.averaged" v-t="'averagedOver7DaysDesc'" />
-    </p>
-    <PercentageLinear :chart-data="this.chartData" />
-  </div>
+  <ChartCard
+    :chart-id="`newRelative.${type}`"
+    :title-i18n-key="`titles.newRelative.${this.type}`"
+    :averaged="averaged"
+  >
+    <template v-slot:chart>
+      <PercentageLinear :chart-data="chartData" />
+    </template>
+  </ChartCard>
 </template>
 
 <script lang="ts">
@@ -22,11 +24,10 @@ import { mixins } from 'vue-class-component';
 import StateMixin from '@/components/stateMixin';
 import { ChartData } from 'chart.js';
 import { StatType } from '@/store/RootState';
-import ChartHeading from '@/components/misc/ChartHeading.vue';
-import CasesLinear from '@/components/charts/CasesLinear';
+import ChartCard from '@/components/charts/ChartCard.vue';
 
 @Component({
-  components: { ChartHeading, PercentageLinear },
+  components: { ChartCard, PercentageLinear },
 })
 export default class RelativeNewIncidents extends mixins(StateMixin) {
   @Prop({ required: true })
