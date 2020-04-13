@@ -20,6 +20,7 @@ export default class CasesLinear extends mixins(Line) {
           {
             ticks: {
               callback: formatAbsoluteTickNumbers,
+              beginAtZero: true,
             },
           },
         ],
