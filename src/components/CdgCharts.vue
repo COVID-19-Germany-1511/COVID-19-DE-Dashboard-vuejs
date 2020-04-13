@@ -76,8 +76,4 @@ export default class CdgCharts extends Mixins(StateMixin) {
     width: calc(50% - 4rem);
   }
 }
-
-:target {
-  box-shadow: 0 0 5px $color-inverted-bg;
-}
 </style>

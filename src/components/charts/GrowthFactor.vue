@@ -1,11 +1,12 @@
 <template>
-  <div :id="chartId">
-    <ChartHeading
-      :i18n-key="`titles.growthFactor.${this.type}`"
-      :id="chartId"
-    />
-    <CasesLinear :chart-data="this.chartData" />
-  </div>
+  <ChartCard
+    :chart-id="`growthFactor.${this.type}`"
+    :title-i18n-key="`titles.growthFactor.${this.type}`"
+  >
+    <template v-slot:chart>
+      <CasesLinear :chart-data="chartData" />
+    </template>
+  </ChartCard>
 </template>
 
 <script lang="ts">
@@ -21,10 +22,10 @@ import { mixins } from 'vue-class-component';
 import StateMixin from '@/components/stateMixin';
 import { ChartData } from 'chart.js';
 import { StatType } from '@/store/RootState';
-import ChartHeading from '@/components/misc/ChartHeading.vue';
+import ChartCard from '@/components/charts/ChartCard.vue';
 
 @Component({
-  components: { ChartHeading, CasesLinear },
+  components: { ChartCard, CasesLinear },
 })
 export default class GrowthFactor extends mixins(StateMixin) {
   @Prop({ required: true })

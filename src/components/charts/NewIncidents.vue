@@ -1,13 +1,15 @@
 <template>
-  <div :id="chartId">
-    <ChartHeading :i18n-key="`titles.new.${this.type}`" :id="chartId" />
-    <p>
-      <span v-if="this.averaged" v-t="'averagedOver7DaysDesc'" />
-      <span v-if="this.logarithmic" v-t="'logScale'" />
-    </p>
-    <CasesLog v-if="this.logarithmic" :chart-data="this.chartData" />
-    <CasesLinear v-else :chart-data="this.chartData" />
-  </div>
+  <ChartCard
+    :chart-id="`new.${type}`"
+    :title-i18n-key="`titles.new.${type}`"
+    :logarithmic="logarithmic"
+    :averaged="averaged"
+  >
+    <template v-slot:chart>
+      <CasesLog v-if="logarithmic" :chart-data="chartData" />
+      <CasesLinear v-else :chart-data="chartData" />
+    </template>
+  </ChartCard>
 </template>
 
 <script lang="ts">
@@ -24,10 +26,10 @@ import { mixins } from 'vue-class-component';
 import StateMixin from '@/components/stateMixin';
 import { ChartData } from 'chart.js';
 import { StatType } from '@/store/RootState';
-import ChartHeading from '@/components/misc/ChartHeading.vue';
+import ChartCard from '@/components/charts/ChartCard.vue';
 
 @Component({
-  components: { ChartHeading, CasesLinear, CasesLog },
+  components: { ChartCard, CasesLinear, CasesLog },
 })
 export default class NewIncidents extends mixins(StateMixin) {
   @Prop({ required: false, default: false })
@@ -38,10 +40,6 @@ export default class NewIncidents extends mixins(StateMixin) {
 
   @Prop({ required: false, default: false })
   public averaged!: boolean;
-
-  public get chartId(): string {
-    return `new.${this.type}`;
-  }
 
   public get chartData(): ChartData {
     const newIncidentsRecords = transformCaseRecordsToNewIncidentsRecords(
