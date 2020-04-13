@@ -151,6 +151,34 @@ describe('averageRecords', () => {
     expect(actualAveragedRecords).toStrictEqual(expectedAverageRecords);
   });
 
+  it('rounds values to two digits', () => {
+    const exampleRecords: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-07': 50,
+        '2020-03-08': 60,
+        '2020-03-09': 70,
+        '2020-03-10': 80,
+        '2020-03-11': 90,
+        '2020-03-12': 100,
+        '2020-03-13': 108,
+        '2020-03-14': 123,
+        '2020-03-15': 163,
+      },
+    };
+
+    const actualAveragedRecords = averageRecords(exampleRecords, 7, 'additive');
+
+    const expectedAverageRecords: CaseRecordsByState = {
+      Berlin: {
+        '2020-03-13': 79.71,
+        '2020-03-14': 90.14,
+        '2020-03-15': 104.86,
+      },
+    };
+
+    expect(actualAveragedRecords).toStrictEqual(expectedAverageRecords);
+  });
+
   it('should create the root of the product of percentage values', () => {
     const exampleRecords: CaseRecordsByState = {
       Berlin: {

@@ -2,6 +2,11 @@ import { Dataset } from '@/lib/transformations/Dataset';
 import { CaseRecordsByState } from '@/store/RootState';
 import { ChartData } from 'chart.js';
 
+function roundToNDigits(preciseNumber: number, digits: number): number {
+  const scaleFactor = Math.pow(10, digits);
+  return Math.round(preciseNumber * scaleFactor) / scaleFactor;
+}
+
 export const transformCaseRecordsToChartData = (
   records: CaseRecordsByState,
 ): Required<ChartData> => {
@@ -68,8 +73,10 @@ const averagePercentageRecords = (
       );
       const averagedFraction = nthRootOfProduct - 1;
 
-      avgRecordByState[stateName][date] =
-        Math.round(averagedFraction * 10000) / 100;
+      avgRecordByState[stateName][date] = roundToNDigits(
+        averagedFraction * 100,
+        2,
+      );
       lastNCumulativeFractions.shift();
     }
   }
@@ -90,8 +97,10 @@ const averageAdditiveRecords = (
     const data = Object.entries(records[stateName]).slice(numberOfDays - 1);
     for (const [date, value] of data) {
       lastNvalues.push(value);
-      avgRecordByState[stateName][date] =
-        lastNvalues.reduce((sum, cur) => sum + cur, 0) / numberOfDays;
+      avgRecordByState[stateName][date] = roundToNDigits(
+        lastNvalues.reduce((sum, cur) => sum + cur, 0) / numberOfDays,
+        2,
+      );
       lastNvalues.shift();
     }
   }
@@ -128,8 +137,10 @@ export const transformCaseRecordsToMortaility = (
       }
       const dayDeaths = deaths[stateName][date];
       // format: 1.25%
-      const mortality =
-        Math.round((dayDeaths / dayConfirmedCount) * 10000) / 100;
+      const mortality = roundToNDigits(
+        (dayDeaths / dayConfirmedCount) * 100,
+        2,
+      );
       mortalityByState[stateName][date] = mortality;
     }
   }
@@ -150,10 +161,12 @@ export const calculateRelativeNewIncidentsRecords = (
     const stateTotalIncidents = Object.values(totalIncidents[stateName]);
 
     for (const index in datesWithNecIncidentsData) {
-      relativeNewIncidents[stateName][datesWithNecIncidentsData[index]] =
-        Math.round(
-          (stateNewIncidents[index] / stateTotalIncidents[index]) * 10000,
-        ) / 100;
+      relativeNewIncidents[stateName][
+        datesWithNecIncidentsData[index]
+      ] = roundToNDigits(
+        (stateNewIncidents[index] / stateTotalIncidents[index]) * 100,
+        2,
+      );
     }
   }
 
@@ -177,8 +190,10 @@ export const calculateGrowthFactorFromNewIncidentsRecords = (
         continue;
       }
 
-      growthFactorRecords[stateName][date] =
-        Math.round((todaysNumber / yesterdaysNumber) * 100) / 100;
+      growthFactorRecords[stateName][date] = roundToNDigits(
+        todaysNumber / yesterdaysNumber,
+        2,
+      );
       yesterdaysNumber = todaysNumber;
     }
   }
