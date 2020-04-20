@@ -23,7 +23,7 @@ export const de = {
       confirmed: 'Neue Infektionen relativ zu den Gesamtinfektionen',
       deaths: 'Neue Todesfälle relativ zu den Gesamttodesfällen',
     },
-    mortality: 'Letalität (Todesfälle/Gesamtinfektionen, CFR)',
+    mortality: 'Fallsterblichkeit (Todesfälle/Gesamtinfektionen, CFR)',
     growthFactor: {
       confirmed:
         'Wachstumsfaktor (Neue Infektionen/Neue Infektionen am Vortag)',
