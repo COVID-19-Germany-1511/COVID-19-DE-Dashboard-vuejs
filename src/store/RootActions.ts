@@ -1,4 +1,8 @@
 import { Actions } from 'vuex-smart-module';
+import {
+  loadData,
+  Status,
+} from 'covid-19-data-scrapper-germany/src/DataProvider';
 import RootGetters from './RootGetters';
 import RootMutations from './RootMutations';
 import { RootState, StatType, StatSubType, ScaleType } from '@/store/RootState';
@@ -9,6 +13,15 @@ export default class RootActions extends Actions<
   RootMutations,
   RootActions
 > {
+  public async loadData(): Promise<void> {
+    const setStatus = (status: Status) => {
+      this.commit('setStatus', status);
+    };
+    const { meta, data } = await loadData(setStatus);
+    this.commit('setMeta', meta);
+    this.commit('setData', data);
+  }
+
   public selectStates(stateNames: string[]): void {
     this.commit('setSelectedStates', stateNames);
   }

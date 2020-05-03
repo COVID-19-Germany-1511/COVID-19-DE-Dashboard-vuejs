@@ -9,7 +9,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Mixins } from 'vue-property-decorator';
+import StateMixin from '@/components/stateMixin';
 import CdgHeader from '@/components/CdgHeader.vue';
 import CdgStage from '@/components/CdgStage.vue';
 import CdgCharts from '@/components/CdgCharts.vue';
@@ -21,7 +22,11 @@ import CdgCharts from '@/components/CdgCharts.vue';
     CdgCharts,
   },
 })
-export default class App extends Vue {}
+export default class App extends Mixins(StateMixin) {
+  created() {
+    this.rootModule.actions.loadData();
+  }
+}
 </script>
 
 <style lang="scss" scoped>

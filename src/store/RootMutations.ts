@@ -1,7 +1,24 @@
 import { Mutations } from 'vuex-smart-module';
-import { RootState, StatType, StatSubType } from '@/store/RootState';
+import {
+  RootState,
+  StatType,
+  StatSubType,
+  ApplicationState,
+} from '@/store/RootState';
 
 export default class RootMutations extends Mutations<RootState> {
+  public setMeta(meta: NonNullable<ApplicationState['meta']>): void {
+    this.state.meta = meta;
+  }
+
+  public setData(data: NonNullable<ApplicationState['data']>): void {
+    this.state.data = data;
+  }
+
+  public setStatus(status: ApplicationState['status']): void {
+    this.state.status = status;
+  }
+
   public setSelectedStates(stateNames: string[]): void {
     this.state.selection.states = stateNames;
     this.state.selection.states.sort();

@@ -13,6 +13,10 @@ import deathsData from 'COVID-19-DE/time_series/time-series_19-covid-Deaths.csv'
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import stateMetaData from 'COVID-19-DE/meta/stateMetaData.csv';
+import {
+  ProvidedData,
+  Status,
+} from 'covid-19-data-scrapper-germany/src/DataProvider';
 
 export interface CaseRecordsMap {
   [isoDate: string]: number;
@@ -42,6 +46,9 @@ export interface ApplicationState {
   statePopulation: StatePopulationData;
   confirmed: CaseRecordsByState;
   deaths: CaseRecordsByState;
+  status: Status;
+  meta: ProvidedData['meta'] | null;
+  data: ProvidedData['data'] | null;
 }
 
 export class RootState implements ApplicationState {
@@ -49,6 +56,9 @@ export class RootState implements ApplicationState {
   deaths = extractCasesFromTimeline(deathsData);
   statePopulation = extractStatePopulationFromMetaData(stateMetaData);
   availableDates = extractDatesFromTimeline(confirmedData);
+  status = 'start' as Status;
+  meta = null as ApplicationState['meta'];
+  data = null as ApplicationState['data'];
 
   selection: ApplicationState['selection'] = {
     states: [] as string[],

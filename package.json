@@ -9,11 +9,14 @@
     "check-types": "tsc --noEmit",
     "lint:script": "vue-cli-service lint --cache"
   },
+  "types": "types/*.d.ts",
   "dependencies": {
     "COVID-19-DE": "micgro42/COVID-19-DE#cc014690787241f5ce2e3a331f69e71cf2530e16",
+    "axios": "^0.19.2",
     "chart.js": "^2.9.3",
     "chroma-js": "^2.1.0",
     "core-js": "^3.6.4",
+    "covid-19-data-scrapper-germany": "github:COVID-19-Germany-1511/covid-19-data-scrapper-germany",
     "csv-loader": "^3.0.2",
     "geojson-bounds": "^1.0.2",
     "json-loader": "^0.5.7",
@@ -33,6 +36,7 @@
     "@types/geojson": "^7946.0.7",
     "@types/jest": "^25.1.4",
     "@types/leaflet": "^1.5.12",
+    "@types/papaparse": "^5.0.3",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "@vue/cli-plugin-babel": "~4.2.3",

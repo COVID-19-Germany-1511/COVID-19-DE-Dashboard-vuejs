@@ -14,6 +14,9 @@ export const getNewRootState = (fields: Partial<RootState>): RootState => {
       yAxisScaling: 'linear',
       averaged: false,
     },
+    status: 'ready',
+    meta: null,
+    data: null,
     ...fields,
   };
 };
