@@ -13,6 +13,11 @@ import deathsData from 'COVID-19-DE/time_series/time-series_19-covid-Deaths.csv'
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import stateMetaData from 'COVID-19-DE/meta/stateMetaData.csv';
+import {
+  getAveragedFromSearchParams,
+  getScaleTypeFromSearchParams,
+  getStatesFromSearchParams,
+} from '@/lib/windowLocation';
 
 export interface CaseRecordsMap {
   [isoDate: string]: number;
@@ -51,11 +56,11 @@ export class RootState implements ApplicationState {
   availableDates = extractDatesFromTimeline(confirmedData);
 
   selection: ApplicationState['selection'] = {
-    states: [] as string[],
+    states: getStatesFromSearchParams(Object.keys(this.statePopulation)),
     type: 'confirmed',
     subType: 'total',
     date: this.availableDates[this.availableDates.length - 1],
-    yAxisScaling: 'linear',
-    averaged: false,
+    yAxisScaling: getScaleTypeFromSearchParams(),
+    averaged: getAveragedFromSearchParams(),
   };
 }
