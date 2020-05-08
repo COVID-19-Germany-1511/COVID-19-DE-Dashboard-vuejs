@@ -5,7 +5,13 @@ import {
 } from 'covid-19-data-scrapper-germany/src/DataProvider';
 import RootGetters from './RootGetters';
 import RootMutations from './RootMutations';
-import { RootState, StatType, StatSubType, ScaleType } from '@/store/RootState';
+import {
+  RootState,
+  StatSubType,
+  ScaleType,
+  State,
+  CaseStateName,
+} from '@/store/RootState';
 
 export default class RootActions extends Actions<
   RootState,
@@ -17,25 +23,28 @@ export default class RootActions extends Actions<
     const setStatus = (status: Status) => {
       this.commit('setStatus', status);
     };
-    const { meta, data } = await loadData(setStatus);
+    const meta = await loadData(setStatus);
     this.commit('setMeta', meta);
-    this.commit('setData', data);
+    this.dispatch('selectDay', meta.days[meta.days.length - 1]);
   }
 
-  public selectStates(stateNames: string[]): void {
-    this.commit('setSelectedStates', stateNames);
+  public selectStates(states: State[]): void {
+    this.commit('setSelectedStates', states);
   }
 
-  public toggleStateSelection(stateName: string): void {
-    this.commit('toggleStateSelection', stateName);
+  public toggleStateSelection(svgId: number): void {
+    this.commit('toggleStateSelection', svgId);
   }
 
-  public selectType(payload: { type: StatType; subType: StatSubType }): void {
-    this.commit('selectType', payload);
+  public selectCaseState(payload: {
+    caseState: CaseStateName;
+    subType: StatSubType;
+  }): void {
+    this.commit('selectCaseState', payload);
   }
 
-  public selectDate(date: string): void {
-    this.commit('selectDate', date);
+  public selectDay(day: Date): void {
+    this.commit('selectDay', day);
   }
 
   public selectYAxisScaling(scaling: ScaleType): void {

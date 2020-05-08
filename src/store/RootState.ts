@@ -1,19 +1,4 @@
 import {
-  extractCasesFromTimeline,
-  extractStatePopulationFromMetaData,
-  extractDatesFromTimeline,
-} from '@/lib/transformations/transformations';
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-import confirmedData from 'COVID-19-DE/time_series/time-series_19-covid-Confirmed.csv';
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-import deathsData from 'COVID-19-DE/time_series/time-series_19-covid-Deaths.csv';
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-import stateMetaData from 'COVID-19-DE/meta/stateMetaData.csv';
-import {
   ProvidedData,
   Status,
 } from 'covid-19-data-scrapper-germany/src/DataProvider';
@@ -30,41 +15,39 @@ export interface StatePopulationData {
   [stateName: string]: number;
 }
 
-export type StatType = 'confirmed' | 'deaths';
-export type StatSubType = 'total' | 'perPop' | 'change';
+export type StatSubType = 'total' | 'perPop';
 export type ScaleType = 'linear' | 'logarithmic';
 
+export type State = ProvidedData['states'][number];
+export type CaseState = ProvidedData['caseStates'][number];
+export type CaseStateName = CaseState['name'];
+export type Sex = ProvidedData['sex'][number];
+export type Age = ProvidedData['ages'][number];
+
 export interface ApplicationState {
+  initialized: boolean;
+  status: Status;
+  meta: ProvidedData;
   selection: {
-    states: string[];
-    type: StatType;
+    states: State[];
+    caseState: CaseStateName;
     subType: StatSubType;
-    date: string;
+    day: Date;
     yAxisScaling: ScaleType;
     averaged: boolean;
   };
-  statePopulation: StatePopulationData;
-  confirmed: CaseRecordsByState;
-  deaths: CaseRecordsByState;
-  status: Status;
-  meta: ProvidedData['meta'] | null;
-  data: ProvidedData['data'] | null;
 }
 
 export class RootState implements ApplicationState {
-  confirmed = extractCasesFromTimeline(confirmedData);
-  deaths = extractCasesFromTimeline(deathsData);
-  statePopulation = extractStatePopulationFromMetaData(stateMetaData);
-  availableDates = extractDatesFromTimeline(confirmedData);
+  initialized = false;
   status = 'start' as Status;
-  meta = null as ApplicationState['meta'];
-  data = null as ApplicationState['data'];
+  meta = (null as any) as ApplicationState['meta'];
 
   selection: ApplicationState['selection'] = {
-    states: [] as string[],
-    type: 'confirmed',
+    states: [] as State[],
+    caseState: 'confirmed',
     subType: 'total',
-    date: this.availableDates[this.availableDates.length - 1],
+    day: (null as any) as Date,
     yAxisScaling: 'linear',
     averaged: false,
   };

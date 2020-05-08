@@ -1,134 +1,107 @@
 import { Getters } from 'vuex-smart-module';
+import i18n from '@/i18n';
 import {
   CaseRecordsByState,
   CaseRecordsMap,
   RootState,
-  StatType,
+  CaseStateName,
   StatSubType,
 } from '@/store/RootState';
+import { BaseArea } from 'covid-19-data-scrapper-germany/src/DataProvider';
 
-function summarizeCases(cases: CaseRecordsByState): CaseRecordsMap {
-  const totalCases: CaseRecordsMap = {};
-
-  Object.values(cases).forEach((stateData: CaseRecordsMap) => {
-    Object.entries(stateData).forEach(([date, cases]) => {
-      if (!totalCases[date]) {
-        totalCases[date] = 0;
-      }
-      totalCases[date] += cases;
-    });
-  });
-
-  return totalCases;
-}
 export default class RootGetters extends Getters<RootState> {
-  public get allTimeStateMax() {
-    const { statePopulation } = this.state;
-    function getMax(
-      records: CaseRecordsByState,
-    ): { [key in StatSubType]: number } {
-      const statesMaxTotal = Object.values(records).map(days => {
-        return Math.max(...Object.values(days));
-      });
-      const statesMaxProPop = Object.entries(records).map(
-        ([stateName, days]) => {
-          const population = statePopulation[stateName];
-          return Math.max(
-            ...Object.values(days).map(value => (value * 100000) / population),
-          );
-        },
-      );
-      return {
-        total: Math.max(...statesMaxTotal),
-        perPop: Math.max(...statesMaxProPop),
-        change: 0,
-      };
+  public get selectedAreas(): BaseArea[] {
+    if (!this.state.meta) {
+      return [];
     }
-    return {
-      confirmed: getMax(this.state.confirmed),
-      deaths: getMax(this.state.deaths),
-    };
+    const { states } = this.state.selection;
+    return states.length ? states : [this.state.meta?.germany];
   }
 
-  public get selectedAllTimeStateMax() {
-    return this.getters.allTimeStateMax[this.state.selection.type];
-  }
-
-  public get selectedStatesMeta() {
-    const { statePopulation } = this.state;
-    let {
-      selection: { states },
-    } = this.state;
-    if (!states.length) {
-      states = Object.keys(statePopulation);
-    }
-    const population = states
-      .map(stateName => {
-        return statePopulation[stateName];
-      })
-      .reduce((sum, cur) => sum + cur);
-    return { population };
-  }
-
-  public get dataOfDateAndStates() {
-    const { date, states } = this.state.selection;
-    return {
-      confirmed: this.getters.getData('confirmed', date, states),
-      deaths: this.getters.getData('deaths', date, states),
-    };
-  }
-
-  public get dataOfDateAndType() {
-    const {
-      statePopulation,
-      selection: { date, type },
-    } = this.state;
-    const result: { [key: string]: { [key in StatSubType]: number } } = {};
-    Object.entries(this.state[type]).forEach(
-      ([stateName, dates]: [string, { [key: string]: number }]) => {
-        const value = dates[date];
-        const population = statePopulation[stateName];
-        result[stateName] = {
-          total: value,
-          perPop: (value * 100000) / population,
-          change: 0,
-        };
+  public get selectedAreasMeta(): Pick<BaseArea, 'area' | 'population'> {
+    return this.getters.selectedAreas.reduce(
+      (summed, { area, population }) => {
+        summed.area += area;
+        summed.population += population;
+        return summed;
       },
+      { area: 0, population: 0 },
     );
+  }
+
+  public get dataOfDayAndAreas() {
+    const { day } = this.state.selection;
+    return {
+      confirmed: this.getters.getData('confirmed', day as Date)[1],
+      deaths: this.getters.getData('deaths', day as Date)[1],
+    };
+  }
+
+  /* eslint-disable prettier/prettier */
+  // prettier-ignore
+  public get dataOfDayAndCaseState(): Map<
+    BaseArea,
+    Record<StatSubType, number>
+    > {
+    /* eslint-enable prettier/prettier */
+    const { day, caseState } = this.state.selection;
+    const result = new Map<BaseArea, Record<StatSubType, number>>();
+    this.state.meta.states.forEach(state => {
+      const data = state.getDataRow(caseState).get(day) as [number, number];
+      const total = data[1];
+      const perPop = (total * 100000) / state.population;
+      result.set(state, { total, perPop });
+    });
     return result;
   }
 
-  public isStateSelected(state: string) {
-    return this.state.selection.states.includes(state);
-  }
-
-  public getData(type: StatType, date: string, states?: string[]) {
-    if (!states || !states.length) {
-      states = Object.keys(this.state[type]);
-    }
-    return states
-      .map(stateName => {
-        return this.state[type][stateName][date];
+  public get selectedCaseStateAllTimeMax(): Record<StatSubType, number> {
+    const { caseState } = this.state.selection;
+    return this.state.meta.states
+      .map(state => {
+        const total = state.total[caseState];
+        const perPop = (total * 100000) / state.population;
+        return { total, perPop };
       })
-      .reduce((sum, cur) => sum + cur);
+      .reduce(
+        (maxes, { total, perPop }) => {
+          maxes.total = Math.max(maxes.total, total);
+          maxes.perPop = Math.max(maxes.perPop, perPop);
+          return maxes;
+        },
+        { total: 0, perPop: 0 },
+      );
   }
 
-  public selectedDataForType(type: StatType): CaseRecordsByState {
-    const {
-      selection: { states },
-    } = this.state;
-    if (!states.length) {
-      return {
-        Deutschland: summarizeCases(this.state[type]),
-      };
+  public getData(type: CaseStateName, day: Date): [number, number] {
+    return this.getters.selectedAreas
+      .map(({ getDataRow }) => getDataRow(type).get(day) as [number, number])
+      .reduce(
+        (summed, current) => {
+          summed[0] += current[0];
+          summed[1] += current[1];
+          return summed;
+        },
+        [0, 0],
+      );
+  }
+
+  public selectedDataForType(type: CaseStateName): CaseRecordsByState {
+    const map: CaseRecordsByState = {};
+    const days = this.state.meta?.days;
+    if (!days) {
+      return map;
     }
-
-    const confirmed: CaseRecordsByState = {};
-
-    states.forEach(stateName => {
-      confirmed[stateName] = this.state[type][stateName];
+    this.getters.selectedAreas.forEach(state => {
+      const data = state.getDataRow(type);
+      const mappedState: CaseRecordsMap = {};
+      days.forEach(day => {
+        const date = i18n.d(day);
+        mappedState[date] = (data.get(day) as [number, number])[1];
+      });
+      map[state.de] = mappedState;
     });
 
-    return confirmed;
+    return map;
   }
 }

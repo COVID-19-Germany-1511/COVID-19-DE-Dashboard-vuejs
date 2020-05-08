@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <cdg-header />
-    <main>
+    <main v-if="rootModule.state.initialized">
       <cdg-stage />
       <cdg-charts />
     </main>

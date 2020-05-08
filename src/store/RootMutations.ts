@@ -1,53 +1,54 @@
 import { Mutations } from 'vuex-smart-module';
 import {
   RootState,
-  StatType,
   StatSubType,
   ApplicationState,
+  State,
+  CaseStateName,
 } from '@/store/RootState';
 
 export default class RootMutations extends Mutations<RootState> {
   public setMeta(meta: NonNullable<ApplicationState['meta']>): void {
     this.state.meta = meta;
-  }
-
-  public setData(data: NonNullable<ApplicationState['data']>): void {
-    this.state.data = data;
+    this.state.initialized = true;
   }
 
   public setStatus(status: ApplicationState['status']): void {
     this.state.status = status;
   }
 
-  public setSelectedStates(stateNames: string[]): void {
-    this.state.selection.states = stateNames;
-    this.state.selection.states.sort();
+  public setSelectedStates(states: State[]): void {
+    states.sort((a, b) => a.id - b.id);
+    this.state.selection.states = states;
   }
 
-  public toggleStateSelection(stateName: string): void {
-    const { states } = this.state.selection as { states: string[] };
-    const idx = states.findIndex(name => name === stateName);
+  public toggleStateSelection(_svgId: number): void {
+    const { states } = this.state.selection;
+    const state = this.state.meta.states.find(
+      ({ svgId }) => svgId === _svgId,
+    ) as State;
+    const idx = states.indexOf(state);
     if (idx >= 0) {
       states.splice(idx, 1);
     } else {
-      states.push(stateName);
-      states.sort();
+      states.push(state);
+      states.sort((a, b) => a.id - b.id);
     }
   }
 
-  public selectType({
-    type,
+  public selectCaseState({
+    caseState,
     subType,
   }: {
-    type: StatType;
+    caseState: CaseStateName;
     subType: StatSubType;
   }): void {
-    this.state.selection.type = type;
+    this.state.selection.caseState = caseState;
     this.state.selection.subType = subType;
   }
 
-  public selectDate(date: string): void {
-    this.state.selection.date = date;
+  public selectDay(day: Date): void {
+    this.state.selection.day = day;
   }
 
   public setYAxisScaling(scaling: 'linear' | 'logarithmic'): void {

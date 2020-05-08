@@ -6,11 +6,14 @@
     </div>
     <div class="content">
       <h2
-        v-t="{ path: 'titles.table', args: { selection: selectedStates } }"
+        v-t="{ path: 'titles.table', args: { selection: selectedAreas } }"
       ></h2>
       <span
         class="date"
-        v-t="{ path: 'general.date', args: { date: selectedDate } }"
+        v-t="{
+          path: 'general.date',
+          args: { date: $d(rootModule.state.selection.day) },
+        }"
       ></span>
       <cdg-table />
     </div>
@@ -32,13 +35,8 @@ import StateMixin from '@/components/stateMixin';
   },
 })
 export default class CdgStage extends Mixins(StateMixin) {
-  get selectedStates() {
-    const { states } = this.rootModule.state.selection;
-    return states.length ? states.join(', ') : 'Deutschland';
-  }
-
-  get selectedDate() {
-    return this.rootModule.state.selection.date;
+  get selectedAreas() {
+    return this.rootModule.getters.selectedAreas.map(({ de }) => de).join(', ');
   }
 }
 </script>

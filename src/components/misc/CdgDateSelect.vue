@@ -5,9 +5,9 @@
       <input
         type="range"
         min="0"
-        :max="availableDates.length - 1"
+        :max="availableDays.length - 1"
         step="1"
-        v-model="selectedDateIndex"
+        v-model="selectedDayIndex"
       />
     </label>
     <cdg-range-labels :labels="labels" />
@@ -26,31 +26,30 @@ import StateMixin from '@/components/stateMixin';
   },
 })
 export default class CdgDateSelect extends Mixins(StateMixin) {
-  get availableDates() {
-    return this.rootModule.state.availableDates;
+  get availableDays() {
+    return this.rootModule.state.meta.days;
   }
 
-  get selectedDate() {
-    return this.rootModule.state.selection.date;
+  get selectedDay() {
+    return this.rootModule.state.selection.day;
   }
 
-  get selectedDateIndex() {
-    const { availableDates } = this;
-    return availableDates.indexOf(this.selectedDate);
+  get selectedDayIndex() {
+    return this.availableDays.indexOf(this.selectedDay);
   }
 
-  set selectedDateIndex(index: number) {
-    const date = this.availableDates[index];
-    this.rootModule.actions.selectDate(date);
+  set selectedDayIndex(index: number) {
+    const day = this.availableDays[index];
+    this.rootModule.actions.selectDay(day);
   }
 
   get labels() {
-    const { availableDates } = this;
-    const middle = Math.floor(availableDates.length / 2);
+    const { availableDays } = this;
+    const middle = Math.floor(availableDays.length / 2);
     return [
-      availableDates[0],
-      availableDates[middle],
-      availableDates[availableDates.length - 1],
+      this.$d(availableDays[0]),
+      this.$d(availableDays[middle]),
+      this.$d(availableDays[availableDays.length - 1]),
     ];
   }
 }

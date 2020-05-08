@@ -23,16 +23,16 @@
         <th scope="row" v-t="`subType.${entry.subType}`"></th>
         <td class="confirmed">
           <button
-            @click="selectType('confirmed', entry.subType)"
-            @mouseover="selectType('confirmed', entry.subType)"
+            @click="selectCaseState('confirmed', entry.subType)"
+            @mouseover="selectCaseState('confirmed', entry.subType)"
           >
             {{ entry.confirmed }}
           </button>
         </td>
         <td class="deaths">
           <button
-            @click="selectType('deaths', entry.subType)"
-            @mouseover="selectType('deaths', entry.subType)"
+            @click="selectCaseState('deaths', entry.subType)"
+            @mouseover="selectCaseState('deaths', entry.subType)"
           >
             {{ entry.deaths }}
           </button>
@@ -47,7 +47,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 
 import StateMixin from '@/components/stateMixin';
 import SvgSprite from '@/components/misc/SvgSprite.vue';
-import { StatType, StatSubType } from '@/store/RootState';
+import { CaseStateName, StatSubType } from '@/store/RootState';
 
 function mapObject(
   data: { [key: string]: number },
@@ -67,8 +67,8 @@ function mapObject(
 })
 export default class CdgTable extends Mixins(StateMixin) {
   get entries() {
-    const { population } = this.rootModule.getters.selectedStatesMeta;
-    const data = this.rootModule.getters.dataOfDateAndStates;
+    const { population } = this.rootModule.getters.selectedAreasMeta;
+    const data = this.rootModule.getters.dataOfDayAndAreas;
     const result = [];
     result.push({ subType: 'total', ...data });
     result.push({
@@ -81,8 +81,8 @@ export default class CdgTable extends Mixins(StateMixin) {
     return result;
   }
 
-  selectType(type: StatType, subType: StatSubType) {
-    this.rootModule.actions.selectType({ type, subType });
+  selectCaseState(caseState: CaseStateName, subType: StatSubType) {
+    this.rootModule.actions.selectCaseState({ caseState, subType });
   }
 }
 </script>

@@ -23,7 +23,7 @@ import { hydrateDatasetsWithColor } from '@/lib/colors';
 import { mixins } from 'vue-class-component';
 import StateMixin from '@/components/stateMixin';
 import { ChartData } from 'chart.js';
-import { StatType } from '@/store/RootState';
+import { CaseStateName } from '@/store/RootState';
 import ChartCard from '@/components/charts/ChartCard.vue';
 
 @Component({
@@ -31,7 +31,7 @@ import ChartCard from '@/components/charts/ChartCard.vue';
 })
 export default class RelativeNewIncidents extends mixins(StateMixin) {
   @Prop({ required: true })
-  public type!: StatType;
+  public type!: CaseStateName;
 
   @Prop({ required: false, default: false })
   public averaged!: boolean;

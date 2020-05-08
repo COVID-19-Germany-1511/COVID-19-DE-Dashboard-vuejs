@@ -1,14 +1,14 @@
 <template>
   <div class="map-info">
     <div>
-      <span class="type" v-t="`type.${selection.type}`" />
+      <span class="type" v-t="`type.${selection.caseState}`" />
       <span class="sub-type">
         (<span v-t="`subType.${selection.subType}`" />)
       </span>
     </div>
     <span
       class="date"
-      v-t="{ path: 'general.date', args: { date: selection.date } }"
+      v-t="{ path: 'general.date', args: { date: $d(selection.day) } }"
     ></span>
   </div>
 </template>
