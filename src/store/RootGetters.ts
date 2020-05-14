@@ -15,7 +15,7 @@ export default class RootGetters extends Getters<RootState> {
       return [];
     }
     const { states } = this.state.selection;
-    return states.length ? states : [this.state.meta?.germany];
+    return states.length ? states : [this.state.areas.germany];
   }
 
   public get selectedAreasMeta(): Pick<BaseArea, 'area' | 'population'> {
@@ -46,7 +46,7 @@ export default class RootGetters extends Getters<RootState> {
     /* eslint-enable prettier/prettier */
     const { day, caseState } = this.state.selection;
     const result = new Map<BaseArea, Record<StatSubType, number>>();
-    this.state.meta.states.forEach(state => {
+    this.state.areas.states.forEach(state => {
       const data = state.getDataRow(caseState).get(day) as [number, number];
       const total = data[1];
       const perPop = (total * 100000) / state.population;
@@ -57,7 +57,7 @@ export default class RootGetters extends Getters<RootState> {
 
   public get selectedCaseStateAllTimeMax(): Record<StatSubType, number> {
     const { caseState } = this.state.selection;
-    return this.state.meta.states
+    return this.state.areas.states
       .map(state => {
         const total = state.total[caseState];
         const perPop = (total * 100000) / state.population;

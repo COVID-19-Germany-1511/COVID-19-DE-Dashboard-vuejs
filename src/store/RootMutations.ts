@@ -1,15 +1,19 @@
 import { Mutations } from 'vuex-smart-module';
 import {
+  ProvidedData,
+  State,
+} from 'covid-19-data-scrapper-germany/src/DataProvider';
+import {
   RootState,
   StatSubType,
   ApplicationState,
-  State,
   CaseStateName,
 } from '@/store/RootState';
 
 export default class RootMutations extends Mutations<RootState> {
-  public setMeta(meta: NonNullable<ApplicationState['meta']>): void {
-    this.state.meta = meta;
+  public setProvidedData(data: ProvidedData): void {
+    Object.assign(this.state.meta, data.meta);
+    Object.assign(this.state.areas, data.areas);
     this.state.initialized = true;
   }
 
@@ -24,7 +28,7 @@ export default class RootMutations extends Mutations<RootState> {
 
   public toggleStateSelection(_svgId: number): void {
     const { states } = this.state.selection;
-    const state = this.state.meta.states.find(
+    const state = this.state.areas.states.find(
       ({ svgId }) => svgId === _svgId,
     ) as State;
     const idx = states.indexOf(state);

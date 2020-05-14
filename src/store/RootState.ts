@@ -1,6 +1,9 @@
 import {
   ProvidedData,
   Status,
+  BaseArea,
+  County,
+  State,
 } from 'covid-19-data-scrapper-germany/src/DataProvider';
 
 export interface CaseRecordsMap {
@@ -18,16 +21,16 @@ export interface StatePopulationData {
 export type StatSubType = 'total' | 'perPop';
 export type ScaleType = 'linear' | 'logarithmic';
 
-export type State = ProvidedData['states'][number];
-export type CaseState = ProvidedData['caseStates'][number];
+export type CaseState = ProvidedData['meta']['caseStates'][number];
 export type CaseStateName = CaseState['name'];
-export type Sex = ProvidedData['sex'][number];
-export type Age = ProvidedData['ages'][number];
+export type Sex = ProvidedData['meta']['sex'][number];
+export type Age = ProvidedData['meta']['ages'][number];
 
 export interface ApplicationState {
   initialized: boolean;
   status: Status;
-  meta: ProvidedData;
+  meta: ProvidedData['meta'];
+  areas: ProvidedData['areas'];
   selection: {
     states: State[];
     caseState: CaseStateName;
@@ -41,7 +44,19 @@ export interface ApplicationState {
 export class RootState implements ApplicationState {
   initialized = false;
   status = 'start' as Status;
-  meta = (null as any) as ApplicationState['meta'];
+  meta = {
+    days: [] as Date[],
+    sex: [] as Sex[],
+    ages: [] as Age[],
+    caseStates: [] as CaseState[],
+    lastUpdated: '',
+  };
+
+  areas = {
+    germany: {} as BaseArea,
+    states: [] as State[],
+    counties: [] as County[],
+  };
 
   selection: ApplicationState['selection'] = {
     states: [] as State[],
