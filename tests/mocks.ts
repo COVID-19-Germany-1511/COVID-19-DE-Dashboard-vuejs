@@ -1,16 +1,27 @@
 import { RootState } from '@/store/RootState';
+import { BaseArea } from 'covid-19-data-scrapper-germany/src/DataProvider';
 
 export const getNewRootState = (fields: Partial<RootState>): RootState => {
   return {
-    confirmed: {},
-    deaths: {},
-    statePopulation: {},
-    availableDates: [],
+    initialized: true,
+    status: 'ready',
+    meta: {
+      lastUpdated: '',
+      sex: [],
+      ages: [],
+      caseStates: [],
+      days: [],
+    },
+    areas: {
+      germany: {} as BaseArea,
+      states: [],
+      counties: [],
+    },
     selection: {
       states: [],
-      type: 'confirmed',
+      caseState: 'confirmed',
       subType: 'total',
-      date: '',
+      day: new Date(),
       yAxisScaling: 'linear',
       averaged: false,
     },

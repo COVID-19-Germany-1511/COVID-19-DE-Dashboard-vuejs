@@ -77,13 +77,13 @@ export default class CdgMap extends Mixins(StateMixin) {
   get geojsonOptions() {
     return {
       style: (feature: GeoJSON.Feature) => {
-        const name = feature.properties?.NAME_1 as string;
-        const style = this.rootModule.getters.isStateSelected(name)
+        const id = feature.properties?.ID_1 as number;
+        const style = this.isAreaSelected(id)
           ? STYLE_SELECTED
           : this.defaultStyle;
         return {
           ...style,
-          fillColor: this.getColor(this.values[name]),
+          fillColor: this.getColor(this.values[id]),
         };
       },
       onEachFeature: (feature: any, layer: L.Layer) => {
@@ -105,18 +105,16 @@ export default class CdgMap extends Mixins(StateMixin) {
       : STYLE_NON_SELECTED;
   }
 
-  get values(): { [key: string]: number } {
-    const result: any = {};
-    Object.entries(this.rootModule.getters.dataOfDateAndType).forEach(
-      ([key, value]) => {
-        result[key] = value[this.subType];
-      },
-    );
+  get values(): { [key: number]: number } {
+    const result: { [key: number]: number } = {};
+    this.rootModule.getters.dataOfDayAndCaseState.forEach((values, state) => {
+      result[state.svgId] = values[this.subType];
+    });
     return result;
   }
 
-  get type() {
-    return this.rootModule.state.selection.type;
+  get caseState() {
+    return this.rootModule.state.selection.caseState;
   }
 
   get subType() {
@@ -132,7 +130,7 @@ export default class CdgMap extends Mixins(StateMixin) {
   }
 
   get colorScale() {
-    return chroma.scale(['fff', COLORS[this.type]]);
+    return chroma.scale(['fff', COLORS[this.caseState]]);
   }
 
   get min() {
@@ -140,7 +138,7 @@ export default class CdgMap extends Mixins(StateMixin) {
   }
 
   get max() {
-    return this.rootModule.getters.selectedAllTimeStateMax[this.subType];
+    return this.rootModule.getters.selectedCaseStateAllTimeMax[this.subType];
   }
 
   get gradientData() {
@@ -151,6 +149,12 @@ export default class CdgMap extends Mixins(StateMixin) {
       startColor: this.getColor(min),
       endColor: this.getColor(max),
     };
+  }
+
+  isAreaSelected(svgId: number): boolean {
+    return this.rootModule.state.selection.states
+      .map(({ svgId }) => svgId)
+      .includes(svgId);
   }
 
   getColor(value: number): string {
@@ -167,9 +171,9 @@ export default class CdgMap extends Mixins(StateMixin) {
 
   onClick({ target, originalEvent }: L.LeafletMouseEvent) {
     originalEvent.stopPropagation();
-    const name = target.feature.properties?.NAME_1;
-    this.rootModule.actions.toggleStateSelection(name);
-    if (this.rootModule.getters.isStateSelected(name)) {
+    const svgId = target.feature.properties?.ID_1;
+    this.rootModule.actions.toggleStateSelection(svgId);
+    if (this.isAreaSelected(svgId)) {
       target.setStyle(STYLE_SELECTED);
     } else {
       target.setStyle(STYLE_DEFAULT);

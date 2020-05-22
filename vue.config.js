@@ -55,15 +55,9 @@ module.exports = {
   },
 
   chainWebpack: config => {
-    config.module
-      .rule('svg-sprite')
-      .use('svgo-loader')
-      .loader('svgo-loader');
+    config.module.rule('svg-sprite').use('svgo-loader').loader('svgo-loader');
 
-    config.module
-      .rule('sideEffects')
-      .resourceQuery(/keep/)
-      .sideEffects(true);
+    config.module.rule('sideEffects').resourceQuery(/keep/).sideEffects(true);
 
     config.module
       .rule('sass')

@@ -1,18 +1,10 @@
 import {
-  extractCasesFromTimeline,
-  extractStatePopulationFromMetaData,
-  extractDatesFromTimeline,
-} from '@/lib/transformations/transformations';
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-import confirmedData from 'COVID-19-DE/time_series/time-series_19-covid-Confirmed.csv';
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-import deathsData from 'COVID-19-DE/time_series/time-series_19-covid-Deaths.csv';
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-import stateMetaData from 'COVID-19-DE/meta/stateMetaData.csv';
+  ProvidedData,
+  Status,
+  BaseArea,
+  County,
+  State,
+} from 'covid-19-data-scrapper-germany/src/DataProvider';
 
 export interface CaseRecordsMap {
   [isoDate: string]: number;
@@ -26,35 +18,51 @@ export interface StatePopulationData {
   [stateName: string]: number;
 }
 
-export type StatType = 'confirmed' | 'deaths';
-export type StatSubType = 'total' | 'perPop' | 'change';
+export type StatSubType = 'total' | 'perPop';
 export type ScaleType = 'linear' | 'logarithmic';
 
+export type CaseState = ProvidedData['meta']['caseStates'][number];
+export type CaseStateName = CaseState['name'];
+export type Sex = ProvidedData['meta']['sex'][number];
+export type Age = ProvidedData['meta']['ages'][number];
+
 export interface ApplicationState {
+  initialized: boolean;
+  status: Status;
+  meta: ProvidedData['meta'];
+  areas: ProvidedData['areas'];
   selection: {
-    states: string[];
-    type: StatType;
+    states: State[];
+    caseState: CaseStateName;
     subType: StatSubType;
-    date: string;
+    day: Date;
     yAxisScaling: ScaleType;
     averaged: boolean;
   };
-  statePopulation: StatePopulationData;
-  confirmed: CaseRecordsByState;
-  deaths: CaseRecordsByState;
 }
 
 export class RootState implements ApplicationState {
-  confirmed = extractCasesFromTimeline(confirmedData);
-  deaths = extractCasesFromTimeline(deathsData);
-  statePopulation = extractStatePopulationFromMetaData(stateMetaData);
-  availableDates = extractDatesFromTimeline(confirmedData);
+  initialized = false;
+  status = 'start' as Status;
+  meta = {
+    days: [] as Date[],
+    sex: [] as Sex[],
+    ages: [] as Age[],
+    caseStates: [] as CaseState[],
+    lastUpdated: '',
+  };
+
+  areas = {
+    germany: {} as BaseArea,
+    states: [] as State[],
+    counties: [] as County[],
+  };
 
   selection: ApplicationState['selection'] = {
-    states: [] as string[],
-    type: 'confirmed',
+    states: [] as State[],
+    caseState: 'confirmed',
     subType: 'total',
-    date: this.availableDates[this.availableDates.length - 1],
+    day: (null as any) as Date,
     yAxisScaling: 'linear',
     averaged: false,
   };
