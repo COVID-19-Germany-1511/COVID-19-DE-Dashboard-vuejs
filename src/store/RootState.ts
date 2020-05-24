@@ -49,7 +49,7 @@ export class RootState implements ApplicationState {
     sex: [] as Sex[],
     ages: [] as Age[],
     caseStates: [] as CaseState[],
-    lastUpdated: '',
+    lastUpdated: new Date(0),
   };
 
   areas = {

@@ -6,7 +6,7 @@ export const getNewRootState = (fields: Partial<RootState>): RootState => {
     initialized: true,
     status: 'ready',
     meta: {
-      lastUpdated: '',
+      lastUpdated: new Date(0),
       sex: [],
       ages: [],
       caseStates: [],
