@@ -1,5 +1,8 @@
 import { RootState } from '@/store/RootState';
-import { BaseArea } from 'covid-19-data-scrapper-germany/src/DataProvider';
+import {
+  BaseArea,
+  State,
+} from 'covid-19-data-scrapper-germany/src/DataProvider';
 
 export const getNewRootState = (fields: Partial<RootState>): RootState => {
   return {
@@ -28,3 +31,22 @@ export const getNewRootState = (fields: Partial<RootState>): RootState => {
     ...fields,
   };
 };
+
+export const getNewMockState = (fields?: Partial<State>): State => ({
+  id: 0,
+  svgId: 0,
+  de: 'GenericState',
+  area: 1,
+  population: 1,
+  total: {
+    confirmed: 2,
+    deaths: 1,
+  },
+  records: {
+    confirmed: [],
+    deaths: [],
+  },
+  counties: [],
+  getDataRow: jest.fn(),
+  ...fields,
+});

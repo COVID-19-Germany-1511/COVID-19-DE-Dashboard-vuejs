@@ -1,211 +1,140 @@
-// import RootGetters from '@/store/RootGetters';
-// import { inject } from 'vuex-smart-module';
-// import { CaseRecordsByState } from '@/store/RootState';
-// import { getNewRootState } from '../../mocks';
+import RootGetters from '@/store/RootGetters';
+import { inject } from 'vuex-smart-module';
+import { CaseRecordsByState } from '@/store/RootState';
+import { getNewRootState, getNewMockState } from '../../mocks';
+import { BaseArea } from 'covid-19-data-scrapper-germany/src/DataProvider';
 
-// describe('RootGetters', () => {
-//   describe('allTimeStateMax', () => {
-//     it('should calculate the max stats of the entire data set', () => {
-//       const getters = inject(RootGetters, {
-//         state: getNewRootState({
-//           confirmed: {
-//             Sachsen: {
-//               '2020-03-14': 321,
-//               '2020-03-15': 654,
-//             },
-//             Berlin: {
-//               '2020-03-14': 123,
-//               '2020-03-15': 456,
-//             },
-//           },
-//           deaths: {
-//             Sachsen: {
-//               '2020-03-14': 3,
-//               '2020-03-15': 4,
-//             },
-//             Berlin: {
-//               '2020-03-14': 4,
-//               '2020-03-15': 8,
-//             },
-//           },
-//           statePopulation: {
-//             Sachsen: 4087500,
-//             Berlin: 3200000,
-//           },
-//           selection: {
-//             states: [],
-//             type: 'confirmed',
-//             subType: 'total',
-//             date: '',
-//             yAxisScaling: 'linear',
-//             averaged: false,
-//           },
-//         }),
-//       });
+describe('RootGetters', () => {
+  describe('allTimeStateMax', () => {
+    it('should calculate the max confirmed of the entire data set', () => {
+      const BerlinTestData = getNewMockState({
+        population: 3200000,
+        total: {
+          confirmed: 456,
+          deaths: 8,
+        },
+      });
 
-//       const expectedAllTimeStateMax = {
-//         confirmed: {
-//           total: 654,
-//           perPop: 16,
-//           change: 0,
-//         },
-//         deaths: {
-//           total: 8,
-//           perPop: 0.25,
-//           change: 0,
-//         },
-//       };
-//       expect(getters.allTimeStateMax).toStrictEqual(expectedAllTimeStateMax);
-//     });
-//   });
+      const SaxonyTestData = getNewMockState({
+        population: 4087500,
+        total: {
+          confirmed: 654,
+          deaths: 4,
+        },
+      });
 
-//   describe('selectedDataForType', () => {
-//     describe('with the argument "confirmed"', () => {
-//       it('should return totals if selectedStates is empty', () => {
-//         const getters = inject(RootGetters, {
-//           state: getNewRootState({
-//             confirmed: {
-//               Sachsen: {
-//                 '2020-03-14': 321,
-//                 '2020-03-15': 654,
-//               },
-//               Berlin: {
-//                 '2020-03-14': 123,
-//                 '2020-03-15': 456,
-//               },
-//             },
-//             selection: {
-//               states: [],
-//               type: 'confirmed',
-//               subType: 'total',
-//               date: '',
-//               yAxisScaling: 'linear',
-//               averaged: false,
-//             },
-//           }),
-//         });
+      const getters = inject(RootGetters, {
+        state: getNewRootState({
+          areas: {
+            states: [BerlinTestData, SaxonyTestData],
+            germany: {} as BaseArea,
+            counties: [],
+          },
+          selection: {
+            states: [],
+            caseState: 'confirmed',
+            subType: 'total',
+            day: new Date(),
+            yAxisScaling: 'linear',
+            averaged: false,
+          },
+        }),
+      });
 
-//         const expectedTotalCases: CaseRecordsByState = {
-//           Deutschland: {
-//             '2020-03-14': 444,
-//             '2020-03-15': 1110,
-//           },
-//         };
+      const expectedAllTimeStateMax = {
+        total: 654,
+        perPop: 16,
+      };
+      expect(getters.selectedCaseStateAllTimeMax).toStrictEqual(
+        expectedAllTimeStateMax,
+      );
+    });
 
-//         expect(getters.selectedDataForType('confirmed')).toStrictEqual(
-//           expectedTotalCases,
-//         );
-//       });
+    it('should calculate the max deaths of the entire data set', () => {
+      const BerlinTestData = getNewMockState({
+        population: 3200000,
+        total: {
+          confirmed: 456,
+          deaths: 8,
+        },
+      });
 
-//       it('should return only the data for the selectedStates', () => {
-//         const getters = inject(RootGetters, {
-//           state: getNewRootState({
-//             confirmed: {
-//               Sachsen: {
-//                 '2020-03-14': 321,
-//                 '2020-03-15': 654,
-//               },
-//               Berlin: {
-//                 '2020-03-14': 123,
-//                 '2020-03-15': 456,
-//               },
-//             },
-//             selection: {
-//               states: ['Berlin'],
-//               type: 'confirmed',
-//               subType: 'total',
-//               date: '',
-//               yAxisScaling: 'linear',
-//               averaged: false,
-//             },
-//           }),
-//         });
+      const SaxonyTestData = getNewMockState({
+        population: 4087500,
+        total: {
+          confirmed: 654,
+          deaths: 4,
+        },
+      });
 
-//         const expectedCases: CaseRecordsByState = {
-//           Berlin: {
-//             '2020-03-14': 123,
-//             '2020-03-15': 456,
-//           },
-//         };
+      const getters = inject(RootGetters, {
+        state: getNewRootState({
+          areas: {
+            states: [BerlinTestData, SaxonyTestData],
+            germany: {} as BaseArea,
+            counties: [],
+          },
+          selection: {
+            states: [],
+            caseState: 'deaths',
+            subType: 'total',
+            day: new Date(),
+            yAxisScaling: 'linear',
+            averaged: false,
+          },
+        }),
+      });
 
-//         expect(getters.selectedDataForType('confirmed')).toStrictEqual(
-//           expectedCases,
-//         );
-//       });
-//     });
+      const expectedAllTimeStateMax = {
+        total: 8,
+        perPop: 0.25,
+      };
+      expect(getters.selectedCaseStateAllTimeMax).toStrictEqual(
+        expectedAllTimeStateMax,
+      );
+    });
+  });
 
-//     describe('with the argument "deaths"', () => {
-//       it('should return totals if selectedStates is empty', () => {
-//         const getters = inject(RootGetters, {
-//           state: getNewRootState({
-//             deaths: {
-//               Sachsen: {
-//                 '2020-03-14': 3,
-//                 '2020-03-15': 4,
-//               },
-//               Berlin: {
-//                 '2020-03-14': 4,
-//                 '2020-03-15': 5,
-//               },
-//             },
-//             selection: {
-//               states: [],
-//               type: 'confirmed',
-//               subType: 'total',
-//               date: '',
-//               yAxisScaling: 'linear',
-//               averaged: false,
-//             },
-//           }),
-//         });
+  describe('selectedDataForType', () => {
+    it.each([['confirmed'], ['deaths']] as const)(
+      'should return the data with argument "%s" and dates adjusted to German locale',
+      type => {
+        const testdata: Map<Date, [number, number]> = new Map([
+          [new Date('2020-03-14'), [0, 123]],
+          [new Date('2020-03-15'), [0, 456]],
+        ]);
+        const getDataRow = jest.fn().mockReturnValue(testdata);
+        const mockStateDate = getNewMockState({
+          de: 'Berlin',
+          getDataRow,
+        });
+        // eslint-disable-next-line  @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
+        const getters = inject(RootGetters, {
+          state: getNewRootState({
+            meta: {
+              lastUpdated: new Date(0),
+              sex: [],
+              ages: [],
+              caseStates: [],
+              days: Array.from(testdata.keys()),
+            },
+          }),
+          getters: {
+            selectedAreas: [mockStateDate],
+          },
+        });
 
-//         const expectedTotalDeaths: CaseRecordsByState = {
-//           Deutschland: {
-//             '2020-03-14': 7,
-//             '2020-03-15': 9,
-//           },
-//         };
+        const expectedCases: CaseRecordsByState = {
+          Berlin: {
+            '14.3.2020': 123,
+            '15.3.2020': 456,
+          },
+        };
 
-//         expect(getters.selectedDataForType('deaths')).toStrictEqual(
-//           expectedTotalDeaths,
-//         );
-//       });
-
-//       it('should return only the data for the selectedStates', () => {
-//         const getters = inject(RootGetters, {
-//           state: getNewRootState({
-//             selection: {
-//               states: ['Berlin'],
-//               type: 'confirmed',
-//               subType: 'total',
-//               date: '',
-//               yAxisScaling: 'linear',
-//               averaged: false,
-//             },
-//             deaths: {
-//               Sachsen: {
-//                 '2020-03-14': 3,
-//                 '2020-03-15': 4,
-//               },
-//               Berlin: {
-//                 '2020-03-14': 4,
-//                 '2020-03-15': 5,
-//               },
-//             },
-//           }),
-//         });
-
-//         const expectedDeaths: CaseRecordsByState = {
-//           Berlin: {
-//             '2020-03-14': 4,
-//             '2020-03-15': 5,
-//           },
-//         };
-
-//         expect(getters.selectedDataForType('deaths')).toStrictEqual(
-//           expectedDeaths,
-//         );
-//       });
-//     });
-//   });
-// });
+        expect(getters.selectedDataForType(type)).toStrictEqual(expectedCases);
+        expect(getDataRow).toHaveBeenCalledWith(type);
+      },
+    );
+  });
+});
