@@ -22,7 +22,7 @@ export type StatSubType = 'total' | 'perPop';
 export type ScaleType = 'linear' | 'logarithmic';
 
 export type CaseState = ProvidedData['meta']['caseStates'][number];
-export type CaseStateName = CaseState['name'];
+export type CaseStateName = 'confirmed' | 'deaths'; // CaseState['name'];
 export type Sex = ProvidedData['meta']['sex'][number];
 export type Age = ProvidedData['meta']['ages'][number];
 
@@ -49,7 +49,7 @@ export class RootState implements ApplicationState {
     sex: [] as Sex[],
     ages: [] as Age[],
     caseStates: [] as CaseState[],
-    lastUpdated: new Date(0),
+    lastUpdated: new Date(),
   };
 
   areas = {

@@ -9,7 +9,7 @@ export const getNewRootState = (fields: Partial<RootState>): RootState => {
     initialized: true,
     status: 'ready',
     meta: {
-      lastUpdated: new Date(0),
+      lastUpdated: new Date(),
       sex: [],
       ages: [],
       caseStates: [],
@@ -41,10 +41,12 @@ export const getNewMockState = (fields?: Partial<State>): State => ({
   total: {
     confirmed: 2,
     deaths: 1,
+    recovered: 0,
   },
   records: {
     confirmed: [],
     deaths: [],
+    recovered: [],
   },
   counties: [],
   getDataRow: jest.fn(),

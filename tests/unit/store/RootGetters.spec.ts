@@ -12,6 +12,7 @@ describe('RootGetters', () => {
         total: {
           confirmed: 456,
           deaths: 8,
+          recovered: 3,
         },
       });
 
@@ -20,6 +21,7 @@ describe('RootGetters', () => {
         total: {
           confirmed: 654,
           deaths: 4,
+          recovered: 2,
         },
       });
 
@@ -56,6 +58,7 @@ describe('RootGetters', () => {
         total: {
           confirmed: 456,
           deaths: 8,
+          recovered: 3,
         },
       });
 
@@ -64,6 +67,7 @@ describe('RootGetters', () => {
         total: {
           confirmed: 654,
           deaths: 4,
+          recovered: 2,
         },
       });
 
